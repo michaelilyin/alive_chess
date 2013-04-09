@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3B3027D9-C17C-4B7E-94B9-7FA47093D3A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BehaviorAILibrary</RootNamespace>
+    <AssemblyName>BehaviorAILibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>aibehavelib.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BehaviorLayer\AbstractFactory\CollectResourcesGoalFactory.cs" />
+    <Compile Include="BehaviorLayer\AbstractFactory\ComeBack2CastleGoalFactory.cs" />
+    <Compile Include="BehaviorLayer\AbstractFactory\CreationContext.cs" />
+    <Compile Include="BehaviorLayer\AbstractFactory\IGoalFactory.cs" />
+    <Compile Include="BehaviorLayer\AbstractFactory\KingChasingGoalFactory.cs" />
+    <Compile Include="BehaviorLayer\AbstractFactory\KingEvadingGoalFactory.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\CollectResourcesGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\ComeBack2NearestCastleGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\CompositeGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\Goal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\GoalStatuses.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\KingChasingGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\KingEvadingGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\MoveToPointGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\PatrolPlaceGoal.cs" />
+    <Compile Include="BehaviorLayer\CompositeGoals\WanderGoal.cs" />
+    <Compile Include="BehaviorLayer\Estimator.cs" />
+    <Compile Include="BehaviorLayer\PriorityQueue.cs" />
+    <Compile Include="BotKing.cs" />
+    <Compile Include="DecisionLayer\IBrain.cs" />
+    <Compile Include="DecisionLayer\NeuralNetwork\INeuralNetwork.cs" />
+    <Compile Include="DecisionLayer\NeuralNetwork\NeuralNetwork.cs" />
+    <Compile Include="DecisionLayer\NeuralNetwork\NeuralNetworkLayer.cs" />
+    <Compile Include="DecisionLayer\NeuroBrain.cs" />
+    <Compile Include="DecisionLayer\NeuroTeacher.cs" />
+    <Compile Include="MotionLayer\AStar.cs" />
+    <Compile Include="MotionLayer\AStarNode.cs" />
+    <Compile Include="MotionLayer\AStarNodeComparer.cs" />
+    <Compile Include="MotionLayer\AStarPriorityQueue.cs" />
+    <Compile Include="MotionLayer\Direction.cs" />
+    <Compile Include="MotionLayer\Motion.cs" />
+    <Compile Include="MotionLayer\PathPlanner.cs" />
+    <Compile Include="MotionLayer\Steering.cs" />
+    <Compile Include="PerseptionLayer\PoolingManager.cs" />
+    <Compile Include="PerseptionLayer\PoolingStation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AliveChessLibrary\AliveChessLibrary.csproj">
+      <Project>{09803517-7B89-4BCC-BDFF-DDD182E6A08B}</Project>
+      <Name>AliveChessLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aibehavelib.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

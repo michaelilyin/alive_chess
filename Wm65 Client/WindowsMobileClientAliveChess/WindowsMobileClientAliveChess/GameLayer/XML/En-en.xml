@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dictionary>
+  <StartForm name="Welcome to Alive Chess">
+    <bStartGame>Begin Game</bStartGame>
+    <bPreferences>Options</bPreferences>
+    <bExit>Exit</bExit>
+</StartForm>
+  <PreferencesForm name="Options">
+    <mIAccept>Accept</mIAccept>
+    <mICancel>Cancel</mICancel>
+    <tPGeneral>General</tPGeneral>
+    <tPConnection>Connection</tPConnection>
+    <lLanguage>Language</lLanguage>
+    <lIP>IP</lIP>
+    <lPort>Port</lPort>
+    <lLogin>Login</lLogin>
+    <lPrivilegies>Priveleges</lPrivilegies>
+    <lPassword>Password</lPassword>
+  </PreferencesForm>
+  <GameForm name="Alive Chess">
+  </GameForm>
+  <AlianceControl>
+    <tPSendDemand>Send/Demand</tPSendDemand>
+    <tPAlliance>Alliance</tPAlliance>
+    <bRule>Rule empire</bRule>
+    <bDismiss>Dismiss Leader</bDismiss>
+    <bSupport>Support Leader</bSupport>
+    <bChoose>Try to become leader</bChoose>
+    <bAsk>Demand</bAsk>
+    <bSend>Send</bSend>
+    <mIResources>Resources</mIResources>
+    <mIUnits>Units</mIUnits>
+  </AlianceControl>
+  <SocketConnectionException>Unable to establish a connection</SocketConnectionException>
+  <UnauthorizedException>Unable to pass authorization</UnauthorizedException>
+  <GameCannotBeStarted>Game could not be started</GameCannotBeStarted>
+</dictionary>

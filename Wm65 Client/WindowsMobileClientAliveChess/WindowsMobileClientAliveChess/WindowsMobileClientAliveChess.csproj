@@ -1,0 +1,280 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4EF10A8C-F02C-464C-9199-5037822D3677}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WindowsMobileClientAliveChess</RootNamespace>
+    <AssemblyName>WindowsMobileClientAliveChess</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
+    <OSVersion>5.2</OSVersion>
+    <DeployDirSuffix>Storage Card2\WindowsMobileClientAliveChess</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+    <DeployDirPrefix>\</DeployDirPrefix>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\MobileMem\WindowsMobileClientAliveChess\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AliveChessLibrary, Version=1.0.4139.29286, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\MobileMem\WindowsMobileClientAliveChess\AliveChessLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="generalsyslibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a2ef7c7c6cd270d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\MobileMem\WindowsMobileClientAliveChess\generalsyslibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsCE.Forms" />
+    <Reference Include="mscorlib" />
+    <Reference Include="protobuf-net, Version=1.0.0.282, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameLayer\AliveChessGraphics\BigMapGraphicsManager.cs" />
+    <Compile Include="GameLayer\AliveChessGraphics\CastleGraphicManager.cs" />
+    <Compile Include="GameLayer\AliveChessGraphics\GameTime.cs" />
+    <Compile Include="GameLayer\AliveChessGraphics\IGraphicManager.cs" />
+    <Compile Include="GameLayer\Controls\AlianceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\AlianceControl.Designer.cs">
+      <DependentUpon>AlianceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\BattleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\BattleControl.Designer.cs">
+      <DependentUpon>BattleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\BattleDisputeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\BattleDisputeControl.Designer.cs">
+      <DependentUpon>BattleDisputeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\BigMapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\BigMapControl.Designer.cs">
+      <DependentUpon>BigMapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\CastleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\CastleControl.Designer.cs">
+      <DependentUpon>CastleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\CastleInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\CastleInfoControl.Designer.cs">
+      <DependentUpon>CastleInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\KingInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\KingInfoControl.Designer.cs">
+      <DependentUpon>KingInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\LeaderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\LeaderControl.Designer.cs">
+      <DependentUpon>LeaderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\MainDisputeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\MainDisputeControl.Designer.cs">
+      <DependentUpon>MainDisputeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\NegotiateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\NegotiateControl.Designer.cs">
+      <DependentUpon>NegotiateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Controls\SimpleDisputeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Controls\SimpleDisputeControl.Designer.cs">
+      <DependentUpon>SimpleDisputeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\FloodFillAlgorithm.cs" />
+    <Compile Include="GameLayer\Forms\GameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Forms\GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Forms\PreferencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Forms\PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Forms\StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameLayer\Forms\StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\Game.cs" />
+    <Compile Include="GameLayer\LanguageSwitcher.cs" />
+    <Compile Include="GameLayer\Player.cs" />
+    <Compile Include="NetLayer\Executors\AuthorizeExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\BigMapExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\CaptureCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\CaptureMineExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\ComeInCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\DisputeCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\DisputeKingExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\GetGameStateExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\GetMapExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\GetObjectsExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\GetResourceExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\LooseCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\LooseMineExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\MoveKingExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\TakeResourceExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BigMapExecutors\UpdateWorldExecutor.cs" />
+    <Compile Include="NetLayer\Executors\BuildingInCastleResponseExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\DeactivateDialogExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\EmbedTaxRateExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\JoinEmperiesMessageExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\MessageBattleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\MessageCapitulateExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\MessageCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\MessagePayOffExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\MessageTradeExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\PeaceMessageExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DialogExecutors\WarMessageExecutor.cs" />
+    <Compile Include="NetLayer\Executors\DownloadBattlefildExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\CreateUnionExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\ExcludeKingFromEmpireExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\ExcludeMessageExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\ExitFromAlianceExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\GetAliancesInfoExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\GetHelpFigureExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\GetHelpResourceExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\GetUnionInfoExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\GrandLeaderPrivilegesExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\IncludeKingInEmpireExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\JoinRequestExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\JoinToAlianceExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\NewsExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\StartImpeachmentExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\StartNegotiateExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\StartVoteExecutor.cs" />
+    <Compile Include="NetLayer\Executors\EmpireExecutors\TakeAwayLeaderPrivilegesExecutor.cs" />
+    <Compile Include="NetLayer\Executors\ErrorMessageExecutor.cs" />
+    <Compile Include="NetLayer\Executors\ExitFromGameExecutor.cs" />
+    <Compile Include="NetLayer\Executors\GetArmyCastleToKingExequtor.cs" />
+    <Compile Include="NetLayer\Executors\GetListBuildingsInCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\GetRecBuildingsExequtor.cs" />
+    <Compile Include="NetLayer\Executors\HireUnitExecutor.cs" />
+    <Compile Include="NetLayer\Executors\IExecutor.cs" />
+    <Compile Include="NetLayer\Executors\LeaveCastleExecutor.cs" />
+    <Compile Include="NetLayer\Executors\PlayerMoveResponseExecutor.cs" />
+    <Compile Include="NetLayer\Executors\ShowArmyKingExecutor.cs" />
+    <Compile Include="NetLayer\Main\AliveChessLog.cs" />
+    <Compile Include="NetLayer\Main\ClientApplication.cs" />
+    <Compile Include="NetLayer\Main\CommandPool.cs" />
+    <Compile Include="NetLayer\Main\MainExecutor.cs" />
+    <Compile Include="NetLayer\Main\QueryManager.cs" />
+    <Compile Include="NetLayer\Transport\ProtoBufferCodec.cs" />
+    <Compile Include="NetLayer\Transport\SocketTransport.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GameLayer\Controls\AlianceControl.resx">
+      <DependentUpon>AlianceControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameLayer\Controls\BigMapControl.resx">
+      <DependentUpon>BigMapControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameLayer\Controls\CastleControl.resx">
+      <DependentUpon>CastleControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameLayer\Forms\GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameLayer\Forms\PreferencesForm.resx">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameLayer\Forms\StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameLayer\XML\Preferences.xml" />
+    <Content Include="GameLayer\XML\Ru-ru.xml" />
+    <Content Include="GameLayer\XML\En-en.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

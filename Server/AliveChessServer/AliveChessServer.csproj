@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1A859714-B86A-43BF-9FDC-4DEC90112E8D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AliveChessServer</RootNamespace>
+    <AssemblyName>AliveChessServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>acservkey.snk</AssemblyOriginatorKeyFile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Synchronization.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Synchronization.Data.Server, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Synchronization.Data.SqlServerCe, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="protobuf-net, Version=1.0.0.262, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ProtocolBuffer\NET30\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AliveChessDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AliveChessDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AliveChessPluginContext.cs" />
+    <Compile Include="AliveChessPluginLoader.cs" />
+    <Compile Include="AliveChessServerContext.cs" />
+    <Compile Include="Chat\ChatConnector.cs" />
+    <Compile Include="Chat\FakeChatConnector.cs" />
+    <Compile Include="DBLayer\AliveChess.cs">
+      <DependentUpon>AliveChess.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DBLayer\AliveChess.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AliveChess.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DBLayer\GuidGenerator.cs" />
+    <Compile Include="DBLayer\Loaders\ILevelLoader.cs" />
+    <Compile Include="DBLayer\Loaders\SQLLevelLoader.cs" />
+    <Compile Include="DBLayer\LocalCache\AliveChessCache.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AliveChessCache.sync</DependentUpon>
+    </Compile>
+    <Compile Include="LogicLayer\AI\Animat.cs" />
+    <Compile Include="LogicLayer\AI\Evaluator.cs" />
+    <Compile Include="LogicLayer\AI\Memory.cs" />
+    <Compile Include="LogicLayer\Environment\FastBattle.cs" />
+    <Compile Include="DBLayer\Loaders\XMLLevelLoader.cs" />
+    <Compile Include="LogicLayer\AliveChessLogger.cs" />
+    <Compile Include="LogicLayer\AliveChessStarter.cs" />
+    <Compile Include="LogicLayer\ConfigElement.cs" />
+    <Compile Include="LogicLayer\ConfigHandler.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\AllianceStatus.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Ballot.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\BallotBox.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Empire.cs" />
+    <Compile Include="LogicLayer\Environment\AllianceRoutine.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\IAlliance.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Leader.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Publisher.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Store.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Successor.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Tax.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\Union.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\UnitedAlliance.cs" />
+    <Compile Include="LogicLayer\Environment\Alliances\War.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetGameStateExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetKingExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetUnityMapExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\VerifyPathExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\Helpers\Helper.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\BuildingInCastleRequestExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BattleExecutors\DownloadBattlefildExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetArmyCastleToKingExequtor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetInnerBuildingsExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetListBuildingsInCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetRecBuildingsExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\BuyFigureExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BattleExecutors\PlayerMoveMessageExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\ShowArmyCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\ShowArmyKingExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\CaptureCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageJoinEmperiesExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessagePeaceExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageWarExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\EmbedTaxRateExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\ExcludeKingFromEmpireExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\ExitFromAlianceExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\GetAliancesInfoExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\GetHelpFigureExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\GetHelpResourceExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\GetAlianceInfoExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\IncludeKingInEmpireExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\JoinToAlianceExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\SendFigureHelpExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\SendResourceHelpExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\StartImpeachmentExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\StartNegotiateExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\StartVoteExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\EmpireExecutors\VoteFactExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\RegisterExecutors\ExitFromGameExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageBattleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\BigMapExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageCapitulateExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\CaptureMineExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\ComeInCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\ContactCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\ContactKingExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\ExecutorTypes.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetMapExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetObjectsExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\LeaveCastleExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageCreateUnionExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageExecutorTemplate.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\MoveKingExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessagePayOffExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\DialogExecutors\MessageMarketExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\RegisterExecutors\RegisterExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\StatisticExecutors\GetAvailableMapsExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\StatisticExecutors\GetStatisticExecutor.cs" />
+    <Compile Include="LogicLayer\UsersManagement\Admin.cs" />
+    <Compile Include="LogicLayer\UsersManagement\Identity.cs" />
+    <Compile Include="LogicLayer\UsersManagement\Player.cs" />
+    <Compile Include="LogicLayer\UsersManagement\User.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogicLayer\Environment\DisputeRoutine.cs" />
+    <Compile Include="LogicLayer\GameLogic.cs" />
+    <Compile Include="LogicLayer\Environment\GameTime.cs" />
+    <Compile Include="LogicLayer\Environment\IRoutine.cs" />
+    <Compile Include="LogicLayer\Environment\GameWorld.cs" />
+    <Compile Include="LogicLayer\Environment\BattleRoutine.cs" />
+    <Compile Include="LogicLayer\Environment\BigMapRoutine.cs" />
+    <Compile Include="LogicLayer\Environment\EconomyRoutine.cs" />
+    <Compile Include="LogicLayer\Environment\Level.cs" />
+    <Compile Include="LogicLayer\Environment\LevelRoutine.cs" />
+    <Compile Include="LogicLayer\Environment\LevelTypes.cs" />
+    <Compile Include="LogicLayer\Environment\TimeManager.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\RegisterExecutors\AuthorizeExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\IExecutor.cs" />
+    <Compile Include="LogicLayer\UsersManagement\PlayerManager.cs" />
+    <Compile Include="NetLayer\CommandPool.cs" />
+    <Compile Include="NetLayer\ConnectionPool.cs" />
+    <Compile Include="LogicLayer\MainExecutor.cs" />
+    <Compile Include="NetLayer\Message.cs" />
+    <Compile Include="NetLayer\Messenger.cs" />
+    <Compile Include="NetLayer\ProtoBufferCodec.cs" />
+    <Compile Include="NetLayer\ProtoBufferTransport.cs" />
+    <Compile Include="NetLayer\ServerApplication.cs" />
+    <Compile Include="NetLayer\SocketTransport.cs" />
+    <Compile Include="PluginPool.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="acservkey.snk" />
+    <None Include="AliveChessDataSet.xsc">
+      <DependentUpon>AliveChessDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="AliveChessDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AliveChessDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AliveChessDataSet.xss">
+      <DependentUpon>AliveChessDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="App.config" />
+    <None Include="DBLayer\AliveChess.dbml.layout">
+      <DependentUpon>AliveChess.dbml</DependentUpon>
+    </None>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="DBLayer\AliveChess.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>AliveChess.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DBLayer\LINQ\AliveChessMapping.config" />
+    <None Include="DBLayer\LocalCache\AliveChessCache.sync">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSyncGenerator</Generator>
+      <LastGenOutput>AliveChessCache.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SQLScripts\AliveChessCache.alive_chess.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.animat.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.base_point.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.border.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.castle.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.chess_empire.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.chess_level.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.chess_union.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.conversation_context.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.figure_vault.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.inner_building.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.king.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.landscape_image.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.mamdani_condition.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.mamdani_rule.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.map.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.map_point_image.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.map_sector_image.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.mine.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.multy_object.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.neural_network.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.player.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.resource.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.resource_vault.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.single_object.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.statement.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.store.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.successor.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.transition_condition.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.transition_rule.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.unit.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.united_empire.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.variable.sql" />
+    <None Include="SQLScripts\AliveChessCache.dbo.vicegerent.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.alive_chess.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.animat.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.base_point.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.border.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.castle.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.chess_empire.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.chess_level.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.chess_union.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.conversation_context.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.figure_vault.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.inner_building.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.king.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.landscape_image.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.mamdani_condition.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.mamdani_rule.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.map.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.map_point_image.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.map_sector_image.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.mine.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.multy_object.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.neural_network.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.player.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.resource.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.resource_vault.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.single_object.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.statement.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.store.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.successor.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.transition_condition.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.transition_rule.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.unit.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.united_empire.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.variable.disable.sql" />
+    <None Include="SQLUndoScripts\AliveChessCache.dbo.vicegerent.disable.sql" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.4.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 4.0 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Sql.Server.Express.9.2">
+      <Visible>False</Visible>
+      <ProductName>SQL Server 2005 Express Edition SP2 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliveChessLibrary\AliveChessLibrary.csproj">
+      <Project>{09803517-7B89-4BCC-BDFF-DDD182E6A08B}</Project>
+      <Name>AliveChessLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AliveChessPluginLibrary\AliveChessPluginLibrary\AliveChessPluginLibrary.csproj">
+      <Project>{6FB03FDF-C02D-4548-8F8F-8CF3482B0D81}</Project>
+      <Name>AliveChessPluginLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BehaviorAILibrary\BehaviorAILibrary\BehaviorAILibrary.csproj">
+      <Project>{3B3027D9-C17C-4B7E-94B9-7FA47093D3A7}</Project>
+      <Name>BehaviorAILibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FuzzyLogicLibrary\FuzzyLogicLibrary.csproj">
+      <Project>{5FCE77C6-C989-49C7-B82B-6F4B7779558C}</Project>
+      <Name>FuzzyLogicLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleBatleAliveChess\ModuleBatleAliveChess.csproj">
+      <Project>{8E5FE2CE-2959-4F20-9E99-D90E4E528EBE}</Project>
+      <Name>ModuleBatleAliveChess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="alive_chess.sdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DBLayer\XML\Map.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LogicLayer\BattleEngine\" />
+    <Folder Include="LogicLayer\EconomyEngine\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

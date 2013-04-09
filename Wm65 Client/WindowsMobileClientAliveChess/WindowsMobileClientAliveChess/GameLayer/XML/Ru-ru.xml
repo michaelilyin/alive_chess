@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dictionary>
+  <StartForm name="Добро пожаловать в Alive Chess">
+    <bStartGame>Начать игру</bStartGame>
+    <bPreferences>Настройки</bPreferences>
+    <bExit>Выход</bExit>
+  </StartForm>
+  <GameForm name="Alive Chess">
+  </GameForm>
+  <PreferencesForm name="Настройки">
+    <mIAccept>Принять</mIAccept>
+    <mICancel>Отменить</mICancel>
+    <tPGeneral>Общие</tPGeneral>
+    <tPConnection>Соединение</tPConnection>
+    <lLanguage>Язык</lLanguage>
+    <lIP>IP</lIP>
+    <lPort>Порт</lPort>
+    <lLogin>Логин</lLogin>
+    <lPrivilegies>Привелегии</lPrivilegies>
+    <lPassword>Пароль</lPassword>
+  </PreferencesForm>
+  <AlianceControl>
+    <tPSendDemand>Одолжить/Отослать</tPSendDemand>
+    <tPAlliance>Альянс</tPAlliance>
+    <bRule>Управлять империей</bRule>
+    <bDismiss>Свергнуть лидера</bDismiss>
+    <bSupport>Поддержать лидера</bSupport>
+    <bChoose>Предложить себя в роли лидера</bChoose>
+    <bAsk>Попросить</bAsk>
+    <bSend>Отослать</bSend>
+    <mIResources>Ресурсы</mIResources>
+    <mIUnits>Существ</mIUnits>
+  </AlianceControl>
+  <SocketConnectionException>Невозможно установить соединение</SocketConnectionException>
+  <UnauthorizedException>Не получилось пройти авторизацию</UnauthorizedException>
+  <GameCannotBeStarted>Невозможно начать игру</GameCannotBeStarted>
+</dictionary>

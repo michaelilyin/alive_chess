@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- команды авторизации:   диапазон: 0 - 5 количество: (6) -->
+<MetaCommand>
+<cmd id="0">
+		<name>AuthorizeRequest</name>
+</cmd>
+<cmd id="1">
+		<name>AuthorizeResponse</name>
+</cmd>
+<cmd id="2">
+		<name>ExitFromGameRequest</name>
+</cmd>
+<cmd id="3">
+		<name>ExitFromGameResponse</name>
+</cmd>
+<cmd id="4">
+		<name>RegisterRequest</name>
+</cmd>
+<cmd id="5">
+		<name>RegisterResponse</name>
+</cmd>
+<cmd id="6">
+		<name>BigMapRequest</name>
+</cmd>
+<cmd id="7">
+		<name>BigMapResponse</name>
+</cmd>
+<cmd id="8">
+		<name>CaptureCastleRequest</name>
+</cmd>
+<cmd id="9">
+		<name>CaptureCastleResponse</name>
+</cmd>	
+<cmd id="22">
+	<name>GetMapResponse</name>
+</cmd>
+<cmd id="37">
+	<name>GetKingRequest</name>
+</cmd>
+<cmd id="38">
+		<name>GetKingResponse</name>
+</cmd>
+<cmd id="12">
+    <name>ComeInCastleRequest</name>
+</cmd>
+<cmd id="13">
+     <name>ComeInCastleResponse</name>
+</cmd>
+<cmd id="14">
+     <name>ContactKingRequest</name>
+</cmd>
+<cmd id="15">
+    <name>ContactKingResponse</name>
+</cmd>
+<cmd id="16">
+    <name>TakeResourceMessage</name>
+</cmd>
+<cmd id="17">
+      <name>MoveKingRequest</name>
+</cmd>
+<cmd id="18">
+    <name>MoveKingResponse</name>
+</cmd>
+<cmd id="19">
+    <name>ContactCastleRequest</name>
+</cmd>
+<cmd id="20">   
+     <name>ContactCastleResponse</name>
+</cmd>
+<cmd id="21">
+    <name>GetMapRequest</name>
+</cmd>
+<cmd id="22">
+    <name>GetMapResponse</name>
+</cmd>
+<cmd id="23">
+    <name>GetObjectsRequest</name>
+</cmd>
+<cmd id="24">  
+    <name>GetObjectsResponse</name>
+</cmd>
+<cmd id="25">
+    <name>LooseCastleMessage</name>
+</cmd>
+<cmd id="26">
+    <name>LooseMineMessage</name>
+</cmd>
+<cmd id="27">  
+    <name>UpdateWorldMessage</name>
+</cmd>
+<cmd id="28">
+    <name>GetResourceMessage</name>
+</cmd>
+<cmd id="29">  
+    <name>GetUnityMapRequest</name>
+</cmd>  
+<cmd id="30">
+    <name>GetUnityMapResponse</name>
+</cmd>
+<cmd id="31">
+    <name>GetGameStateRequest</name>
+</cmd>
+<cmd id="32">
+    <name>GetGameStateResponse</name>
+</cmd>
+<cmd id="33">
+    <name>ComputePathRequest</name>
+</cmd>
+<cmd id="34">
+    <name>ComputePathResponse</name>
+</cmd>
+<cmd id="35">
+    <name>VerifyPathRequest</name>
+</cmd>
+<cmd id="36">
+    <name>VerifyPathResponse</name>
+</cmd>
+<cmd id="86">
+	<name>BuildingInCastleRequest</name>
+</cmd>
+<cmd id="87">
+	<name>BuildingInCastleResponse</name>
+</cmd>
+<cmd id="76">
+	<name>LeaveCastleRequest</name>
+</cmd>
+<cmd id="77">
+	<name>LeaveCastleResponse</name>
+</cmd>
+<cmd id="78">
+	<name>GetArmyCastleToKingRequest</name>
+</cmd>
+<cmd id="79">
+	<name>GetArmyCastleToKingResponse</name>
+</cmd>
+        
+<cmd id="80">
+	<name>GetListBuildingsInCastleRequest</name>
+</cmd>
+        
+<cmd id="81">
+	<name>GetListBuildingsInCastleResponse</name>
+</cmd>
+
+<cmd id="82">
+	<name>GetRecBuildingsRequest</name>
+</cmd>
+
+<cmd id="83">
+	<name>GetRecBuildingsResponse</name>
+</cmd>
+
+<cmd id="84">
+	<name>ShowArmyCastleRequest</name>
+</cmd>
+
+<cmd id="85">
+	<name>ShowArmyKingRequest</name>
+</cmd>
+
+<cmd id="88">
+	<name>BuyFigureRequest</name>
+</cmd>
+
+<cmd id="89">
+	<name>BuyFigureResponse</name>
+</cmd>
+</MetaCommand>
+
+<!--
+// команды шахматного поединка: диапазон 126 - 145(20)
+        BattleMessage              = 127,
+        DownloadBattlefildRequest  = 128,
+        DownloadBattlefildResponse = 129,
+        MoveUnitRequest            = 130,
+        MoveUnitResponse           = 131,
+        
+        // команды управлениями союзами и империями: 146 - 205 (50)
+        //
+        JoinRequestMessage              = 149,
+        EmbedTaxRateRequest             = 150,
+        EmbedTaxRateResponse            = 151,
+        ExcludeKingFromEmpireRequest    = 152,
+        ExcludeKingFromEmpireResponse   = 153,
+        IncludeKingInEmpireRequest      = 154,
+        IncludeKingInEmpireResponse     = 155,
+        ExitFromAlianceRequest          = 156,
+        ExitFromAlianceResponse         = 157,
+        GetHelpFigureRequest            = 158,
+        GetHelpFigureResponse           = 159,
+        GetHelpResourceRequest          = 160,
+        GetHelpResourceResponse         = 161,
+        GetAlianceInfoRequest           = 162,
+        GetAlianceInfoResponse          = 163,
+        GrandLeaderPrivilegesMessage    = 164,
+        TakeAwayLeaderPrivilegesMessage = 165,
+        JoinToAlianceRequest            = 166,
+        JoinToAlianceResponse           = 167,
+        MessageNewsMessage              = 168,
+        SendFigureHelpMessage           = 169,
+        SendResourceHelpMessage         = 170,
+        StartVoteRequest                = 171,
+        StartVoteResponse               = 172,
+        StartImpeachmentRequest         = 173,
+        StartImpeachmentResponse        = 174,
+        VoteBallotMessage               = 175,
+        GetAliancesInfoRequest          = 176,
+        GetAliancesInfoResponse         = 177,
+        ExcludeFromEmpireMessage        = 178,
+        StartNegotiateRequest           = 179,
+        StartNegotiateResponse          = 180,
+
+        // команды торговли:           ?
+
+        // команды статистики: 206 - 225(20)
+        GetStatisticRequest             = 206,
+        GetStatisticResponse            = 207,
+        GetAvailableMapsRequest         = 208,
+        GetAvailableMapsResponse        = 209,
+
+        // --------------------- Сектор команд чата (250 - 280)----------------------------------------- //
+
+        // команды чата
+        JoinLeaveCommand                = 250,
+        MessageCommand                  = 251,
+        MessageReceiveCommand           = 252,
+        SendContactListCommand          = 253,
+
+        ErrorMessage                    = 666
+-->

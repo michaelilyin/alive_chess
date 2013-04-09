@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3C77B1F7-2ED7-49C3-BE0C-6823A42A2948}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AliveChess</RootNamespace>
+    <AssemblyName>AliveChess</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <EnableSecurityDebugging>true</EnableSecurityDebugging>
+    <Install>False</Install>
+    <StartAction>URL</StartAction>
+    <HostInBrowser>false</HostInBrowser>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
+    <TargetZone>Custom</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>True</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AliveChessLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2835f21f5f1fa17, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\AliveChessLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.480, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="GameLayer\PresentationLayer\BattleScene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameLayer\PresentationLayer\CastleScene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameLayer\PresentationLayer\MapScene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameLayer\PresentationLayer\DialogScene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameLayer\PresentationLayer\LogInScene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameLayer\PresentationLayer\StartGameScene.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GameCore.cs" />
+    <Compile Include="GameLayer\LogicLayer\CustomConverter.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\AuthorizeExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\ComeInCastleExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GameStateExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetKingExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetListBuildingsInCastleExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetMapExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetObjectsResponse.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetResourceMessageExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\IExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\MoveKingExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\UpdateWorldMessageExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\ExecutorType.cs" />
+    <Compile Include="GameLayer\LogicLayer\GameWorld.cs" />
+    <Compile Include="GameLayer\LogicLayer\Player.cs" />
+    <Compile Include="GameLayer\LogicLayer\RequestExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\ResponceComplete.cs" />
+    <Compile Include="GameLayer\PresentationLayer\BattleScene.xaml.cs">
+      <DependentUpon>BattleScene.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\PresentationLayer\CastleScene.xaml.cs">
+      <DependentUpon>CastleScene.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\PresentationLayer\MapScene.xaml.cs">
+      <DependentUpon>MapScene.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\PresentationLayer\DialogScene.xaml.cs">
+      <DependentUpon>DialogScene.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\PresentationLayer\GameScene.cs" />
+    <Compile Include="GameLayer\PresentationLayer\LogInScene.xaml.cs">
+      <DependentUpon>LogInScene.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameLayer\PresentationLayer\WindowContext.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="NetworkLayer\CommandPool.cs" />
+    <Compile Include="NetworkLayer\NetworkManager.cs" />
+    <Compile Include="NetworkLayer\ProtoBufferCodec.cs" />
+    <Compile Include="NetworkLayer\SocketTransport.cs" />
+    <Compile Include="GameLayer\PresentationLayer\StartGameScene.xaml.cs">
+      <DependentUpon>StartGameScene.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="GameLayer\PresentationLayer\Templates\ButtomTemplateDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="AliveChess_TemporaryKey.pfx" />
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\main_menu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\6.jpg" />
+  </ItemGroup>
+  <PropertyGroup>
+    <StartArguments />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>AliveChess_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4F6C584DF74826D8C95492178C08798424FFF2C7</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

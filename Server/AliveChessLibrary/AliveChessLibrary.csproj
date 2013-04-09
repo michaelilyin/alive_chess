@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{09803517-7B89-4BCC-BDFF-DDD182E6A08B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AliveChessLibrary</RootNamespace>
+    <AssemblyName>AliveChessLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>aclibkey.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="protobuf-net, Version=1.0.0.262, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ProtocolBuffer\NET30\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AliveChessException.cs" />
+    <Compile Include="Commands\BattleCommand\DownloadBattlefildRequest.cs" />
+    <Compile Include="Commands\BattleCommand\DownloadBattlefildResponse.cs" />
+    <Compile Include="Commands\BattleCommand\MoveUnitRequest.cs" />
+    <Compile Include="Commands\BattleCommand\MoveUnitResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\BigMapRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\BigMapResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\ComputePathRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\ComputePathResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\GetGameStateRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\GetGameStateResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\GetKingRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\GetKingResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\GetUnityMapRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\GetUnityMapResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\TakeResourceMessage.cs" />
+    <Compile Include="Commands\BigMapCommand\VerifyPathRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\VerifyPathResponse.cs" />
+    <Compile Include="Commands\CastleCommand\BuildingInCastleRequest.cs" />
+    <Compile Include="Commands\CastleCommand\BuildingInCastleResponse.cs" />
+    <Compile Include="Commands\CastleCommand\GetArmyCastleToKingRequest.cs" />
+    <Compile Include="Commands\CastleCommand\GetArmyCastleToKingResponse.cs" />
+    <Compile Include="Commands\CastleCommand\GetListBuildingsInCastleRequest.cs" />
+    <Compile Include="Commands\CastleCommand\GetListBuildingsInCastleResponse.cs" />
+    <Compile Include="Commands\CastleCommand\GetRecBuildingsRequest.cs" />
+    <Compile Include="Commands\CastleCommand\GetRecBuildingsResponse.cs" />
+    <Compile Include="Commands\CastleCommand\BuyFigureRequest.cs" />
+    <Compile Include="Commands\CastleCommand\BuyFigureResponse.cs" />
+    <Compile Include="Commands\CastleCommand\ShowArmyCastleRequest.cs" />
+    <Compile Include="Commands\CastleCommand\ShowArmyCastleResponse.cs" />
+    <Compile Include="Commands\CastleCommand\ShowArmyKingRequest.cs" />
+    <Compile Include="Commands\CastleCommand\ShowArmyKingResponse.cs" />
+    <Compile Include="Commands\ChatCommand\JoinLeaveCommand.cs" />
+    <Compile Include="Commands\ChatCommand\MessageCommand.cs" />
+    <Compile Include="Commands\ChatCommand\MessageReceive.cs" />
+    <Compile Include="Commands\ChatCommand\SendContactListCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandType.cs" />
+    <Compile Include="Commands\DialogCommand\CapitulateDialogMessage.cs" />
+    <Compile Include="Commands\DialogCommand\CaptureCastleDialogMessage.cs" />
+    <Compile Include="Commands\BigMapCommand\CaptureCastleRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\CaptureCastleResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\ContactCastleRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\ContactCastleResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\CaptureMineRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\CaptureMineResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\ComeInCastleRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\ComeInCastleResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\GetMapRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\GetMapResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\GetObjectsRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\GetObjectsResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\GetResourceMessage.cs" />
+    <Compile Include="Commands\BigMapCommand\LooseCastleMessage.cs" />
+    <Compile Include="Commands\BigMapCommand\LooseMineMessage.cs" />
+    <Compile Include="Commands\BigMapCommand\ContactKingRequest.cs" />
+    <Compile Include="Commands\BigMapCommand\MoveKingResponse.cs" />
+    <Compile Include="Commands\DialogCommand\DeactivateDialogMessage.cs" />
+    <Compile Include="Commands\DialogCommand\IMessage.cs" />
+    <Compile Include="Commands\DialogCommand\JoinEmperiesDialogMessage.cs" />
+    <Compile Include="Commands\DialogCommand\PeaceDialogMessage.cs" />
+    <Compile Include="Commands\DialogCommand\WarDialogMessage.cs" />
+    <Compile Include="Commands\DialogCommand\PayOffDialogMessage.cs" />
+    <Compile Include="Commands\DialogCommand\CreateUnionDialogMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\EmbedTaxRateRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\EmbedTaxRateResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\ExcludeFromEmpireMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\ExcludeKingFromEmpireRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\ExcludeKingFromEmpireResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\ExitFromAlianceRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\ExitFromAlianceResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\GetAliancesInfoRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\GetAliancesInfoResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\GetHelpFigureRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\GetHelpFigureResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\GetHelpResourceRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\GetHelpResourceResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\GetAlianceInfoRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\GetAlianceInfoResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\GrandLeaderPrivilegesMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\IncludeKingInEmpireRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\IncludeKingInEmpireResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\JoinRequestMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\JoinToAlianceRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\JoinToAlianceResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\MessageNewsMessage.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\INonSerializable.cs" />
+    <Compile Include="Commands\StatisticCommand\GetAvailableMapsRequest.cs" />
+    <Compile Include="Commands\StatisticCommand\GetAvailableMapsResponse.cs" />
+    <Compile Include="Commands\StatisticCommand\GetStatisticRequest.cs" />
+    <Compile Include="Commands\StatisticCommand\GetStatisticResponse.cs" />
+    <Compile Include="GameObjects\Abstract\CompositeVisibleSpace.cs" />
+    <Compile Include="GameObjects\Abstract\FPosition.cs" />
+    <Compile Include="GameObjects\Abstract\IPosition.cs" />
+    <Compile Include="GameObjects\Abstract\IVisibleSpace.cs" />
+    <Compile Include="GameObjects\Abstract\UpdateType.cs" />
+    <Compile Include="GameObjects\Abstract\UpdateWorldEventArgs.cs" />
+    <Compile Include="GameObjects\Characters\IKing.cs" />
+    <Compile Include="GameObjects\Characters\IPlayer.cs" />
+    <Compile Include="GameObjects\Characters\MovingEntity.cs" />
+    <Compile Include="GameObjects\Landscapes\Border.cs" />
+    <Compile Include="GameObjects\Landscapes\FloodAlgorithm.cs" />
+    <Compile Include="GameObjects\Landscapes\ILevel.cs" />
+    <Compile Include="Interaction\IStimulus.cs" />
+    <Compile Include="Interaction\InteractionType.cs" />
+    <Compile Include="Interaction\NewsType.cs" />
+    <Compile Include="Commands\EmpireCommand\SendFigureHelpMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\SendResourceHelpMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\StartImpeachmentRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\StartImpeachmentResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\StartNegotiateRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\StartNegotiateResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\StartVoteRequest.cs" />
+    <Compile Include="Commands\EmpireCommand\StartVoteResponse.cs" />
+    <Compile Include="Commands\EmpireCommand\TakeAwayLeaderPrivilegesMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\VoteBallotMessage.cs" />
+    <Compile Include="Commands\EmpireCommand\VoteType.cs" />
+    <Compile Include="Interaction\DialogState.cs" />
+    <Compile Include="Commands\DialogCommand\BattleDialogMessage.cs" />
+    <Compile Include="Commands\BigMapCommand\ContactKingResponse.cs" />
+    <Compile Include="Commands\DialogCommand\MarketDialogMessage.cs" />
+    <Compile Include="Commands\ErrorCommand\ErrorMessage.cs" />
+    <Compile Include="Commands\RegisterCommand\AuthorizeRequest.cs" />
+    <Compile Include="Commands\CastleCommand\LeaveCastleRequest.cs" />
+    <Compile Include="Commands\CastleCommand\LeaveCastleResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\MoveKingRequest.cs" />
+    <Compile Include="Commands\RegisterCommand\AuthorizeResponse.cs" />
+    <Compile Include="Commands\BigMapCommand\UpdateWorldMessage.cs" />
+    <Compile Include="Commands\RegisterCommand\ExitFromGameRequest.cs" />
+    <Compile Include="Commands\RegisterCommand\ExitFromGameResponse.cs" />
+    <Compile Include="Commands\RegisterCommand\RegisterRequest.cs" />
+    <Compile Include="Commands\RegisterCommand\RegisterResponse.cs" />
+    <Compile Include="Interaction\Battle.cs" />
+    <Compile Include="Interaction\DialogTheme.cs" />
+    <Compile Include="Interaction\IDispute.cs" />
+    <Compile Include="GameObjects\Abstract\ILocation.cs" />
+    <Compile Include="GameObjects\Abstract\MapSector.cs" />
+    <Compile Include="Interaction\Negotiate.cs" />
+    <Compile Include="Interaction\NegotiateTheme.cs" />
+    <Compile Include="GameObjects\Buildings\InnerBuildingFactory.cs" />
+    <Compile Include="GameObjects\Buildings\IInnerBuilding.cs" />
+    <Compile Include="GameObjects\Buildings\ResBuild.cs" />
+    <Compile Include="GameObjects\Characters\CostUnit.cs" />
+    <Compile Include="GameObjects\Characters\UnitFacrory.cs" />
+    <Compile Include="GameObjects\Characters\UnitType.cs" />
+    <Compile Include="GameObjects\Characters\Vicegerent.cs" />
+    <Compile Include="GameObjects\Landscapes\BasePoint.cs" />
+    <Compile Include="GameObjects\Landscapes\LandscapeTypes.cs" />
+    <Compile Include="GameObjects\Objects\MultyObject.cs" />
+    <Compile Include="GameObjects\Objects\MultyObjectTypes.cs" />
+    <Compile Include="GameObjects\Objects\SingleObject.cs" />
+    <Compile Include="GameObjects\Objects\SingleObjectType.cs" />
+    <Compile Include="GameObjects\Resources\FigureStore.cs" />
+    <Compile Include="GameObjects\Resources\IStore.cs" />
+    <Compile Include="Interaction\StimulusType.cs" />
+    <Compile Include="Interfaces\IAdmin.cs" />
+    <Compile Include="Interfaces\IBytePackage.cs" />
+    <Compile Include="Interfaces\ICommunity.cs" />
+    <Compile Include="Interfaces\IConnectionInfo.cs" />
+    <Compile Include="Interfaces\IDynamic.cs" />
+    <Compile Include="Interfaces\IIdentity.cs" />
+    <Compile Include="Interfaces\IInteraction.cs" />
+    <Compile Include="GameObjects\Buildings\InnerBuilding.cs" />
+    <Compile Include="GameObjects\Characters\IMovable.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\IMapObject.cs" />
+    <Compile Include="Interfaces\IObserver.cs" />
+    <Compile Include="GameObjects\Abstract\MapPoint.cs" />
+    <Compile Include="GameObjects\Attributes\Purse.cs" />
+    <Compile Include="GameObjects\Buildings\BuildingTypes.cs" />
+    <Compile Include="GameObjects\Buildings\IBuilding.cs" />
+    <Compile Include="GameObjects\Buildings\ICastle.cs" />
+    <Compile Include="GameObjects\Buildings\Castle.cs" />
+    <Compile Include="GameObjects\Characters\KingState.cs" />
+    <Compile Include="Interfaces\IStage.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="Mathematic\GeometryUtils\Geometry.cs" />
+    <Compile Include="Mathematic\GeometryUtils\Matrix2D.cs" />
+    <Compile Include="Mathematic\GeometryUtils\Transformations.cs" />
+    <Compile Include="Mathematic\GeometryUtils\Vector2D.cs" />
+    <Compile Include="Mathematic\GeometryUtils\Wall2D.cs" />
+    <Compile Include="Net\BytePackage.cs" />
+    <Compile Include="Interaction\IMessenger.cs" />
+    <Compile Include="Net\NetworkDataStream.cs" />
+    <Compile Include="GameObjects\Abstract\PointTypes.cs" />
+    <Compile Include="Net\ConnectionInfo.cs" />
+    <Compile Include="Interaction\Dialog.cs" />
+    <Compile Include="GameObjects\Abstract\VisibleSpace.cs" />
+    <Compile Include="GameObjects\Resources\IResource.cs" />
+    <Compile Include="GameObjects\Buildings\Mine.cs" />
+    <Compile Include="GameObjects\Resources\ResourceTypes.cs" />
+    <Compile Include="GameObjects\Resources\ResourceStore.cs" />
+    <Compile Include="Interfaces\IActive.cs" />
+    <Compile Include="Interfaces\ILocalizable.cs" />
+    <Compile Include="GameObjects\Characters\King.cs" />
+    <Compile Include="GameObjects\Landscapes\Map.cs" />
+    <Compile Include="GameObjects\Resources\Resource.cs" />
+    <Compile Include="GameObjects\Abstract\Position.cs" />
+    <Compile Include="GameObjects\Characters\Unit.cs" />
+    <Compile Include="Interfaces\IMultyPoint.cs" />
+    <Compile Include="Interfaces\ISinglePoint.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Statistics\IEvaluator.cs" />
+    <Compile Include="Statistics\IMemory.cs" />
+    <Compile Include="Statistics\Statistic.cs" />
+    <Compile Include="Utility\Constants.cs" />
+    <Compile Include="Utility\EntitySetUtil.cs" />
+    <Compile Include="Utility\GuidIDPair.cs" />
+    <Compile Include="Utility\ImageInfo.cs" />
+    <Compile Include="Utility\ListExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aclibkey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

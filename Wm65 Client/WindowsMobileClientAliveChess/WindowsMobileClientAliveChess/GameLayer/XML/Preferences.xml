@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Preferences>
+  <languages>
+    <language name="Русский" selected="true">Ru-ru</language>
+    <language name="English" selected="false">En-en</language>
+  </languages>
+  <connection>
+    <IP>127.0.0.1</IP>
+    <Port>22000</Port>
+    <Login>DummiePlayer</Login>
+    <Password>Pass</Password>
+    <Priviliges selected="true">Super User</Priviliges>
+    <Priviliges selected="false">General user</Priviliges>
+  </connection>
+</Preferences>

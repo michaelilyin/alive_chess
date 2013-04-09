@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- команды авторизации:   диапазон: 0 - 5 количество: (6) -->
+<MetaCommand>
+	<cmd id="0">
+		<name>AuthorizeRequest</name>
+	</cmd>
+	<cmd id="1">
+		<name>AuthorizeResponse</name>
+	</cmd>
+	<cmd id="2">
+		<name>ExitFromGameRequest</name>
+	</cmd>
+	<cmd id="3">
+		<name>ExitFromGameResponse</name>
+	</cmd>
+	<cmd id="4">
+		<name>RegisterRequest</name>
+	</cmd>
+	<cmd id="5">
+		<name>RegisterResponse</name>
+	</cmd>
+	<cmd id="6">
+		<name>BigMapRequest</name>
+	</cmd>
+	<cmd id="7">
+		<name>BigMapResponse</name>
+	</cmd>
+	<cmd id="8">
+		<name>CaptureCastleRequest</name>
+	</cmd>
+	<cmd id="9">
+		<name>CaptureCastleResponse</name>
+	</cmd>
+	<cmd id="21">
+		<name>GetMapRequest</name>
+	</cmd>	
+		<cmd id="22">
+		<name>GetMapResponse</name>
+	</cmd>
+</MetaCommand>
+

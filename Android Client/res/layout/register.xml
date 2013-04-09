@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#fff"
+	>
+ 	<LinearLayout
+  		android:orientation="vertical"
+  		android:layout_width="wrap_content"
+  		android:layout_height="wrap_content"
+  		android:layout_centerInParent="true"
+  		>
+  		<EditText
+  			android:id="@+id/reg_txt_login"
+  			android:layout_height="wrap_content"
+  			android:layout_width="200dip"
+  			android:text=""
+  			android:layout_gravity="center_horizontal"
+  			/>
+  		<EditText
+  			android:id="@+id/reg_txt_pass"
+  			android:layout_height="wrap_content"
+  			android:layout_width="200dip"
+  			android:text=""
+  			android:password="true"
+  			android:layout_gravity="center_horizontal"
+  			/>  			
+		<Button 
+			android:id="@+id/reg_btn_reg"
+			android:layout_width="100dip"
+			android:layout_height="wrap_content"
+			android:text="Registration"
+			android:onClick="click_btn_register"
+			android:layout_gravity="center_horizontal"
+			/>	
+		<Button 
+			android:id="@+id/reg_btn_back"
+			android:layout_width="100dip"
+			android:layout_height="wrap_content"
+			android:text="Back"
+			android:onClick="click_btn_back"
+			android:layout_gravity="center_horizontal"
+			/>	
+	</LinearLayout>
+</RelativeLayout>
