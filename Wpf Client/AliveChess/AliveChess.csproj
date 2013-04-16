@@ -41,11 +41,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AliveChessLibrary">
-      <HintPath>..\..\Server\AliveChessServer\bin\Debug\AliveChessLibrary.dll</HintPath>
+    <Reference Include="AliveChessLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2835f21f5f1fa17, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\AliveChessLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\..\Server\AliveChessServer\bin\Debug\protobuf-net.dll</HintPath>
+    <Reference Include="protobuf-net, Version=1.0.0.262, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -220,6 +222,9 @@
     <ManifestCertificateThumbprint>4F6C584DF74826D8C95492178C08798424FFF2C7</ManifestCertificateThumbprint>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /Y "$(SolutionDir)AliveChess\Resources" "$(TargetDir)Resources\"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
