@@ -54,6 +54,9 @@ namespace AliveChessServer.NetLayer
 
         public void RemoveConnection(ConnectionInfo conn)
         {
+#if DEBUG
+            DebugConsole.WriteLine(this, "Remove connection: Player#" + conn.Player.Id.ToString());
+#endif
             // прекращаем прием/передачу данных
             conn.Socket.Shutdown(SocketShutdown.Both);
             

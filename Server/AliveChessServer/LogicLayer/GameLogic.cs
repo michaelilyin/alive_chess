@@ -21,6 +21,9 @@ namespace AliveChessServer.LogicLayer
         public GameLogic(GameWorld environment, TimeManager timeManager, CommandPool commands,
             ProtoBufferTransport transport, AliveChessLogger logger, PlayerManager playerManager)
         {
+#if DEBUG
+            DebugConsole.WriteLine(this, "Created");
+#endif
             Debug.Assert(environment != null);
             Debug.Assert(commands != null);
             Debug.Assert(transport != null);

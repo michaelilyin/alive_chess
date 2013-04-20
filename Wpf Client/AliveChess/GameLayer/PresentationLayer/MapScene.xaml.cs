@@ -31,7 +31,8 @@ namespace AliveChess.GameLayer.PresentationLayer
         private GameWorld _world = GameCore.Instance.World;
         private Player _player = GameCore.Instance.Player;
 
-        private Rectangle[,] rectArrWorld = new Rectangle[50,50];
+        private Rectangle[,] rectArrWorld = new Rectangle[50, 50];
+        private Rectangle[,] rectArrWorldObjects = new Rectangle[50, 50];
         private Rectangle[,] rectArrGame = new Rectangle[50, 50];
 
         private Point kingPosition;
@@ -100,7 +101,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         
         private void InitRect()
         {
-            BitmapImage bm0 = new BitmapImage(new Uri(@"Resources\0.jpg", UriKind.RelativeOrAbsolute));
+            BitmapImage bm0 = new BitmapImage(new Uri(@"Resources\grass.png", UriKind.RelativeOrAbsolute));
             ImageBrush brush0 = new ImageBrush(bm0);
             for (int i = 0; i < 50; i++)
             {
@@ -109,14 +110,14 @@ namespace AliveChess.GameLayer.PresentationLayer
                     Rectangle r = new Rectangle();
                     r.Height = height;
                     r.Width = width;
-                    r.Fill = brush0;
+                    r.Fill = brush0; //TODO: Узнать тип местности(трава, грязь, снег) и нарисовать его, а не просто траву
                     TranslateTransform t = new TranslateTransform();
                     t.X = j * width;
                     t.Y = i * height;
                     r.RenderTransform = t;
 
                     rectArrWorld[i, j] = r;
-                        
+
                 }
                 for (int k = 0; k < 50; k++)
                 {
@@ -130,6 +131,21 @@ namespace AliveChess.GameLayer.PresentationLayer
                     r.RenderTransform = t;
 
                     rectArrGame[i, k] = r;
+                    rectArrWorldObjects[i, k] = r;
+
+                }
+                for (int k = 0; k < 50; k++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Height = height;
+                    r.Width = width;
+                    r.Fill = Brushes.Transparent;
+                    TranslateTransform t = new TranslateTransform();
+                    t.X = k * width;
+                    t.Y = i * height;
+                    r.RenderTransform = t;
+
+                    rectArrWorldObjects[i, k] = r;
 
                 }
             }
@@ -143,6 +159,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                 for (int j = 0; j < 50; j++)
                 {
                     canvasMap.Children.Add(rectArrWorld[i,j]);
+                    canvasMapObjects.Children.Add(rectArrWorldObjects[i, j]);
                     canvasGame.Children.Add(rectArrGame[i,j]);
                 }
             }
@@ -163,34 +180,34 @@ namespace AliveChess.GameLayer.PresentationLayer
         {
             InitRect();
             //трава
-            BitmapImage bm0 = new BitmapImage(new Uri(@"Resources\0.jpg", UriKind.RelativeOrAbsolute));
+            BitmapImage bm0 = new BitmapImage(new Uri(@"Resources\grass.png", UriKind.RelativeOrAbsolute));
             ImageBrush brush0 = new ImageBrush(bm0);
             //Одиночное дерево
-            BitmapImage bm1 = new BitmapImage(new Uri(@"Resources\1.jpg", UriKind.RelativeOrAbsolute));
+            BitmapImage bm1 = new BitmapImage(new Uri(@"Resources\tree.png", UriKind.RelativeOrAbsolute));
             ImageBrush brush1 = new ImageBrush(bm1);
             //Скала (непроходимая)
-            BitmapImage bm2 = new BitmapImage(new Uri(@"Resources\2.jpg", UriKind.RelativeOrAbsolute));
+            BitmapImage bm2 = new BitmapImage(new Uri(@"Resources\rock.png", UriKind.RelativeOrAbsolute));
             ImageBrush brush2 = new ImageBrush(bm2);
             //Золото (ресурс)
-            BitmapImage bm3 = new BitmapImage(new Uri(@"Resources\3.jpg", UriKind.RelativeOrAbsolute));
+            BitmapImage bm3 = new BitmapImage(new Uri(@"Resources\gold.jpg", UriKind.RelativeOrAbsolute));
             ImageBrush brush3 = new ImageBrush(bm3);
             //Дерево (ресурс)
-            BitmapImage bm4 = new BitmapImage(new Uri(@"Resources\4.jpg", UriKind.RelativeOrAbsolute));
+            BitmapImage bm4 = new BitmapImage(new Uri(@"Resources\wood.png", UriKind.RelativeOrAbsolute));
             ImageBrush brush4 = new ImageBrush(bm4);
             //Золотая шахта
             BitmapImage bm5 = new BitmapImage(new Uri(@"Resources\5.jpg", UriKind.RelativeOrAbsolute));
             ImageBrush brush5 = new ImageBrush(bm5);
-
+            
             foreach (var obj in _world.Map.SingleObjects)
             {
-
                 if (obj.SingleObjectType == AliveChessLibrary.GameObjects.Objects.SingleObjectType.Tree)
                 {
-                    rectArrWorld[obj.X, obj.Y].Fill = brush1;
+                    rectArrWorldObjects[obj.X, obj.Y].Fill = brush1;
+                    //rectArrWorld[obj.X, obj.Y].f
                 }
                 else if (obj.SingleObjectType == AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle)
                 {
-                    rectArrWorld[obj.X, obj.Y].Fill = brush2;
+                    rectArrWorldObjects[obj.X, obj.Y].Fill = brush2;
                 }
             }
             foreach (var obj in _world.Map.Resources)
@@ -203,6 +220,10 @@ namespace AliveChess.GameLayer.PresentationLayer
                 else if (obj.ResourceType == AliveChessLibrary.GameObjects.Resources.ResourceTypes.Wood)
                 {
                     rectArrGame[obj.X, obj.Y].Fill = brush4;
+                }
+                else//HACK: Для проверки, есть ли ненарисованные ресурсы
+                {
+                    rectArrGame[obj.X, obj.Y].Fill = brush5;
                 }
             }
 
@@ -227,12 +248,16 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private void GetKing()
         {
+
+#warning Отправка запросов серверу
             GetKingRequest request = new GetKingRequest();
             GameCore.Instance.Network.Send(request);
         }
 
         private void GetGameState()
         {
+            //HACK: Отображение отправки GetGameStateRequest
+            System.Windows.MessageBox.Show("new GetGameStateRequest");
             GetGameStateRequest request = new GetGameStateRequest();
             GameCore.Instance.Network.Send(request);
         }
@@ -279,16 +304,18 @@ namespace AliveChess.GameLayer.PresentationLayer
 
                 KingToFocus();
                 
-                BitmapImage bmCastle = new BitmapImage(new Uri(@"Resources\castle.jpg", UriKind.RelativeOrAbsolute));
+                //TODO: разобраться, зачем нужны следующие 4 строки
+                BitmapImage bmCastle = new BitmapImage(new Uri(@"Resources\castle.png", UriKind.RelativeOrAbsolute));
                 ImageBrush brushCastle = new ImageBrush(bmCastle);
                 rectArrGame[response.Castle.X, response.Castle.Y].Fill = brushCastle;
                 castlePosition = new Point(response.Castle.X, response.Castle.Y);
+
                 foreach (AliveChessLibrary.GameObjects.Buildings.Castle castle in response.King.Castles)
                 {
-                    bmCastle = new BitmapImage(new Uri(@"Resources\castle.jpg", UriKind.RelativeOrAbsolute));
+                    bmCastle = new BitmapImage(new Uri(@"Resources\castle.png", UriKind.RelativeOrAbsolute));
                     brushCastle = new ImageBrush(bmCastle);
                     rectArrGame[castle.X, castle.Y].Fill = brushCastle;
-                    castlePosition = new Point(response.Castle.X, response.Castle.Y);
+                    castlePosition = new Point(castle.X, castle.Y);
                 }
                 
             }
@@ -423,7 +450,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                 BitmapImage bm3 = new BitmapImage(new Uri(@"Resources\3.jpg", UriKind.Relative));
                 ImageBrush brush3 = new ImageBrush(bm3);
 
-                BitmapImage bm4 = new BitmapImage(new Uri(@"Resources\4.jpg", UriKind.Relative));
+                BitmapImage bm4 = new BitmapImage(new Uri(@"Resources\wood.png", UriKind.Relative));
                 ImageBrush brush4 = new ImageBrush(bm4);
                 //Золотая шахта
                 BitmapImage bm5 = new BitmapImage(new Uri(@"Resources\5.jpg", UriKind.RelativeOrAbsolute));

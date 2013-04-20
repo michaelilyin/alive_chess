@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE GameObjects[
+  
+  <!ELEMENT GameObjects (AliveObjects, Resources, MapObjects)>
+
+  <!ELEMENT MapObjects (AliveObjectKing, BuildingCastle, BuildingMineGold, BuildingMineWood, 
+    ResourceGold, ResourceCoal, ResourceIron, ResourceStone, ResourceWood, LandscapeEmpty,
+    LandscapeWood, LandscapeWater, LandscapeObstacle)>
+
+  <!ELEMENT AliveObjectKing EMPTY>
+  <!ELEMENT BuildingCastle EMPTY>
+  <!ELEMENT BuildingMineGold EMPTY>
+  <!ELEMENT BuildingMineWood EMPTY>
+  <!ELEMENT ResourceGold EMPTY>
+  <!ELEMENT ResourceCoal EMPTY>
+  <!ELEMENT ResourceIron EMPTY>
+  <!ELEMENT ResourceStone EMPTY>
+  <!ELEMENT ResourceWood EMPTY>
+  <!ELEMENT LandscapeEmpty EMPTY>
+  <!ELEMENT LandscapeWood EMPTY>
+  <!ELEMENT LandscapeWater EMPTY>
+  <!ELEMENT LandscapeObstacle EMPTY>
+   
+  <!ELEMENT AliveObjects (King)>
+  <!ELEMENT King EMPTY>
+  
+  <!ELEMENT Resources (Gold, Wood, Iron, Stone, Coal)>
+  <!ELEMENT Gold EMPTY>
+  <!ELEMENT Wood EMPTY>
+  <!ELEMENT Iron EMPTY>
+  <!ELEMENT Stone EMPTY>
+  <!ELEMENT Coal EMPTY>
+
+  <!ATTLIST AliveObjectKing WayCost CDATA #REQUIRED>
+  <!ATTLIST BuildingCastle WayCost CDATA #REQUIRED>
+  <!ATTLIST BuildingMineGold WayCost CDATA #REQUIRED>
+  <!ATTLIST BuildingMineWood WayCost CDATA #REQUIRED>
+  <!ATTLIST ResourceGold WayCost CDATA #REQUIRED>
+  <!ATTLIST ResourceCoal WayCost CDATA #REQUIRED>
+  <!ATTLIST ResourceIron WayCost CDATA #REQUIRED>
+  <!ATTLIST ResourceStone WayCost CDATA #REQUIRED>
+  <!ATTLIST ResourceWood WayCost CDATA #REQUIRED>
+  <!ATTLIST LandscapeEmpty WayCost CDATA #REQUIRED>
+  <!ATTLIST LandscapeWood WayCost CDATA #REQUIRED>
+  <!ATTLIST LandscapeWater WayCost CDATA #REQUIRED>
+  <!ATTLIST LandscapeObstacle WayCost CDATA #REQUIRED>
+
+  <!ATTLIST King Experience CDATA #REQUIRED>
+
+  <!ATTLIST Gold Count CDATA #REQUIRED>
+  <!ATTLIST Wood Count CDATA #REQUIRED>
+  <!ATTLIST Iron Count CDATA #REQUIRED>
+  <!ATTLIST Stone Count CDATA #REQUIRED>
+  <!ATTLIST Coal Count CDATA #REQUIRED>
+]>
+<GameObjects>
+
+  <AliveObjects>
+    <King Experience="0" />
+  </AliveObjects>
+
+  <!--Ресурсы-->
+  <Resources>
+    <Gold Count="10" />
+    <Wood Count="20" />
+    <Iron Count="5" />
+    <Stone Count="15" />
+    <Coal Count="10" />
+  </Resources>
+  
+  <!--Представления игровых объектов на карте-->
+  <MapObjects>
+    <AliveObjectKing WayCost="5" />
+    <BuildingCastle WayCost="5" />
+    <BuildingMineGold WayCost="5" />
+    <BuildingMineWood WayCost="5" />
+    <ResourceGold WayCost="2" />
+    <ResourceCoal WayCost="2" />
+    <ResourceIron WayCost="2" />
+    <ResourceStone WayCost="2" />
+    <ResourceWood WayCost="2" />
+    <LandscapeEmpty WayCost="1" />
+    <LandscapeWood WayCost="3" />
+    <LandscapeWater WayCost="12" />
+    <LandscapeObstacle WayCost="6" />
+  </MapObjects>
+
+</GameObjects>

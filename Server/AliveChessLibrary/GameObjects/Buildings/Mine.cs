@@ -239,7 +239,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// <param name="tmpDateTime"></param>
         public void DoWork(DateTime tmpDateTime)
         {
-            Console.WriteLine("!!!!!");
             // если шахта находиться в рабочем состоянии
             if (this._active)
             {

@@ -17,6 +17,9 @@ namespace AliveChessServer.LogicLayer
 
         public AliveChessLogger(MainForm form)
         {
+#if DEBUG
+            DebugConsole.WriteLine(this, "Created");
+#endif
             if (form != null)
             {
                 this._form = form;
@@ -38,7 +41,7 @@ namespace AliveChessServer.LogicLayer
         public void Log(string filename, string str)
         {
             var file = new FileStream(
-                string.Concat(filename, Extension), 
+                string.Concat(filename, Extension),
                 FileMode.Append, FileAccess.Write);
 
             var writer = new StreamWriter(file);
@@ -51,7 +54,7 @@ namespace AliveChessServer.LogicLayer
         public void Log(string filename, params string[] str)
         {
             var file = new FileStream(
-                string.Concat(filename, Extension), 
+                string.Concat(filename, Extension),
                 FileMode.Append, FileAccess.Write);
 
             var writer = new StreamWriter(file);

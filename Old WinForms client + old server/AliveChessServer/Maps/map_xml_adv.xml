@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<map sizeX="50" sizeY="50" type="Grass">
+<mapobject type="Single" stype="Tree" x="2" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="4" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="5" y="2" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="5" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="23" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="29" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="30" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="31" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="6" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="8" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="23" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="7" y="29" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="37" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="38" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="39" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="40" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="41" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="8" y="42" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="11" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="40" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="41" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="42" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="9" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="41" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="10" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="42" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="11" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="12" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="12" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="12" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="12" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="12" y="42" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="12" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="13" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="13" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="14" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="14" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="14" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="14" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="14" y="44" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="44" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="45" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="15" y="46" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="16" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="16" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="16" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="16" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="16" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="17" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="23" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="34" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="35" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="36" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="37" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="18" y="41" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="34" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="35" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="19" y="45" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="34" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="35" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="20" y="36" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="35" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="36" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="37" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="21" y="38" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="22" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="22" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="22" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="22" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="22" y="38" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="23" y="3" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="23" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="23" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="23" y="38" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="23" y="39" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="24" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="24" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="24" y="31" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="25" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="25" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="25" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="25" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="25" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="8" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="11" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="26" y="37" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="3" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="11" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="27" y="45" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="28" y="1" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="28" y="2" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="28" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="28" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="28" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="28" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="29" y="11" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="29" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="29" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="30" y="23" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="30" y="29" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="30" y="30" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="30" y="31" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="30" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="23" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="31" y="29" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="43" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="44" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="32" y="45" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="33" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="33" y="29" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="33" y="30" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="33" y="31" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="33" y="44" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="34" y="3" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="34" y="44" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="35" y="3" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="35" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="35" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="35" y="44" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="35" y="45" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="35" y="46" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="11" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="12" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="36" y="47" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="2" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="3" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="8" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="13" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="34" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="35" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="36" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="37" y="47" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="8" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="34" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="38" y="47" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="8" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="14" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="15" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="32" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="33" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="39" y="47" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="40" y="9" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="40" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="40" y="31" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="40" y="38" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="40" y="39" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="41" y="10" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="41" y="11" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="41" y="39" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="42" y="3" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="42" y="39" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="43" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="44" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="44" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="44" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="44" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="21" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="22" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="23" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="24" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="25" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="26" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="27" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="45" y="42" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="4" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="18" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="19" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="46" y="20" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="47" y="5" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="47" y="6" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="47" y="7" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="47" y="16" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="47" y="17" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="47" y="28" imgId="3"/>
+<mapobject type="Single" stype="Tree" x="48" y="16" imgId="3"/>
+<mapobject type="Single" stype="Obstacle" x="7" y="16" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="7" y="17" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="7" y="18" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="4" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="5" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="6" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="7" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="8" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="11" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="16" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="8" y="22" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="10" y="25" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="10" y="29" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="12" y="7" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="13" y="33" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="14" y="31" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="14" y="32" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="15" y="30" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="15" y="31" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="15" y="33" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="15" y="34" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="15" y="35" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="15" y="36" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="16" y="34" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="17" y="35" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="17" y="37" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="17" y="40" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="18" y="31" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="19" y="37" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="20" y="26" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="20" y="37" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="22" y="17" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="23" y="40" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="26" y="26" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="26" y="43" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="28" y="19" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="29" y="7" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="29" y="44" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="30" y="35" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="30" y="38" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="34" y="16" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="41" y="24" imgId="4"/>
+<mapobject type="Single" stype="Obstacle" x="43" y="30" imgId="4"/>
+<mapobject type="Resource" rtype="Gold" x="3" y="39" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="6" y="34" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="12" y="29" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="15" y="39" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="16" y="9" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="16" y="13" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="18" y="30" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="22" y="9" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="23" y="16" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="25" y="29" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="27" y="19" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="27" y="46" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="28" y="22" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="29" y="4" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="32" y="32" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="33" y="41" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="35" y="20" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="36" y="24" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="41" y="5" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="41" y="33" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="41" y="43" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="42" y="28" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="45" y="10" imgId="5"/>
+<mapobject type="Resource" rtype="Gold" x="47" y="39" imgId="5"/>
+<mapobject type="Resource" rtype="Wood" x="3" y="31" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="4" y="7" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="4" y="11" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="4" y="25" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="5" y="37" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="7" y="46" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="11" y="27" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="12" y="2" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="14" y="16" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="14" y="20" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="19" y="14" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="19" y="28" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="23" y="34" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="23" y="45" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="29" y="27" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="31" y="3" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="34" y="34" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="35" y="29" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="36" y="38" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="37" y="33" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="38" y="11" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="41" y="20" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="42" y="35" imgId="6"/>
+<mapobject type="Resource" rtype="Wood" x="46" y="32" imgId="6"/>
+<mapobject type="Castle" centerX="3" centerY="20" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="3" centerY="44" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="4" centerY="5" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="11" centerY="35" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="12" centerY="22" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="14" centerY="9" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="19" centerY="2" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="20" centerY="10" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="22" centerY="43" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="25" centerY="27" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="31" centerY="36" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="32" centerY="6" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="32" centerY="17" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="37" centerY="42" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="38" centerY="27" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="42" centerY="7" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="44" centerY="13" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="44" centerY="36" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Castle" centerX="46" centerY="45" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="1"/>
+<mapobject type="Mine" rtype="Gold" centerX="6" centerY="40" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="8" centerY="19" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="8" centerY="24" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="9" centerY="31" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="15" centerY="41" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="17" centerY="4" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="18" centerY="45" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="21" centerY="31" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="23" centerY="14" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="23" centerY="24" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="26" centerY="34" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="29" centerY="40" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="30" centerY="16" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="32" centerY="21" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="37" centerY="17" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="40" centerY="25" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Gold" centerX="42" centerY="17" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="2"/>
+<mapobject type="Mine" rtype="Wood" centerX="3" centerY="28" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="10" centerY="5" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="10" centerY="38" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="12" centerY="18" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="13" centerY="11" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="14" centerY="27" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="19" centerY="38" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="21" centerY="23" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="30" centerY="10" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="30" centerY="43" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="34" centerY="26" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="39" centerY="2" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="39" centerY="36" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+<mapobject type="Mine" rtype="Wood" centerX="44" centerY="24" distanceLX="0" distanceUY="0" distanceRX="0" distanceDY="0" imgId="7"/>
+</map>

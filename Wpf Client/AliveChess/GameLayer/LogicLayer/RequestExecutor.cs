@@ -61,6 +61,7 @@ namespace AliveChess.GameLayer.LogicLayer
 
         }
 
+#warning Executors
         private void CreateAuthorizeExecutors()
         {
             _executors.Add(ExecutorType.AuthorizeResponse, new AuthorizeExecutor());

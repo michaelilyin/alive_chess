@@ -44,13 +44,21 @@
                         Panel.ZIndex="100"
                     Grid.RowSpan="3" MouseLeftButtonDown="canvasGame_MouseLeftButtonDown">
 
-                    <Canvas x:Name="canvasMap"
+                    <Canvas x:Name="canvasMapObjects"
                     Height="5000" 
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Top" 
                     Width="5000" 
-                    Grid.ColumnSpan="3" Background="AliceBlue" 
-                    Grid.RowSpan="3" MouseLeftButtonDown="canvas1_MouseLeftButtonDown">
+                    Grid.ColumnSpan="3" Background="Transparent" 
+                    Grid.RowSpan="3">
+                        <Canvas x:Name="canvasMap"
+                        Height="5000" 
+                        HorizontalAlignment="Left"  
+                        VerticalAlignment="Top" 
+                        Width="5000" 
+                        Grid.ColumnSpan="3" Background="AliceBlue" 
+                        Grid.RowSpan="3" MouseLeftButtonDown="canvas1_MouseLeftButtonDown">
+                        </Canvas>
                     </Canvas>
                 </Canvas>
                     

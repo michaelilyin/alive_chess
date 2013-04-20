@@ -41,13 +41,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AliveChessLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2835f21f5f1fa17, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\AliveChessLibrary.dll</HintPath>
+    <Reference Include="AliveChessLibrary">
+      <HintPath>\\I7-930\мои документы\Study\Z\3 курс\Курсовая\Alive Chess\Wpf Client\AliveChess\Lib\AliveChessLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net, Version=1.0.0.262, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\protobuf-net.dll</HintPath>
+    <Reference Include="protobuf-net">
+      <HintPath>\\I7-930\мои документы\Study\Z\3 курс\Курсовая\Alive Chess\Wpf Client\AliveChess\Lib\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -180,37 +178,31 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\0.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\1.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\2.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\3.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\4.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\5.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\gold.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\grass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\stone.png" />
+    <Resource Include="Resources\tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\castle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\wood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rock.png" />
   </ItemGroup>
   <PropertyGroup>
     <StartArguments />
