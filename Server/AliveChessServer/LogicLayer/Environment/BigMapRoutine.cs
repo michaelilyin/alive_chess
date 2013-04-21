@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using AliveChessLibrary.Commands.BigMapCommand;
+using AliveChessLibrary.Commands.ErrorCommand;
 using AliveChessLibrary.GameObjects.Abstract;
+using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.GameObjects.Resources;
@@ -75,14 +77,40 @@ namespace AliveChessServer.LogicLayer.Environment
         public void CollectResource(King player, MapPoint point)
         {
             Resource resource = player.Map.SearchResourceById(point.Owner.Id);
-#if DEBUG
-            DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y);
-#endif
+
             if (resource != null)
             {
+#if DEBUG
+                DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y + " q = " + resource.CountResource);
+#endif
+                player.Resources.Add(resource);
+                player.StartCastle.ResourceStore.AddResourceToRepository(resource);
                 resource.Disappear();
                 player.Map.RemoveResource(resource);
                 player.Player.Messenger.SendNetworkMessage(new GetResourceMessage(resource, false));
+            }
+        }
+
+        public void CaptureMine(King player, MapSector point)
+        {
+            Resource resource = player.Map.SearchResourceById(point.Owner.Id);
+
+            Mine mine = player.Map.SearchMineById(point.Owner.Id);
+            if (mine != null)
+            {
+                if ((mine.Player == null) || (mine.Player.Id != player.Player.Id && !mine.King.Sleep))
+                {
+                    if (mine.Player != null && mine.Player.Id != player.Player.Id)
+                    {
+                        mine.Player.Messenger.SendNetworkMessage(new LooseMineMessage(mine.Id));
+                        mine.King.RemoveMine(mine);
+                    }
+
+                    player.AddMine(mine);
+                    player.Player.Messenger.SendNetworkMessage(new CaptureMineResponse(mine));
+
+                    mine.Activation();
+                }
             }
         }
 
@@ -119,7 +147,7 @@ namespace AliveChessServer.LogicLayer.Environment
                 {
                     if (@object.PointType == type)
                     {
-                        T owner = (T) @object.Owner;
+                        T owner = (T)@object.Owner;
                         if (!objects.Contains(owner))
                         {
                             objects.Add(owner);

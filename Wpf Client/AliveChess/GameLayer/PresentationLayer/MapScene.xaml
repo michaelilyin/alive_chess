@@ -4,8 +4,28 @@
       xmlns:PresentationLayer="clr-namespace:AliveChess.GameLayer.PresentationLayer" 
       Width="Auto" Height="Auto" Title="Карта" x:Name="SceneMap" Loaded="SceneMap_Loaded">
     <Grid>
-        <ScrollViewer x:Name="scrollViewer1" VerticalScrollBarVisibility ="Auto" HorizontalScrollBarVisibility="Auto">
-            <StackPanel x:Name="stackPanel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            
+            <RowDefinition Height="5000*"/>
+        </Grid.RowDefinitions>
+        
+        <ToolBar Grid.Row="0">
+            <Label Name="LabelGold" Content="Золото:"/>
+            <Label Name="LabelGoldQuantity" Content="0"/>
+            <Label Name="LabelWood" Content="Дерево:"/>
+            <Label Name="LabelWoodQuantity" Content="0"/>
+            <Label Name="LabelStone" Content="Камень:"/>
+            <Label Name="LabelStoneQuantity" Content="0"/>
+            <Label Name="LabelIron" Content="Железо:"/>
+            <Label Name="LabelIronQuantity" Content="0"/>
+            <Label Name="LabelCoal" Content="Уголь:"/>
+            <Label Name="LabelCoalQuantity" Content="0"/>
+        </ToolBar>
+
+
+        <ScrollViewer Grid.Row="1" x:Name="scrollViewer1" VerticalScrollBarVisibility ="Auto" HorizontalScrollBarVisibility="Auto" Grid.RowSpan="2">
+            <StackPanel>
                 <!--Border 
             BorderBrush="#FF496D09" 
             BorderThickness="3" 
@@ -57,7 +77,7 @@
                         VerticalAlignment="Top" 
                         Width="5000" 
                         Grid.ColumnSpan="3" Background="AliceBlue" 
-                        Grid.RowSpan="3" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" Canvas.Left="10" Canvas.Top="10"/>
+                        Grid.RowSpan="3" MouseLeftButtonDown="canvas1_MouseLeftButtonDown"/>
                     </Canvas>
                 </Canvas>
 

@@ -152,6 +152,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
                 castle.IsAttached = true;
 
                 King king = new King(identity.Login);
+
                 Player player = new Player(level, identity.Login, identity.Password);
 
                 PlayerInfo storage = new PlayerInfo(king, player, castle, connectionInfo);
@@ -187,6 +188,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
                     king.ChangeMapStateEvent  += level.BigMapRoutine.UpdatePointState;
                     king.UpdateSectorEvent    += level.BigMapRoutine.UpdateSectorState;
                     king.CollectResourceEvent += level.BigMapRoutine.CollectResource;
+                    king.CaptureMineEvent += level.BigMapRoutine.CaptureMine;
                 }
                 else
                 {

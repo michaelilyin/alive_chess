@@ -41,16 +41,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
     <Reference Include="AliveChessLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2835f21f5f1fa17, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\AliveChessLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="protobuf-net">
       <HintPath>\\I7-930\мои документы\Study\Z\3 курс\Курсовая\Alive Chess\Wpf Client\AliveChess\Lib\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,6 +65,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -100,6 +108,7 @@
     <Compile Include="GameLayer\LogicLayer\CustomConverter.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\AuthorizeExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CaptureMineExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ComeInCastleExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GameStateExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetKingExecutor.cs" />

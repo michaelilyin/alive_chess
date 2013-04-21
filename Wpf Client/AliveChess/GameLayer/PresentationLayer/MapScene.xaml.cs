@@ -35,11 +35,11 @@ namespace AliveChess.GameLayer.PresentationLayer
         private Rectangle[,] rectArrLandscapeObjects = new Rectangle[50, 50];
         private Rectangle[,] rectArrGameObjects = new Rectangle[50, 50];
 
-        private Point _kingPosition;
+        private Point _kingPosition = new Point(-1, -1);
         private Point _castlePosition;
 
-        private const int width = 100;
-        private const int height = 100;
+        private const int width = 50;
+        private const int height = 50;
         private bool _rectIsInit = false;
 
         private bool _kingIsFocused = false;
@@ -63,19 +63,22 @@ namespace AliveChess.GameLayer.PresentationLayer
             //if (!rectIsInit)
             //{
             InitializeComponent();
+            InitBrushes();
+            InitRectangles();
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
             ResponceComplete.responceComplete += new ResponceCompleteDelegate(ResponceComplete_responceComplete);
             timerMove.Tick += new EventHandler(timerMove_Tick);
             timerMove.Interval = new TimeSpan(0, 0, 0, 0, 200);
 
-            InitBrushes();
-            InitRectangles();
             //}
             //MyEvent += new MyDelegate(MapScene_MyEvent);
         }
 
         void timerMove_Tick(object sender, EventArgs e)
         {
+            //HACK: Вынести в отдельный таймер потом
+            GetGameState();
+
             timerMove.Stop();
 
             if (_nextStep != null)
@@ -120,7 +123,9 @@ namespace AliveChess.GameLayer.PresentationLayer
             BitmapImage bmSnow = new BitmapImage(new Uri(@"Resources\snow.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmGround = new BitmapImage(new Uri(@"Resources\ground.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmNone = new BitmapImage(new Uri(@"Resources\none.png", UriKind.RelativeOrAbsolute));
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Grass] = new ImageBrush(bmGrass);
+            ImageBrush grass = new ImageBrush(bmGrass);
+            grass.Stretch = Stretch.UniformToFill;
+            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Grass] = grass;
             _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Snow] = new ImageBrush(bmSnow);
             _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Ground] = new ImageBrush(bmGround);
             _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.None] = new ImageBrush(bmNone);
@@ -234,9 +239,16 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void ShowGetMapResult()
         {
-            //InitRectangles();
+            Refresh();
+            //Получение короля и замка:
+            GetGameState();
+            //GetKing();
+            KingToFocus();
 
+        }
 
+        public void Refresh()
+        {
             foreach (var obj in _world.Map.BasePoints)
             {
                 rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[(int)obj.LandscapeType];
@@ -255,10 +267,6 @@ namespace AliveChess.GameLayer.PresentationLayer
                 rectArrGameObjects[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
             }
             AddRectanglesToCanvas();
-            //Получение короля и замка:
-            GetGameState();
-            //GetKing();
-
         }
 
         public void ShowGetMapResult(GetMapResponse responce)
@@ -276,8 +284,6 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private void GetGameState()
         {
-            //HACK: Отображение отправки GetGameStateRequest
-            System.Windows.MessageBox.Show("new GetGameStateRequest");
             GetGameStateRequest request = new GetGameStateRequest();
             GameCore.Instance.Network.Send(request);
         }
@@ -313,7 +319,7 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void ShowGetStateResult(GetGameStateResponse response)
         {
-
+            //MessageBox.Show("!");
             //TODO: разобраться, зачем нужны следующие 2 строки
             rectArrGameObjects[response.Castle.X, response.Castle.Y].Fill = _brushCastle;
             _castlePosition = new Point(response.Castle.X, response.Castle.Y);
@@ -323,17 +329,36 @@ namespace AliveChess.GameLayer.PresentationLayer
                 rectArrGameObjects[castle.X, castle.Y].Fill = _brushCastle;
                 _castlePosition = new Point(castle.X, castle.Y);
             }
-
-            //MessageBox.Show(response.Resources[0].ResourceType.ToString() + ": " + response.Resources[0].CountResource +
-            //                " " + response.Resources[1].ResourceType.ToString() + ": " +
-            //                response.Resources[1].CountResource + " " + response.Resources[2].ResourceType.ToString() +
-            //                ": " + response.Resources[2].CountResource + " " +
-            //                response.Resources[3].ResourceType.ToString() + ": " + response.Resources[3].CountResource +
-            //                " " + response.Resources[4].ResourceType.ToString() + ": " +
-            //                response.Resources[4].CountResource);
-
+            foreach (var res in response.Resources)
+            {
+                switch (res.ResourceType)
+                {
+                    case ResourceTypes.Gold:
+                        LabelGoldQuantity.Content = res.CountResource.ToString();
+                        break;
+                    case ResourceTypes.Stone:
+                        LabelStoneQuantity.Content = res.CountResource.ToString();
+                        break;
+                    case ResourceTypes.Wood:
+                        LabelWoodQuantity.Content = res.CountResource.ToString();
+                        break;
+                    case ResourceTypes.Iron:
+                        LabelIronQuantity.Content = res.CountResource.ToString();
+                        break;
+                    case ResourceTypes.Coal:
+                        LabelCoalQuantity.Content = res.CountResource.ToString();
+                        break;
+                }
+            }
+            if (_kingPosition.X >= 0)
+                rectArrGameObjects[(int) _kingPosition.X, (int) _kingPosition.Y].Fill = _brushKing;
+            else
+            {
             rectArrGameObjects[response.King.X, response.King.Y].Fill = _brushKing;
             _kingPosition = new Point(response.King.X, response.King.Y);
+                
+            }
+            /*Refresh();*/
 
         }
 
@@ -451,7 +476,6 @@ namespace AliveChess.GameLayer.PresentationLayer
             //if (_kingIsFocused)
             KingToFocus();
             canvasGame.InvalidateVisual();
-            stackPanel.InvalidateVisual();
             rectArrGameObjects[pos.X, pos.Y].InvalidateVisual();
             //System.Threading.Thread.SpinWait(100);
             //System.Threading.Thread.Sleep(100);

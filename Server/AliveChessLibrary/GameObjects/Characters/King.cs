@@ -610,6 +610,9 @@ namespace AliveChessLibrary.GameObjects.Characters
         {
             if (CaptureMineEvent != null)
             {
+#if DEBUG
+                DebugConsole.WriteLine(this, "Capture mine: x = " + mine.X + " y = " + mine.Y);
+#endif
                 if (!this.HasMine(mine))
                     CaptureMineEvent(this, mine.MapSector);
             }
@@ -1178,7 +1181,9 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         #region Events
 
+#warning Этот обработчик не инициализирован
         public event ContactWithKingHandler ContactWithKingEvent;
+
         public event ContactWithCastleHandler ContactWithCastleEvent;
 
         public event ComeInCastleHandler ComeInCastleEvent;

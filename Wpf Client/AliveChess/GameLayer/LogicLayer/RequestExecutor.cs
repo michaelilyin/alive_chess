@@ -77,6 +77,7 @@ namespace AliveChess.GameLayer.LogicLayer
             _executors.Add(ExecutorType.GetResourceMessage, new GetResourceMessageExecutor());
             _executors.Add(ExecutorType.ComeInCastleResponse, new ComeInCastleExecutor());
             _executors.Add(ExecutorType.BigMapResponse, new BigMapExecutor());
+            _executors.Add(ExecutorType.CaptureMineResponce, new CaptureMineExecutor());
         }
 
         private void CreateCastleExecutors()

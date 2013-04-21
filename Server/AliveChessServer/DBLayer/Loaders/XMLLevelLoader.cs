@@ -160,6 +160,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                WayCost = 1,
                                ResourceType = objType
                            };
+            resource.CountResource = Convert.ToInt32(reader.GetAttribute("quantity"));
 
 #if DEBUG
             DebugConsole.WriteLine("XMLLevelLoader", "Resource: " + objType.ToString() + " x = " + resource.X + " y = " + resource.Y);
@@ -273,7 +274,10 @@ namespace AliveChessServer.DBLayer.Loaders
 #if DEBUG
             DebugConsole.WriteLine("XMLLevelLoader", "Mine: " + objType.ToString() + " x = " + mine.X + " y = " + mine.Y);
 #endif
-            mine.Initialize(ID, map, objType, 100, 100);
+            //TODO: Читать из XML экономики
+            int size = 100;
+            int intensivity = 1;
+            mine.Initialize(ID, map, objType, size, intensivity);
             map.AddMine(mine);
         }
 

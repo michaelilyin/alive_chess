@@ -2857,55 +2857,55 @@
 		<mapObject type="Single" stype="Obstacle" x="34" y="16" />
 		<mapObject type="Single" stype="Obstacle" x="41" y="24" />
 		<mapObject type="Single" stype="Obstacle" x="43" y="30" />
-		<mapObject type="Resource" rtype="Iron" x="3"  y="39" />
-		<mapObject type="Resource" rtype="Iron" x="0"  y="1" />
-		<mapObject type="Resource" rtype="Gold" x="6"  y="34" />
-		<mapObject type="Resource" rtype="Gold" x="12" y="29" />
-		<mapObject type="Resource" rtype="Gold" x="15" y="39" />
-		<mapObject type="Resource" rtype="Gold" x="16" y="9" />
-		<mapObject type="Resource" rtype="Gold" x="16" y="13" />
-		<mapObject type="Resource" rtype="Gold" x="18" y="30" />
-		<mapObject type="Resource" rtype="Gold" x="22" y="9" />
-		<mapObject type="Resource" rtype="Gold" x="23" y="16" />
-		<mapObject type="Resource" rtype="Gold" x="25" y="29" />
-		<mapObject type="Resource" rtype="Stone" x="27" y="19" />
-		<mapObject type="Resource" rtype="Gold" x="27" y="46" />
-		<mapObject type="Resource" rtype="Gold" x="28" y="22" />
-		<mapObject type="Resource" rtype="Gold" x="29" y="4" />
-		<mapObject type="Resource" rtype="Gold" x="32" y="32" />
-		<mapObject type="Resource" rtype="Gold" x="33" y="41" />
-		<mapObject type="Resource" rtype="Gold" x="35" y="20" />
-		<mapObject type="Resource" rtype="Gold" x="36" y="24" />
-		<mapObject type="Resource" rtype="Iron" x="41" y="5" />
-		<mapObject type="Resource" rtype="Gold" x="41" y="33" />
-		<mapObject type="Resource" rtype="Gold" x="41" y="43" />
-		<mapObject type="Resource" rtype="Gold" x="42" y="28" />
-		<mapObject type="Resource" rtype="Gold" x="45" y="10" />
-		<mapObject type="Resource" rtype="Gold" x="47" y="39" />
-		<mapObject type="Resource" rtype="Wood" x="3" y="31" />
-		<mapObject type="Resource" rtype="Wood" x="4" y="7" />
-		<mapObject type="Resource" rtype="Wood" x="4" y="11" />
-		<mapObject type="Resource" rtype="Wood" x="4" y="25" />
-		<mapObject type="Resource" rtype="Stone" x="5" y="37" />
-		<mapObject type="Resource" rtype="Coal" x="7" y="46" />
-		<mapObject type="Resource" rtype="Wood" x="11" y="27" />
-		<mapObject type="Resource" rtype="Wood" x="12" y="2" />
-		<mapObject type="Resource" rtype="Wood" x="14" y="16" />
-		<mapObject type="Resource" rtype="Wood" x="14" y="20" />
-		<mapObject type="Resource" rtype="Wood" x="19" y="14" />
-		<mapObject type="Resource" rtype="Coal" x="19" y="28" />
-		<mapObject type="Resource" rtype="Wood" x="23" y="34" />
-		<mapObject type="Resource" rtype="Wood" x="23" y="45" />
-		<mapObject type="Resource" rtype="Wood" x="29" y="27" />
-		<mapObject type="Resource" rtype="Wood" x="31" y="3" />
-		<mapObject type="Resource" rtype="Wood" x="34" y="34" />
-		<mapObject type="Resource" rtype="Coal" x="35" y="29" />
-		<mapObject type="Resource" rtype="Iron" x="36" y="38" />
-		<mapObject type="Resource" rtype="Stone" x="37" y="33" />
-		<mapObject type="Resource" rtype="Wood" x="38" y="11" />
-		<mapObject type="Resource" rtype="Wood" x="41" y="20" />
-		<mapObject type="Resource" rtype="Wood" x="42" y="35" />
-		<mapObject type="Resource" rtype="Wood" x="46" y="32" />
+		<mapObject type="Resource" rtype="Iron" quantity="10" x="3"  y="39" />
+		<mapObject type="Resource" rtype="Iron" quantity="10"  x="0"  y="1" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="6"  y="34" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="12" y="29" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="15" y="39" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="16" y="9" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="16" y="13" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="18" y="30" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="22" y="9" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="23" y="16" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="25" y="29" />
+		<mapObject type="Resource" rtype="Stone" quantity="10"  x="27" y="19" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="27" y="46" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="28" y="22" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="29" y="4" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="32" y="32" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="33" y="41" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="35" y="20" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="36" y="24" />
+		<mapObject type="Resource" rtype="Iron" quantity="10"  x="41" y="5" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="41" y="33" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="41" y="43" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="42" y="28" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="45" y="10" />
+		<mapObject type="Resource" rtype="Gold" quantity="10"  x="47" y="39" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="3" y="31" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="4" y="7" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="4" y="11" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="4" y="25" />
+		<mapObject type="Resource" rtype="Stone" quantity="10"  x="5" y="37" />
+		<mapObject type="Resource" rtype="Coal" quantity="10"  x="7" y="46" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="11" y="27" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="12" y="2" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="14" y="16" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="14" y="20" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="19" y="14" />
+		<mapObject type="Resource" rtype="Coal" quantity="10"  x="19" y="28" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="23" y="34" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="23" y="45" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="29" y="27" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="31" y="3" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="34" y="34" />
+		<mapObject type="Resource" rtype="Coal" quantity="10"  x="35" y="29" />
+		<mapObject type="Resource" rtype="Iron" quantity="10"  x="36" y="38" />
+		<mapObject type="Resource" rtype="Stone" quantity="10"  x="37" y="33" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="38" y="11" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="41" y="20" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="42" y="35" />
+		<mapObject type="Resource" rtype="Wood" quantity="10"  x="46" y="32" />
 		<mapObject type="Castle" leftX="3"  topY="20" />
 		<mapObject type="Castle" leftX="3"  topY="44" />
 		<mapObject type="Castle" leftX="4"  topY="5" />
