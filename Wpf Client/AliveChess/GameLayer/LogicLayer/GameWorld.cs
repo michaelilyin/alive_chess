@@ -18,7 +18,6 @@ namespace AliveChess.GameLayer.LogicLayer
         {
 #warning Создание карты
             _map = new Map(response.SizeMapX, response.SizeMapY);
-
             _map.BasePoints = CustomConverter.L2ES<BasePoint>(response.BasePoints);
             _map.Borders = CustomConverter.L2ES<Border>(response.Borders);
             _map.Castles = CustomConverter.L2ES<Castle>(response.Castles);

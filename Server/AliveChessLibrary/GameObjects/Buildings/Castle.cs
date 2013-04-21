@@ -193,7 +193,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         {
             return InnerBuildings.Count;
         }
-
+#warning Создание юнита
        // Создание юнита и отправка в армию
         public void CreateUnitAndAddInArmy(int count, UnitType type)
         {

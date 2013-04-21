@@ -41,8 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AliveChessLibrary">
-      <HintPath>\\I7-930\мои документы\Study\Z\3 курс\Курсовая\Alive Chess\Wpf Client\AliveChess\Lib\AliveChessLibrary.dll</HintPath>
+    <Reference Include="AliveChessLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a2835f21f5f1fa17, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\AliveChessLibrary.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>\\I7-930\мои документы\Study\Z\3 курс\Курсовая\Alive Chess\Wpf Client\AliveChess\Lib\protobuf-net.dll</HintPath>
@@ -173,36 +174,25 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\main_menu.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\5.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\6.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\gold.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Resources\castle.png" />
+    <Resource Include="Resources\coal.png" />
+    <Resource Include="Resources\coalmine.png" />
+    <Resource Include="Resources\gold.png" />
+    <Resource Include="Resources\goldmine.png" />
     <Resource Include="Resources\grass.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Resources\ground.png" />
+    <Resource Include="Resources\iron.png" />
+    <Resource Include="Resources\ironmine.png" />
+    <Resource Include="Resources\king.png" />
+    <Resource Include="Resources\main_menu.png" />
+    <Resource Include="Resources\none.png" />
+    <Resource Include="Resources\quarry.png" />
+    <Resource Include="Resources\rock.png" />
+    <Resource Include="Resources\sawmill.png" />
+    <Resource Include="Resources\snow.png" />
     <Resource Include="Resources\stone.png" />
     <Resource Include="Resources\tree.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\castle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\wood.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\rock.png" />
   </ItemGroup>
   <PropertyGroup>
     <StartArguments />

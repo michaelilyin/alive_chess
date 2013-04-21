@@ -33,8 +33,8 @@
                     <RowDefinition Height="65*" />
                     <RowDefinition Height="25*" />
                 </Grid.RowDefinitions-->
-                
-                        
+
+
                 <Canvas x:Name="canvasGame"
                     Height="5000" 
                     HorizontalAlignment="Left"  
@@ -57,14 +57,13 @@
                         VerticalAlignment="Top" 
                         Width="5000" 
                         Grid.ColumnSpan="3" Background="AliceBlue" 
-                        Grid.RowSpan="3" MouseLeftButtonDown="canvas1_MouseLeftButtonDown">
-                        </Canvas>
+                        Grid.RowSpan="3" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" Canvas.Left="10" Canvas.Top="10"/>
                     </Canvas>
                 </Canvas>
-                    
-            <!--/Grid>
+
+                <!--/Grid>
         </Border-->
-        <!--Grid 
+                <!--Grid 
             Height="170" 
             Name="grid2" 
             Width="1280" 

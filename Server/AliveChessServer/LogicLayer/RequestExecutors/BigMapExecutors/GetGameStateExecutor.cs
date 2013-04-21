@@ -25,6 +25,12 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
             //    msg.Sender.King.X + ":" + msg.Sender.King.Y,
             //    msg.Sender.King.StartCastle.X + ":" + msg.Sender.King.StartCastle.Y);
 
+
+            //HACK: удалить
+            foreach (var resource in msg.Sender.King.StartCastle.ResourceStore.Resources)
+            {
+                DebugConsole.WriteLine(this, resource.ResourceType.ToString());
+            }
             GetGameStateResponse response =
                 new GetGameStateResponse(
                     msg.Sender.King, msg.Sender.King.StartCastle,

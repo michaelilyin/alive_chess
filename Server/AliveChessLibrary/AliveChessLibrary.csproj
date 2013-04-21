@@ -151,6 +151,7 @@
     <Compile Include="Commands\StatisticCommand\GetAvailableMapsResponse.cs" />
     <Compile Include="Commands\StatisticCommand\GetStatisticRequest.cs" />
     <Compile Include="Commands\StatisticCommand\GetStatisticResponse.cs" />
+    <Compile Include="DebugConsole.cs" />
     <Compile Include="GameObjects\Abstract\CompositeVisibleSpace.cs" />
     <Compile Include="GameObjects\Abstract\FPosition.cs" />
     <Compile Include="GameObjects\Abstract\IPosition.cs" />

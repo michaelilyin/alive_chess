@@ -61,12 +61,13 @@ namespace AliveChessServer.DBLayer.Loaders
                             {
                                 int x = Convert.ToInt32(reader.GetAttribute("x"));
                                 int y = Convert.ToInt32(reader.GetAttribute("y"));
-
                                 basePoint = new BasePoint();
                                 basePoint.Id = basePointGuidGen.Id;
                                 basePoint.X = x;
                                 basePoint.Y = y;
+                                //TODO: Прочитать тип местности из файла
                                 basePoint.LandscapeType = LandscapeTypes.Grass;
+                                map.AddBasePoint(basePoint);
                             } break;
                         case "player":
                             {
@@ -76,13 +77,13 @@ namespace AliveChessServer.DBLayer.Loaders
                             } break;
                         case "players":
                             {
-                                //
+#warning Тут пусто
                             } break;
                     }
                 }
             }
 
-            CreateLandscape(map, basePoint);
+            //CreateLandscape(map, basePoint);
 
             return level;
         }
@@ -124,7 +125,6 @@ namespace AliveChessServer.DBLayer.Loaders
         private static void CreateResource(Map map, XmlReader reader)
         {
             string type = reader.GetAttribute("rtype");
-
             ResourceTypes objType = ResourceTypes.Gold;
 
             switch (type)
@@ -136,6 +136,13 @@ namespace AliveChessServer.DBLayer.Loaders
                     objType = ResourceTypes.Wood;
                     break;
                 case "Iron":
+                    objType = ResourceTypes.Iron;
+                    break;
+                case "Coal":
+                    objType = ResourceTypes.Coal;
+                    break;
+                case "Stone":
+                    objType = ResourceTypes.Stone;
                     break;
             }
 
@@ -154,6 +161,9 @@ namespace AliveChessServer.DBLayer.Loaders
                                ResourceType = objType
                            };
 
+#if DEBUG
+            DebugConsole.WriteLine("XMLLevelLoader", "Resource: " + objType.ToString() + " x = " + resource.X + " y = " + resource.Y);
+#endif
             map.AddResource(resource);
         }
 
@@ -188,6 +198,22 @@ namespace AliveChessServer.DBLayer.Loaders
             rr.ResourceType = ResourceTypes.Gold;
             rr.CountResource = 500;
             resources.AddResourceToRepository(rr);
+            rr = new Resource();
+            rr.ResourceType = ResourceTypes.Wood;
+            rr.CountResource = 20;
+            resources.AddResourceToRepository(rr);
+            rr = new Resource();
+            rr.ResourceType = ResourceTypes.Stone;
+            rr.CountResource = 25;
+            resources.AddResourceToRepository(rr);
+            rr = new Resource();
+            rr.ResourceType = ResourceTypes.Coal;
+            rr.CountResource = 15;
+            resources.AddResourceToRepository(rr);
+            rr = new Resource();
+            rr.ResourceType = ResourceTypes.Iron;
+            rr.CountResource = 5;
+            resources.AddResourceToRepository(rr);
 
             castle.CreatStartArmy();
 
@@ -217,6 +243,13 @@ namespace AliveChessServer.DBLayer.Loaders
                     objType = ResourceTypes.Wood;
                     break;
                 case "Iron":
+                    objType = ResourceTypes.Iron;
+                    break;
+                case "Stone":
+                    objType = ResourceTypes.Stone;
+                    break;
+                case "Coal":
+                    objType = ResourceTypes.Coal;
                     break;
             }
             int lX = Convert.ToInt32(reader.GetAttribute("leftX"));
@@ -236,7 +269,10 @@ namespace AliveChessServer.DBLayer.Loaders
                            MineType = objType,
                            SizeMine = 100,
                        };
-    
+
+#if DEBUG
+            DebugConsole.WriteLine("XMLLevelLoader", "Mine: " + objType.ToString() + " x = " + mine.X + " y = " + mine.Y);
+#endif
             mine.Initialize(ID, map, objType, 100, 100);
             map.AddMine(mine);
         }

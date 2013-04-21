@@ -103,7 +103,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.X = position.X;
             point.Y = position.Y;
             point.ImageId = image.ImageId;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = null;
@@ -119,7 +119,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.X = position.X;
             point.Y = position.Y;
             point.ImageId = image.ImageId;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = null;
@@ -134,7 +134,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.X = x;
             point.Y = y;
             point.ImageId = image.ImageId;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = null;
@@ -150,7 +150,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.X = x;
             point.Y = y;
             point.ImageId = image.ImageId;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = null;
@@ -165,7 +165,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.X = x;
             point.Y = y;
             point.ImageId = imageId;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = null;
@@ -181,7 +181,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.X = x;
             point.Y = y;
             point.ImageId = imageId;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = null;
@@ -195,7 +195,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             MapPoint point = new MapPoint();
             point.X = position.X;
             point.Y = position.Y;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = sector;
@@ -211,7 +211,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.Id = id;
             point.X = position.X;
             point.Y = position.Y;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = sector;
@@ -226,7 +226,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             MapPoint point = new MapPoint();
             point.X = x;
             point.Y = y;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = sector;
@@ -242,7 +242,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             point.Id = id;
             point.X = x;
             point.Y = y;
-            point.MapPointType = type;
+            point.PointType = type;
             point.ObjectUnderThis = under;
             point.WayCost = wayCost;
             point.MapSector = sector;
@@ -260,7 +260,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             sector.Width = image.Width.Value;
             sector.Height = image.Height.Value;
             sector.ImageId = image.ImageId.Value;
-            sector.MapPointType = type;
+            sector.PointType = type;
             sector.WayCost = wayCost;
             return sector;
         }
@@ -275,7 +275,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             sector.Width = image.Width.Value;
             sector.Height = image.Height.Value;
             sector.ImageId = image.ImageId.Value;
-            sector.MapPointType = type;
+            sector.PointType = type;
             sector.WayCost = wayCost;
             return sector;
         }
@@ -286,7 +286,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             {
                 for (int j = sector.Y; j < sector.Y + sector.Height; j++)
                 {
-                    MapPoint point = CreatePoint(sector.Id, i, j, sector, sector.MapPointType,
+                    MapPoint point = CreatePoint(sector.Id, i, j, sector, sector.PointType,
                                                 null, sector.WayCost);
                     sector.AddPoint(point);
                     this.SetObject(point);

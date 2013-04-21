@@ -77,35 +77,6 @@ namespace AliveChess.NetworkLayer
             }
         }
 
-        private void R(object conn)
-        {
-            ConnectionInfo connection = (ConnectionInfo) conn;
-            Socket handler = connection.Socket;
-            int byteData = 0;
-
-            while (true)
-            {
-                byteData = handler.Receive(connection.Buffer);
-
-                if (byteData > 0)
-                {
-                    byte[] data = new byte[byteData];
-                    Array.Copy(connection.Buffer, data, byteData);
-
-                    connection.Data.Write(data);
-
-                    if (connection.Data.IsReady)
-                    {
-                        BytePackage package = connection.Data.Read();
-                        if (package != null)
-                        {
-                            Decode(package);
-                        }
-                    }
-                }
-            }
-        }
-
         private void Decode(BytePackage package)
         {
             ICommand command = ProtoBufferCodec.Decode(package);

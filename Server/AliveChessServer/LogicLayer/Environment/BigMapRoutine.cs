@@ -75,6 +75,9 @@ namespace AliveChessServer.LogicLayer.Environment
         public void CollectResource(King player, MapPoint point)
         {
             Resource resource = player.Map.SearchResourceById(point.Owner.Id);
+#if DEBUG
+            DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y);
+#endif
             if (resource != null)
             {
                 resource.Disappear();

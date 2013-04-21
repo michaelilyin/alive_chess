@@ -418,7 +418,9 @@
     <Content Include="alive_chess.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="DBLayer\XML\Map.xml" />
+    <Content Include="DBLayer\XML\Map.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LogicLayer\BattleEngine\" />

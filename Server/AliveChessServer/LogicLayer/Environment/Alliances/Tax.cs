@@ -4,6 +4,27 @@
     {
         private int _gold;
         private int _wood;
+        private int _iron;
+        private int _stone;
+        private int _coal;
+
+        public int Iron
+        {
+            get { return _iron; }
+            set { _iron = value; }
+        }
+
+        public int Stone
+        {
+            get { return _stone; }
+            set { _stone = value; }
+        }
+
+        public int Coal
+        {
+            get { return _coal; }
+            set { _coal = value; }
+        }
 
         public int Wood
         {

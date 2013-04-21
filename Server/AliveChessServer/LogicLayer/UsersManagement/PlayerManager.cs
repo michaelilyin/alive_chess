@@ -283,6 +283,30 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             wood.ResourceType = ResourceTypes.Wood;
             vault.AddResourceToRepository(wood);
 
+            guid = GuidGenerator.Instance.GeneratePair();
+            Resource stone = new Resource();
+            //gold.Id = guid.Guid;
+            //gold.Id = guid.Id;
+            stone.CountResource = 10;
+            stone.ResourceType = ResourceTypes.Stone;
+            vault.AddResourceToRepository(stone);
+
+            guid = GuidGenerator.Instance.GeneratePair();
+            Resource iron = new Resource();
+            //wood.Id = guid.Guid;
+            //wood.Id = guid.Id;
+            iron.CountResource = 5;
+            iron.ResourceType = ResourceTypes.Iron;
+            vault.AddResourceToRepository(iron);
+
+            guid = GuidGenerator.Instance.GeneratePair();
+            Resource coal = new Resource();
+            //wood.Id = guid.Guid;
+            //wood.Id = guid.Id;
+            coal.CountResource = 15;
+            coal.ResourceType = ResourceTypes.Coal;
+            vault.AddResourceToRepository(coal);
+
             castle.ResourceStore = vault;
         }
 

@@ -812,7 +812,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         /// <returns></returns>
         public bool Locate(int x, int y)
         {
-            return x > -1 && x < this._mapSizeX - 1 && y > -1 && y < this._mapSizeY - 1;
+            return x > -1 && x < this._mapSizeX && y > -1 && y < this._mapSizeY;
         }
 
         /// <summary>

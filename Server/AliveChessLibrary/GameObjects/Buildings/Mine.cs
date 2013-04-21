@@ -134,6 +134,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             this._mapId = map.Id;
             this._dateLastWorkMine = DateTime.Now;
             this._active = false; // активировать шахту
+            this.MineType = typeRes;
             this._gainingResource = new Resource();
             this._gainingResource.ResourceType = typeRes;
             this._intensityMiningMine = intensivityMining;
@@ -608,12 +609,14 @@ namespace AliveChessLibrary.GameObjects.Buildings
         {
             get
             {
-                return this._mineType;
+                return _gainingResource.ResourceType;
             }
             set
             {
-                if (this._mineType != value)
+                if (_gainingResource == null || _gainingResource.ResourceType != value)
                 {
+                    this._gainingResource = new Resource();
+                    this._gainingResource.ResourceType = value;
                     this._mineType = value;
                 }
             }
