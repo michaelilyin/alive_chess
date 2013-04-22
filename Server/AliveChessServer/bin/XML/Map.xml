@@ -2931,30 +2931,30 @@
 		<mapObject type="Mine" rtype="Gold" leftX="8" topY="24" />
 		<mapObject type="Mine" rtype="Gold" leftX="9" topY="31" />
 		<mapObject type="Mine" rtype="Gold" leftX="15" topY="41" />
-		<mapObject type="Mine" rtype="Gold" leftX="17" topY="4" />
-		<mapObject type="Mine" rtype="Gold" leftX="18" topY="45" />
-		<mapObject type="Mine" rtype="Gold" leftX="21" topY="31" />
+		<mapObject type="Mine" rtype="Coal" leftX="17" topY="4" />
+		<mapObject type="Mine" rtype="Iron" leftX="18" topY="45" />
+		<mapObject type="Mine" rtype="Stone" leftX="21" topY="31" />
 		<mapObject type="Mine" rtype="Gold" leftX="23" topY="14" />
 		<mapObject type="Mine" rtype="Gold" leftX="23" topY="24" />
-		<mapObject type="Mine" rtype="Gold" leftX="26" topY="34" />
+		<mapObject type="Mine" rtype="Iron" leftX="26" topY="34" />
 		<mapObject type="Mine" rtype="Gold" leftX="29" topY="40" />
-		<mapObject type="Mine" rtype="Gold" leftX="30" topY="16" />
+		<mapObject type="Mine" rtype="Stone" leftX="30" topY="16" />
 		<mapObject type="Mine" rtype="Gold" leftX="32" topY="21" />
-		<mapObject type="Mine" rtype="Gold" leftX="37" topY="17" />
+		<mapObject type="Mine" rtype="Coal" leftX="37" topY="17" />
 		<mapObject type="Mine" rtype="Gold" leftX="40" topY="25" />
 		<mapObject type="Mine" rtype="Gold" leftX="42" topY="17" />
 		<mapObject type="Mine" rtype="Wood" leftX="3" topY="28" />
 		<mapObject type="Mine" rtype="Wood" leftX="10" topY="5" />
 		<mapObject type="Mine" rtype="Wood" leftX="10" topY="38" />
 		<mapObject type="Mine" rtype="Wood" leftX="12" topY="18" />
-		<mapObject type="Mine" rtype="Wood" leftX="13" topY="11" />
-		<mapObject type="Mine" rtype="Wood" leftX="14" topY="27" />
-		<mapObject type="Mine" rtype="Wood" leftX="19" topY="38" />
-		<mapObject type="Mine" rtype="Wood" leftX="21" topY="23" />
+		<mapObject type="Mine" rtype="Coal" leftX="13" topY="11" />
+		<mapObject type="Mine" rtype="Iron" leftX="14" topY="27" />
+		<mapObject type="Mine" rtype="Stone" leftX="19" topY="38" />
+		<mapObject type="Mine" rtype="Coal" leftX="21" topY="23" />
 		<mapObject type="Mine" rtype="Wood" leftX="30" topY="10" />
-		<mapObject type="Mine" rtype="Wood" leftX="30" topY="43" />
-		<mapObject type="Mine" rtype="Wood" leftX="34" topY="26" />
-		<mapObject type="Mine" rtype="Wood" leftX="39" topY="2" />
+		<mapObject type="Mine" rtype="Iron" leftX="30" topY="43" />
+		<mapObject type="Mine" rtype="Stone" leftX="34" topY="26" />
+		<mapObject type="Mine" rtype="Coal" leftX="39" topY="2" />
 		<mapObject type="Mine" rtype="Wood" leftX="39" topY="36" />
 		<mapObject type="Mine" rtype="Wood" leftX="44" topY="24" />
 </map>
