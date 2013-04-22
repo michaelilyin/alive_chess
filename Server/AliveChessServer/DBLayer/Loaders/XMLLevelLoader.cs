@@ -275,8 +275,8 @@ namespace AliveChessServer.DBLayer.Loaders
             DebugConsole.WriteLine("XMLLevelLoader", "Mine: " + objType.ToString() + " x = " + mine.X + " y = " + mine.Y);
 #endif
             //TODO: Читать из XML экономики
-            int size = 100;
-            int intensivity = 1;
+            int size = 10;
+            int intensivity = 10;
             mine.Initialize(ID, map, objType, size, intensivity);
             map.AddMine(mine);
         }

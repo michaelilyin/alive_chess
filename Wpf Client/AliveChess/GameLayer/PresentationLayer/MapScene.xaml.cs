@@ -31,9 +31,10 @@ namespace AliveChess.GameLayer.PresentationLayer
         private GameWorld _world = GameCore.Instance.World;
         private Player _player = GameCore.Instance.Player;
 
+        private Rectangle[,] rectArrGround = new Rectangle[50, 50];
         private Rectangle[,] rectArrLandscape = new Rectangle[50, 50];
-        private Rectangle[,] rectArrLandscapeObjects = new Rectangle[50, 50];
-        private Rectangle[,] rectArrGameObjects = new Rectangle[50, 50];
+        private Rectangle[,] rectArrBuildings = new Rectangle[50, 50];
+        private Rectangle[,] rectArrDynamicObjects = new Rectangle[50, 50];
 
         private Point _kingPosition = new Point(-1, -1);
         private Point _castlePosition;
@@ -46,6 +47,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         private bool _kingInCastle = false;
 
         DispatcherTimer timerMove = new DispatcherTimer();
+        DispatcherTimer timerUpdate = new DispatcherTimer();
         private Point _nextStep;
         private List<Position> _steps;
         private int _stepCount;
@@ -53,8 +55,8 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private ImageBrush _brushKing;
         private ImageBrush _brushCastle;
-        private ImageBrush[] _landscapeBrushes = new ImageBrush[4];
-        private ImageBrush[] _singleObjectBrushes = new ImageBrush[2];
+        private ImageBrush[] _groundBrushes = new ImageBrush[4];
+        private ImageBrush[] _landscapeBrushes = new ImageBrush[2];
         private ImageBrush[] _mineBrushes = new ImageBrush[5];
         private ImageBrush[] _resourceBrushes = new ImageBrush[5];
 
@@ -69,6 +71,8 @@ namespace AliveChess.GameLayer.PresentationLayer
             ResponceComplete.responceComplete += new ResponceCompleteDelegate(ResponceComplete_responceComplete);
             timerMove.Tick += new EventHandler(timerMove_Tick);
             timerMove.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerUpdate.Tick += new EventHandler(timerUpdate_Tick);
+            timerUpdate.Interval = new TimeSpan(0, 0, 0, 0, 20);
 
             //}
             //MyEvent += new MyDelegate(MapScene_MyEvent);
@@ -76,9 +80,6 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         void timerMove_Tick(object sender, EventArgs e)
         {
-            //HACK: Вынести в отдельный таймер потом
-            GetGameState();
-
             timerMove.Stop();
 
             if (_nextStep != null)
@@ -96,6 +97,16 @@ namespace AliveChess.GameLayer.PresentationLayer
                     _stepCount = 0;
                 }
             }
+        }
+
+        /// <summary>
+        /// Обновление состояния игры (ресурсы, замки, короли)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void timerUpdate_Tick(object sender, EventArgs e)
+        {
+            GetGameState();
         }
 
         void MapScene_MyEvent()
@@ -125,18 +136,18 @@ namespace AliveChess.GameLayer.PresentationLayer
             BitmapImage bmNone = new BitmapImage(new Uri(@"Resources\none.png", UriKind.RelativeOrAbsolute));
             ImageBrush grass = new ImageBrush(bmGrass);
             grass.Stretch = Stretch.UniformToFill;
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Grass] = grass;
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Snow] = new ImageBrush(bmSnow);
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Ground] = new ImageBrush(bmGround);
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.None] = new ImageBrush(bmNone);
+            _groundBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Grass] = grass;
+            _groundBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Snow] = new ImageBrush(bmSnow);
+            _groundBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.Ground] = new ImageBrush(bmGround);
+            _groundBrushes[(int)AliveChessLibrary.GameObjects.Landscapes.LandscapeTypes.None] = new ImageBrush(bmNone);
 
             //Одиночное дерево
             BitmapImage bmTree = new BitmapImage(new Uri(@"Resources\tree.png", UriKind.RelativeOrAbsolute));
             //Скала (непроходимая)
             BitmapImage bmRock = new BitmapImage(new Uri(@"Resources\rock.png", UriKind.RelativeOrAbsolute));
-            _singleObjectBrushes[(int)AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle] =
+            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle] =
                 new ImageBrush(bmRock);
-            _singleObjectBrushes[(int)AliveChessLibrary.GameObjects.Objects.SingleObjectType.Tree] =
+            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Objects.SingleObjectType.Tree] =
                 new ImageBrush(bmTree);
 
             BitmapImage bmGoldMine = new BitmapImage(new Uri(@"Resources\goldmine.png", UriKind.RelativeOrAbsolute));
@@ -164,35 +175,20 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private void InitRectangles()
         {
-            ImageBrush brush0 = _landscapeBrushes[0];
+            ImageBrush brush0 = _groundBrushes[0];
             for (int i = 0; i < 50; i++)
             {
                 for (int j = 0; j < 50; j++)
                 {
                     Rectangle r = new Rectangle();
-                    r.Height = height;
-                    r.Width = width;
-                    r.Fill = brush0; //TODO: Узнать тип местности(трава, грязь, снег) и нарисовать его, а не просто траву
+                    r.Height = height+1;
+                    r.Width = width+1;
+                    r.Fill = brush0;
                     TranslateTransform t = new TranslateTransform();
                     t.X = i * width;
                     t.Y = j * height;
                     r.RenderTransform = t;
-
-                    rectArrLandscape[i, j] = r;
-
-                }
-                for (int k = 0; k < 50; k++)
-                {
-                    Rectangle r = new Rectangle();
-                    r.Height = height;
-                    r.Width = width;
-                    r.Fill = Brushes.Transparent;
-                    TranslateTransform t = new TranslateTransform();
-                    t.X = i * width;
-                    t.Y = k * height;
-                    r.RenderTransform = t;
-
-                    rectArrGameObjects[i, k] = r;
+                    rectArrGround[i, j] = r;
 
                 }
                 for (int k = 0; k < 50; k++)
@@ -205,9 +201,31 @@ namespace AliveChess.GameLayer.PresentationLayer
                     t.X = i * width;
                     t.Y = k * height;
                     r.RenderTransform = t;
-
-                    rectArrLandscapeObjects[i, k] = r;
-
+                    rectArrLandscape[i, k] = r;
+                }
+                for (int k = 0; k < 50; k++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Height = height;
+                    r.Width = width;
+                    r.Fill = Brushes.Transparent;
+                    TranslateTransform t = new TranslateTransform();
+                    t.X = i * width;
+                    t.Y = k * height;
+                    r.RenderTransform = t;
+                    rectArrBuildings[i, k] = r;
+                }
+                for (int k = 0; k < 50; k++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Height = height;
+                    r.Width = width;
+                    r.Fill = Brushes.Transparent;
+                    TranslateTransform t = new TranslateTransform();
+                    t.X = i * width;
+                    t.Y = k * height;
+                    r.RenderTransform = t;
+                    rectArrDynamicObjects[i, k] = r;
                 }
             }
             _rectIsInit = true;
@@ -219,9 +237,10 @@ namespace AliveChess.GameLayer.PresentationLayer
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    canvasMap.Children.Add(rectArrLandscape[i, j]);
-                    canvasMapObjects.Children.Add(rectArrLandscapeObjects[i, j]);
-                    canvasGame.Children.Add(rectArrGameObjects[i, j]);
+                    canvasGround.Children.Add(rectArrGround[i, j]);
+                    canvasLandscape.Children.Add(rectArrLandscape[i, j]);
+                    canvasBuildings.Children.Add(rectArrBuildings[i, j]);
+                    canvasDynamicObjects.Children.Add(rectArrDynamicObjects[i, j]);
                 }
             }
         }
@@ -242,8 +261,9 @@ namespace AliveChess.GameLayer.PresentationLayer
             Refresh();
             //Получение короля и замка:
             GetGameState();
+            //TODO: Вероятно, нужно для нормального возврата из замка
             //GetKing();
-            KingToFocus();
+            timerUpdate.Start();
 
         }
 
@@ -251,20 +271,22 @@ namespace AliveChess.GameLayer.PresentationLayer
         {
             foreach (var obj in _world.Map.BasePoints)
             {
-                rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[(int)obj.LandscapeType];
+                rectArrGround[obj.X, obj.Y].Fill = _groundBrushes[(int)obj.LandscapeType];
             }
             foreach (var obj in _world.Map.SingleObjects)
             {
-                rectArrLandscapeObjects[obj.X, obj.Y].Fill = _singleObjectBrushes[(int)obj.SingleObjectType];
+                rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[(int)obj.SingleObjectType];
             }
             foreach (var obj in _world.Map.Resources)
             {
-                rectArrGameObjects[obj.X, obj.Y].Fill = _resourceBrushes[(int)obj.ResourceType];
+                rectArrDynamicObjects[obj.X, obj.Y].Fill = _resourceBrushes[(int)obj.ResourceType];
             }
 
             foreach (var obj in _world.Map.Mines)
             {
-                rectArrGameObjects[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
+                rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
+                rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
+                rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
             }
             AddRectanglesToCanvas();
         }
@@ -292,21 +314,21 @@ namespace AliveChess.GameLayer.PresentationLayer
         DropShadowEffect active = new DropShadowEffect();
         int lastX = 0;
         int lastY = 0;
-        private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        private void canvasLandscape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {//TODO: Проверить, работает ли
             if (_rectIsInit)
             {
                 active.BlurRadius = 10;
-                active.Color = Colors.White;
+                active.Color = Colors.Red;
                 active.ShadowDepth = 5;
                 Point mousePosition = e.GetPosition((IInputElement)sender);
                 //индексы для ячейки карты в массиве ячеек rectArr
                 int x = (int)(mousePosition.X / width);
                 int y = (int)(mousePosition.Y / height);
 
-                rectArrLandscape[lastX, lastY].Effect = null;
+                rectArrGround[lastX, lastY].Effect = null;
 
-                rectArrLandscape[x, y].Effect = active;
+                rectArrGround[x, y].Effect = active;
                 lastX = x;
                 lastY = y;
             }
@@ -319,14 +341,15 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void ShowGetStateResult(GetGameStateResponse response)
         {
-            //MessageBox.Show("!");
             //TODO: разобраться, зачем нужны следующие 2 строки
-            rectArrGameObjects[response.Castle.X, response.Castle.Y].Fill = _brushCastle;
-            _castlePosition = new Point(response.Castle.X, response.Castle.Y);
+            /*rectArrGameObjects[response.Castle.X, response.Castle.Y].Fill = _brushCastle;
+            _castlePosition = new Point(response.Castle.X, response.Castle.Y);*/
 
             foreach (AliveChessLibrary.GameObjects.Buildings.Castle castle in response.King.Castles)
             {
-                rectArrGameObjects[castle.X, castle.Y].Fill = _brushCastle;
+                rectArrBuildings[castle.X, castle.Y].Fill = _brushCastle;
+                rectArrBuildings[castle.X, castle.Y].Width = castle.Width * width;
+                rectArrBuildings[castle.X, castle.Y].Height = castle.Height * height;
                 _castlePosition = new Point(castle.X, castle.Y);
             }
             foreach (var res in response.Resources)
@@ -351,12 +374,13 @@ namespace AliveChess.GameLayer.PresentationLayer
                 }
             }
             if (_kingPosition.X >= 0)
-                rectArrGameObjects[(int) _kingPosition.X, (int) _kingPosition.Y].Fill = _brushKing;
+                rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = _brushKing;
             else
             {
-            rectArrGameObjects[response.King.X, response.King.Y].Fill = _brushKing;
-            _kingPosition = new Point(response.King.X, response.King.Y);
-                
+                rectArrDynamicObjects[response.King.X, response.King.Y].Fill = _brushKing;
+                _kingPosition = new Point(response.King.X, response.King.Y);
+                KingToFocus();
+
             }
             /*Refresh();*/
 
@@ -368,7 +392,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             scrollViewer1.ScrollToVerticalOffset(_kingPosition.Y * width + width / 2 - scrollViewer1.ActualHeight / 2);
         }
 
-        private void canvasGame_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void canvasDynamicObjects_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (_kingIsFocused)
             {
@@ -399,9 +423,9 @@ namespace AliveChess.GameLayer.PresentationLayer
                     int x = (int)(mousePosition.X / width);
                     int y = (int)(mousePosition.Y / height);
 
-                    rectArrGameObjects[lastX, lastY].Effect = null;
+                    rectArrDynamicObjects[lastX, lastY].Effect = null;
 
-                    rectArrGameObjects[x, y].Effect = active;
+                    rectArrDynamicObjects[x, y].Effect = active;
                     lastX = x;
                     lastY = y;
                     if (IsGameObject(x, y) == GameObjects.King)
@@ -422,7 +446,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         public void ShowGetKingResult(GetKingResponse response)
         {
             KingToFocus();
-            rectArrLandscape[response.King.X, response.King.Y].Fill = _brushKing;
+            rectArrDynamicObjects[response.King.X, response.King.Y].Fill = _brushKing;
             _kingPosition = new Point(response.King.X, response.King.Y);
             //scrollViewer1.ScrollToHorizontalOffset(1);
 
@@ -469,14 +493,14 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void DoMove(Position pos)
         {
-            rectArrGameObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = Brushes.Transparent;
-            rectArrGameObjects[pos.X, pos.Y].Fill = _brushKing;
+            rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = Brushes.Transparent;
+            rectArrDynamicObjects[pos.X, pos.Y].Fill = _brushKing;
             _kingPosition.X = pos.X;
             _kingPosition.Y = pos.Y;
             //if (_kingIsFocused)
             KingToFocus();
-            canvasGame.InvalidateVisual();
-            rectArrGameObjects[pos.X, pos.Y].InvalidateVisual();
+            canvasDynamicObjects.InvalidateVisual();
+            rectArrDynamicObjects[pos.X, pos.Y].InvalidateVisual();
             //System.Threading.Thread.SpinWait(100);
             //System.Threading.Thread.Sleep(100);
 
@@ -492,12 +516,14 @@ namespace AliveChess.GameLayer.PresentationLayer
             {
                 if (!(collapsedResource.Contains(item.Id)))
                 {
-                    rectArrGameObjects[item.X, item.Y].Fill = _resourceBrushes[(int)item.ResourceType];
+                    rectArrDynamicObjects[item.X, item.Y].Fill = _resourceBrushes[(int)item.ResourceType];
                 }
             }
             foreach (var obj in _world.Map.Mines)
-            {
-                rectArrGameObjects[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
+            {//TODO: не дублирует ли Refresh()?
+                rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
+                rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
+                rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
             }
         }
 
@@ -523,6 +549,7 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void ShowComeInCastleResult(ComeInCastleResponse response)
         {
+            timerUpdate.Stop();
             Uri uri = new Uri("/GameLayer/PresentationLayer/CastleScene.xaml",
                                                        UriKind.Relative);
             base.MoveTo(uri);

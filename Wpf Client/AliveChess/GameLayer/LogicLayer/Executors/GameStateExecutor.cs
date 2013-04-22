@@ -27,11 +27,13 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
             response.King.Resources = esr;
 
             MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
-
-            mapScene.Dispatcher.Invoke(
-                DispatcherPriority.Normal,
-                new Action<GetGameStateResponse>(mapScene.ShowGetStateResult),
-                response);
+            if (mapScene != null)
+            {
+                mapScene.Dispatcher.Invoke(
+                    DispatcherPriority.Normal,
+                    new Action<GetGameStateResponse>(mapScene.ShowGetStateResult),
+                    response);
+            }
         }
     }
 }
