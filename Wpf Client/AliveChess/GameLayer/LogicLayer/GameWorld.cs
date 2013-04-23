@@ -24,7 +24,7 @@ namespace AliveChess.GameLayer.LogicLayer
             _map.Mines = CustomConverter.L2ES<Mine>(response.Mines);
             _map.SingleObjects = CustomConverter.L2ES<SingleObject>(response.SingleObjects);
             _map.MultyObjects = CustomConverter.L2ES<MultyObject>(response.MultyObjects);
-
+            _map.Fill();
             _hasBeenCreated = true;
         }
 

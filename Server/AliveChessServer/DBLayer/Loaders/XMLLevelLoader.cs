@@ -67,7 +67,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                 basePoint.Y = y;
                                 //TODO: Прочитать тип местности из файла
                                 basePoint.LandscapeType = LandscapeTypes.Grass;
-                                map.AddBasePoint(basePoint);
+                                //map.AddBasePoint(basePoint);
                             } break;
                         case "player":
                             {
@@ -83,7 +83,7 @@ namespace AliveChessServer.DBLayer.Loaders
                 }
             }
 
-            //CreateLandscape(map, basePoint);
+            CreateLandscape(map, basePoint);
 
             return level;
         }

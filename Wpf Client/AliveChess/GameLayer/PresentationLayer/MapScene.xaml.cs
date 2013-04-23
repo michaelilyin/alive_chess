@@ -82,7 +82,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         {
             timerMove.Stop();
 
-            if (_nextStep != null)
+            /*if (_nextStep != null)
             {
                 DoMove(new Position((int)(_nextStep.X), (int)(_nextStep.Y)));
                 _stepCount--;
@@ -96,7 +96,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                     _steps = null;
                     _stepCount = 0;
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -107,8 +107,8 @@ namespace AliveChess.GameLayer.PresentationLayer
         void timerUpdate_Tick(object sender, EventArgs e)
         {
             GetGameState();
-            GetObjectsRequest r = new GetObjectsRequest();
-            GameCore.Instance.Network.Send(r);
+            /*GetObjectsRequest r = new GetObjectsRequest();
+            GameCore.Instance.Network.Send(r);*/
         }
 
         void MapScene_MyEvent()
@@ -346,7 +346,6 @@ namespace AliveChess.GameLayer.PresentationLayer
             //TODO: разобраться, зачем нужны следующие 2 строки
             /*rectArrGameObjects[response.Castle.X, response.Castle.Y].Fill = _brushCastle;
             _castlePosition = new Point(response.Castle.X, response.Castle.Y);*/
-
             foreach (AliveChessLibrary.GameObjects.Buildings.Castle castle in response.King.Castles)
             {
                 rectArrBuildings[castle.X, castle.Y].Fill = _brushCastle;
@@ -375,15 +374,17 @@ namespace AliveChess.GameLayer.PresentationLayer
                         break;
                 }
             }
-            if (_kingPosition.X >= 0)
+            /*if (_kingPosition.X >= 0)
                 rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = _brushKing;
             else
-            {
-                rectArrDynamicObjects[response.King.X, response.King.Y].Fill = _brushKing;
-                _kingPosition = new Point(response.King.X, response.King.Y);
-                KingToFocus();
+            {*/
+            if (_kingPosition.X >= 0)
+                rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = Brushes.Transparent;
+            _kingPosition = new Point(response.King.X, response.King.Y);
+            rectArrDynamicObjects[response.King.X, response.King.Y].Fill = _brushKing;
+            //KingToFocus();
 
-            }
+            //}
             /*Refresh();*/
 
         }
@@ -527,9 +528,9 @@ namespace AliveChess.GameLayer.PresentationLayer
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
             }
-                MessageBox.Show("!");
             foreach (var obj in _world.Map.Kings)
             {
+                MessageBox.Show("!");
                 rectArrDynamicObjects[obj.X, obj.Y].Fill = _brushKing;
             }
         }
