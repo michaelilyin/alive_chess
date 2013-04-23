@@ -8,6 +8,7 @@ using AliveChess.GameLayer.LogicLayer.Executors;
 using AliveChess.NetworkLayer;
 using AliveChessLibrary.Commands;
 using AliveChessLibrary.Interfaces;
+using AliveChessLibrary.Commands;
 
 namespace AliveChess.GameLayer.LogicLayer
 {
@@ -17,14 +18,14 @@ namespace AliveChess.GameLayer.LogicLayer
         private readonly BackgroundWorker _executeWorker;
         private bool _running = false;
         private readonly CommandPool _commands;
-        private readonly Dictionary<ExecutorType, IExecutor> _executors;
+        private readonly Dictionary<Command, IExecutor> _executors;
 
         public RequestExecutor(ILogger logger, CommandPool commands)
         {
             _logger = logger;
             _commands = commands;
             _executeWorker = new BackgroundWorker();
-            _executors = new Dictionary<ExecutorType, IExecutor>();
+            _executors = new Dictionary<Command, IExecutor>();
             _executeWorker.DoWork += new DoWorkEventHandler(Execute);
             _executeWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ExecutionStopped);
 
@@ -46,7 +47,7 @@ namespace AliveChess.GameLayer.LogicLayer
                 if (_commands.Count > 0)
                 {
                     ICommand command = _commands.Dequeue();
-                    _executors[(ExecutorType) command.Id].Execute(command);
+                    _executors[(Command) command.Id].Execute(command);
                     Thread.Sleep(5);
                 }
                 else
@@ -64,25 +65,26 @@ namespace AliveChess.GameLayer.LogicLayer
 #warning Executors
         private void CreateAuthorizeExecutors()
         {
-            _executors.Add(ExecutorType.AuthorizeResponse, new AuthorizeExecutor());
-            _executors.Add(ExecutorType.GetGameStateResponse, new GameStateExecutor());
+            _executors.Add(Command.AuthorizeResponse, new AuthorizeExecutor());
+            _executors.Add(Command.GetGameStateResponse, new GameStateExecutor());
         }
 
         private void CreateBigMapExecutors()
         {
-            _executors.Add(ExecutorType.GetMapResponse, new GetMapExecutor());
-            _executors.Add(ExecutorType.GetKingResponse, new GetKingExecutor());
-            _executors.Add(ExecutorType.MoveKingResponse, new MoveKingExecutor());
-            _executors.Add(ExecutorType.GetObjectsResponse, new GetObjectsExecutor());
-            _executors.Add(ExecutorType.GetResourceMessage, new GetResourceMessageExecutor());
-            _executors.Add(ExecutorType.ComeInCastleResponse, new ComeInCastleExecutor());
-            _executors.Add(ExecutorType.BigMapResponse, new BigMapExecutor());
-            _executors.Add(ExecutorType.CaptureMineResponce, new CaptureMineExecutor());
+            _executors.Add(Command.GetMapResponse, new GetMapExecutor());
+            _executors.Add(Command.GetKingResponse, new GetKingExecutor());
+            _executors.Add(Command.MoveKingResponse, new MoveKingExecutor());
+            _executors.Add(Command.GetObjectsResponse, new GetObjectsExecutor());
+            _executors.Add(Command.GetResourceMessage, new GetResourceMessageExecutor());
+            _executors.Add(Command.ComeInCastleResponse, new ComeInCastleExecutor());
+            _executors.Add(Command.BigMapResponse, new BigMapExecutor());
+            _executors.Add(Command.CaptureMineResponse, new CaptureMineRequestExecutor());
+            _executors.Add(Command.UpdateWorldMessage, new UpdateWorldMessageExecutor());
         }
 
         private void CreateCastleExecutors()
         {
-            _executors.Add(ExecutorType.GetListBuildingsInCastleResponse, new GetListBuildingsInCastleExecutor());
+            _executors.Add(Command.GetListBuildingsInCastleResponse, new GetListBuildingsInCastleExecutor());
         }
     }
 }

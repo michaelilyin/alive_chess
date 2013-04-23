@@ -107,6 +107,8 @@ namespace AliveChess.GameLayer.PresentationLayer
         void timerUpdate_Tick(object sender, EventArgs e)
         {
             GetGameState();
+            GetObjectsRequest r = new GetObjectsRequest();
+            GameCore.Instance.Network.Send(r);
         }
 
         void MapScene_MyEvent()
@@ -524,6 +526,11 @@ namespace AliveChess.GameLayer.PresentationLayer
                 rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
+            }
+                MessageBox.Show("!");
+            foreach (var obj in _world.Map.Kings)
+            {
+                rectArrDynamicObjects[obj.X, obj.Y].Fill = _brushKing;
             }
         }
 

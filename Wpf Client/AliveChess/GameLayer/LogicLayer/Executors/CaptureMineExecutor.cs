@@ -6,7 +6,7 @@ using AliveChessLibrary.Commands;
 
 namespace AliveChess.GameLayer.LogicLayer.Executors
 {
-    public class CaptureMineExecutor : IExecutor
+    public class CaptureMineRequestExecutor : IExecutor
     {
         public void Execute(ICommand command)
         {

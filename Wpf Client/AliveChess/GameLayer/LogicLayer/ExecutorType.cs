@@ -11,6 +11,7 @@ namespace AliveChess.GameLayer.LogicLayer
         BigMapResponse       = 7,
         CaptureMineResponce = 11,
         GetMapResponse       = 22,
+        UpdateWorldMessageExecutor = 28,
         GetGameStateResponse = 32,
         GetKingResponse      = 38,
         MoveKingResponse     = 18,
