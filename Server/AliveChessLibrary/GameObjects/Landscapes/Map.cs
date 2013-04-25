@@ -129,9 +129,18 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         /// </summary>
         public void Fill()
         {
+            /*foreach (var basePoint in _basePoints)
+                if (this[basePoint.X, basePoint.Y].Owner == null)
+                    basePoint.AddView(this[basePoint.X, basePoint.Y]);*/
             FloodAlgorithm algorithm = new FloodAlgorithm(this);
             foreach (var basePoint in _basePoints)
                 algorithm.Run(basePoint);
+
+            foreach (var point in _basePoints)
+            {
+                if (this[point.X, point.Y].Owner == null || this[point.X, point.Y].Owner == point)
+                    point.AddView(this[point.X, point.Y]);
+            }
         }
 
         /// <summary>

@@ -59,39 +59,40 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             {
                 MapPoint landscape = cells.Dequeue();
 
-                landscape.SetOwner(basePoint);
+                if(landscape.PointType == PointTypes.None || landscape.PointType == PointTypes.Landscape)
+                    landscape.SetOwner(basePoint);
+                landscape.Initialized = true;
 
-                if (landscape.X > 0 && CompareTypes(landscape.X - 1, landscape.Y, 
-                    PointTypes.None))
+                if (landscape.X > 0 && !CompareTypes(landscape.X - 1, landscape.Y,
+                    PointTypes.Landscape) && !GetPoint(landscape.X - 1, landscape.Y).Initialized)
                 {
                     cells.Enqueue(GetPoint(landscape.X - 1, landscape.Y));
-
-                    ChangePointType(landscape.X - 1, landscape.Y, 
-                        basePoint.ViewOnMap.PointType);
+                    if (CompareTypes(landscape.X - 1, landscape.Y, PointTypes.None))
+                        ChangePointType(landscape.X - 1, landscape.Y, basePoint.ViewOnMap.PointType);
                 }
-                if (landscape.X < _map.SizeX - 1 && CompareTypes(landscape.X + 1, landscape.Y, 
-                    PointTypes.None))
+                if (landscape.X < _map.SizeX - 1 && !CompareTypes(landscape.X + 1, landscape.Y,
+                    PointTypes.Landscape) && !GetPoint(landscape.X + 1, landscape.Y).Initialized)
                 {
                     cells.Enqueue(GetPoint(landscape.X + 1, landscape.Y));
 
-                    ChangePointType(landscape.X + 1, landscape.Y, 
-                        basePoint.ViewOnMap.PointType);
+                    if (CompareTypes(landscape.X + 1, landscape.Y, PointTypes.None))
+                        ChangePointType(landscape.X + 1, landscape.Y, basePoint.ViewOnMap.PointType);
                 }
-                if (landscape.Y > 0 && CompareTypes(landscape.X, landscape.Y - 1, 
-                    PointTypes.None))
+                if (landscape.Y > 0 && !CompareTypes(landscape.X, landscape.Y - 1,
+                    PointTypes.Landscape) && !GetPoint(landscape.X, landscape.Y - 1).Initialized)
                 {
                     cells.Enqueue(GetPoint(landscape.X, landscape.Y - 1));
 
-                    ChangePointType(landscape.X, landscape.Y - 1, 
-                        basePoint.ViewOnMap.PointType);
+                    if (CompareTypes(landscape.X, landscape.Y - 1, PointTypes.None))
+                        ChangePointType(landscape.X, landscape.Y - 1, basePoint.ViewOnMap.PointType);
                 }
-                if (landscape.Y < _map.SizeY - 1 && CompareTypes(landscape.X, landscape.Y + 1, 
-                    PointTypes.None))
+                if (landscape.Y < _map.SizeY - 1 && !CompareTypes(landscape.X, landscape.Y + 1,
+                    PointTypes.Landscape) && !GetPoint(landscape.X, landscape.Y + 1).Initialized)
                 {
                     cells.Enqueue(GetPoint(landscape.X, landscape.Y + 1));
 
-                    ChangePointType(landscape.X, landscape.Y + 1, 
-                        basePoint.ViewOnMap.PointType);
+                    if (CompareTypes(landscape.X, landscape.Y + 1, PointTypes.None))
+                        ChangePointType(landscape.X, landscape.Y + 1, basePoint.ViewOnMap.PointType);
                 }
             }
         }

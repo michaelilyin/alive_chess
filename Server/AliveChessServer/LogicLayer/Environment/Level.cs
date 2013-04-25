@@ -137,7 +137,10 @@ namespace AliveChessServer.LogicLayer.Environment
         private void ActivateMines()
         {
             foreach (var mine in Map.Mines)
+            {
                 mine.GetResourceEvent += _economyRoutine.SendResource;
+                mine.Activation();
+            }
         }
 
         #region Add and Remove

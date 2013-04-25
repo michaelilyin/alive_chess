@@ -14,9 +14,12 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using AliveChess.GameLayer.LogicLayer;
+using AliveChess.Utilities;
+using AliveChessLibrary;
 using AliveChessLibrary.Commands.RegisterCommand;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.GameObjects.Abstract;
+using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.GameObjects.Resources;
 using AliveChessLibrary.Interfaces;
 
@@ -107,8 +110,8 @@ namespace AliveChess.GameLayer.PresentationLayer
         void timerUpdate_Tick(object sender, EventArgs e)
         {
             GetGameState();
-            /*GetObjectsRequest r = new GetObjectsRequest();
-            GameCore.Instance.Network.Send(r);*/
+            GetObjectsRequest r = new GetObjectsRequest();
+            GameCore.Instance.Network.Send(r);
         }
 
         void MapScene_MyEvent()
@@ -182,15 +185,15 @@ namespace AliveChess.GameLayer.PresentationLayer
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    Rectangle r = new Rectangle();
-                    r.Height = height+1;
-                    r.Width = width+1;
+                    /*Rectangle r = new Rectangle();
+                    r.Height = height + 1;
+                    r.Width = width + 1;
                     r.Fill = brush0;
                     TranslateTransform t = new TranslateTransform();
                     t.X = i * width;
                     t.Y = j * height;
-                    r.RenderTransform = t;
-                    rectArrGround[i, j] = r;
+                    r.RenderTransform = t;*/
+                    rectArrGround[i, j] = null;
 
                 }
                 for (int k = 0; k < 50; k++)
@@ -239,7 +242,8 @@ namespace AliveChess.GameLayer.PresentationLayer
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    canvasGround.Children.Add(rectArrGround[i, j]);
+                    if (rectArrGround[i, j] != null)
+                        canvasGround.Children.Add(rectArrGround[i, j]);
                     canvasLandscape.Children.Add(rectArrLandscape[i, j]);
                     canvasBuildings.Children.Add(rectArrBuildings[i, j]);
                     canvasDynamicObjects.Children.Add(rectArrDynamicObjects[i, j]);
@@ -269,27 +273,97 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         }
 
-        public void Refresh()
+        private MapPoint GetPoint(int x, int y)
         {
-            foreach (var obj in _world.Map.BasePoints)
+            return this._world.Map[x, y];
+        }
+
+        private Rectangle _createRectangle(int X, int Y, LandscapeTypes type)
+        {
+            Rectangle r = new Rectangle();
+            r.Height = height + 1;
+            r.Width = width + 1;
+            r.Fill = _groundBrushes[(int)type];
+            TranslateTransform t = new TranslateTransform();
+            t.X = X * width;
+            t.Y = Y * height;
+            r.RenderTransform = t;
+            return r;
+        }
+
+        public void RefreshBasePoints()
+        {
+            foreach (var basePoint in _world.Map.BasePoints)
             {
-                rectArrGround[obj.X, obj.Y].Fill = _groundBrushes[(int)obj.LandscapeType];
+
+                rectArrGround[basePoint.X, basePoint.Y] = _createRectangle(basePoint.X, basePoint.Y, basePoint.LandscapeType);
             }
+
+            foreach (var basePoint in _world.Map.BasePoints)
+            {
+                Queue<MapPoint> cells = new Queue<MapPoint>();
+                cells.Enqueue(GetPoint(basePoint.X, basePoint.Y));
+
+                while (cells.Count > 0)
+                {
+                    MapPoint landscape = cells.Dequeue();
+
+                    if (landscape.X > 0 && landscape.X < _world.Map.SizeX && rectArrGround[landscape.X - 1, landscape.Y] == null)
+                    {
+                        cells.Enqueue(GetPoint(landscape.X - 1, landscape.Y));
+                        rectArrGround[landscape.X - 1, landscape.Y] = _createRectangle(landscape.X - 1, landscape.Y, basePoint.LandscapeType);
+                    }
+                    if (landscape.X < _world.Map.SizeX - 1 && rectArrGround[landscape.X + 1, landscape.Y] == null)
+                    {
+                        cells.Enqueue(GetPoint(landscape.X + 1, landscape.Y));
+                        rectArrGround[landscape.X + 1, landscape.Y] = _createRectangle(landscape.X + 1, landscape.Y, basePoint.LandscapeType);
+                    }
+                    if (landscape.Y > 0 && landscape.Y < _world.Map.SizeY && rectArrGround[landscape.X, landscape.Y - 1] == null)
+                    {
+                        cells.Enqueue(GetPoint(landscape.X, landscape.Y - 1));
+                        rectArrGround[landscape.X, landscape.Y - 1] = _createRectangle(landscape.X, landscape.Y - 1, basePoint.LandscapeType);
+                    }
+                    if (landscape.Y < _world.Map.SizeY - 1 && rectArrGround[landscape.X, landscape.Y + 1] == null)
+                    {
+                        cells.Enqueue(GetPoint(landscape.X, landscape.Y + 1));
+                        rectArrGround[landscape.X, landscape.Y + 1] = _createRectangle(landscape.X, landscape.Y + 1, basePoint.LandscapeType);
+                    }
+                }
+            }
+        }
+
+        public void RefreshSingleObjects()
+        {
             foreach (var obj in _world.Map.SingleObjects)
             {
                 rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[(int)obj.SingleObjectType];
             }
-            foreach (var obj in _world.Map.Resources)
-            {
-                rectArrDynamicObjects[obj.X, obj.Y].Fill = _resourceBrushes[(int)obj.ResourceType];
-            }
+        }
 
+        public void RefreshMines()
+        {
             foreach (var obj in _world.Map.Mines)
             {
                 rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
             }
+        }
+
+        public void RefreshResources()
+        {
+            foreach (var obj in _world.Map.Resources)
+            {
+                rectArrDynamicObjects[obj.X, obj.Y].Fill = _resourceBrushes[(int)obj.ResourceType];
+            }
+        }
+
+        public void Refresh()
+        {
+            RefreshBasePoints();
+            RefreshSingleObjects();
+            RefreshMines();
+            RefreshResources();
             AddRectanglesToCanvas();
         }
 
@@ -515,11 +589,14 @@ namespace AliveChess.GameLayer.PresentationLayer
         /// <param name="response"></param>
         public void ShowGetObjectsResult(GetObjectsResponse response)
         {
-            foreach (var item in response.Resources)
+            if (response.Resources != null)
             {
-                if (!(collapsedResource.Contains(item.Id)))
+                foreach (var item in response.Resources)
                 {
-                    rectArrDynamicObjects[item.X, item.Y].Fill = _resourceBrushes[(int)item.ResourceType];
+                    if (!(collapsedResource.Contains(item.Id)))
+                    {
+                        rectArrDynamicObjects[item.X, item.Y].Fill = _resourceBrushes[(int) item.ResourceType];
+                    }
                 }
             }
             foreach (var obj in _world.Map.Mines)
@@ -528,10 +605,13 @@ namespace AliveChess.GameLayer.PresentationLayer
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
             }
-            foreach (var obj in _world.Map.Kings)
+            if (response.Kings != null)
             {
-                MessageBox.Show("!");
-                rectArrDynamicObjects[obj.X, obj.Y].Fill = _brushKing;
+
+                foreach (var obj in response.Kings)
+                {
+                    rectArrDynamicObjects[obj.X, obj.Y].Fill = _brushKing;
+                }
             }
         }
 

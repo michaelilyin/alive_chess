@@ -23,9 +23,9 @@ namespace AliveChessServer.DBLayer.Loaders
         public XMLLevelLoader(GameWorld environment)
         {
             _constructors = new Dictionary<string, BuildObject>();
-            _constructors.Add("Castle",   CreateCastle);
-            _constructors.Add("Mine",     CreateMine);
-            _constructors.Add("Single",   CreateSingle);
+            _constructors.Add("Castle", CreateCastle);
+            _constructors.Add("Mine", CreateMine);
+            _constructors.Add("Single", CreateSingle);
             _constructors.Add("Resource", CreateResource);
         }
 
@@ -65,9 +65,22 @@ namespace AliveChessServer.DBLayer.Loaders
                                 basePoint.Id = basePointGuidGen.Id;
                                 basePoint.X = x;
                                 basePoint.Y = y;
-                                //TODO: Прочитать тип местности из файла
-                                basePoint.LandscapeType = LandscapeTypes.Grass;
-                                //map.AddBasePoint(basePoint);
+                                string type = reader.GetAttribute("type");
+                                LandscapeTypes landscapeType = LandscapeTypes.None;
+                                switch (type)
+                                {
+                                    case "Grass":
+                                        landscapeType = LandscapeTypes.Grass;
+                                        break;
+                                    case "Snow":
+                                        landscapeType = LandscapeTypes.Snow;
+                                        break;
+                                    case "Ground":
+                                        landscapeType = LandscapeTypes.Ground;
+                                        break;
+                                }
+                                basePoint.LandscapeType = landscapeType;
+                                map.AddBasePoint(basePoint);
                             } break;
                         case "player":
                             {
@@ -83,7 +96,8 @@ namespace AliveChessServer.DBLayer.Loaders
                 }
             }
 
-            CreateLandscape(map, basePoint);
+            //CreateLandscape(map, basePoint);
+            map.Fill();
 
             return level;
         }
@@ -96,7 +110,7 @@ namespace AliveChessServer.DBLayer.Loaders
 
             switch (type)
             {
-                case  "Tree":
+                case "Tree":
                     objType = SingleObjectType.Tree;
                     break;
                 case "Obstacle":
@@ -106,7 +120,7 @@ namespace AliveChessServer.DBLayer.Loaders
 
             int x = Convert.ToInt32(reader.GetAttribute("x"));
             int y = Convert.ToInt32(reader.GetAttribute("y"));
-           
+
             int ID = GuidGenerator.Instance.GeneratePair().Id;
 
             var single = new SingleObject
@@ -118,7 +132,7 @@ namespace AliveChessServer.DBLayer.Loaders
                              WayCost = 4,
                              SingleObjectType = objType,
                          };
-           
+
             map.AddSingleObject(single);
         }
 
@@ -148,7 +162,7 @@ namespace AliveChessServer.DBLayer.Loaders
 
             int x = Convert.ToInt32(reader.GetAttribute("x"));
             int y = Convert.ToInt32(reader.GetAttribute("y"));
-          
+
             int ID = GuidGenerator.Instance.GeneratePair().Id;
 
             var resource = new Resource
@@ -186,14 +200,14 @@ namespace AliveChessServer.DBLayer.Loaders
                                 WayCost = 2
                             };
 
-            FigureStore figures = new FigureStore {Id = ID};
+            FigureStore figures = new FigureStore { Id = ID };
             castle.FigureStore = figures;
             Unit uu = new Unit();
             uu.UnitType = UnitType.Knight;
             uu.UnitCount = 1;
             figures.AddFigureToRepository(uu);
 
-            ResourceStore resources = new ResourceStore {Id = ID};
+            ResourceStore resources = new ResourceStore { Id = ID };
             castle.ResourceStore = resources;
             Resource rr = new Resource();
             rr.ResourceType = ResourceTypes.Gold;
@@ -201,19 +215,19 @@ namespace AliveChessServer.DBLayer.Loaders
             resources.AddResourceToRepository(rr);
             rr = new Resource();
             rr.ResourceType = ResourceTypes.Wood;
-            rr.CountResource = 20;
+            rr.CountResource = 0;
             resources.AddResourceToRepository(rr);
             rr = new Resource();
             rr.ResourceType = ResourceTypes.Stone;
-            rr.CountResource = 25;
+            rr.CountResource = 0;
             resources.AddResourceToRepository(rr);
             rr = new Resource();
             rr.ResourceType = ResourceTypes.Coal;
-            rr.CountResource = 15;
+            rr.CountResource = 0;
             resources.AddResourceToRepository(rr);
             rr = new Resource();
             rr.ResourceType = ResourceTypes.Iron;
-            rr.CountResource = 5;
+            rr.CountResource = 0;
             resources.AddResourceToRepository(rr);
 
             castle.CreatStartArmy();
@@ -318,11 +332,11 @@ namespace AliveChessServer.DBLayer.Loaders
         {
             Level level = _levelRoutine.GetLevelByType(LevelTypes.Easy);
 
-            if (_players.Exists(x=>x.Login == identity.Login 
+            if (_players.Exists(x => x.Login == identity.Login
                 && x.Password == identity.Password))
             {
                 int id = GuidGenerator.Instance.GeneratePair().Id;
-               
+
                 var player = new Player(level, identity.Login, identity.Password);
 
                 player.Id = id;

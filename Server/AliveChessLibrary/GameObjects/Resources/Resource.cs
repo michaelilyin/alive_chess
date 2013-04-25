@@ -103,6 +103,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         /// </summary>
         public void RemoveView()
         {
+#warning Возможно, будет падать из-за этого. Лучше поменять на BasePoint
             ViewOnMap.SetOwner(null);
         }
 

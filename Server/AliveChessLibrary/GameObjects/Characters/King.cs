@@ -333,6 +333,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             Monitor.Exit(_minesSync);
             Player.AddVisibleSector(mine.VisibleSpace);
             mine.SetOwner(this);
+            mine.Activation();
         }
 
         /// <summary>
@@ -562,6 +563,9 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// <param name="s"></param>
         protected void DoStep(float x, float y)
         {
+#if DEBUG
+            DebugConsole.WriteLine(this, "Id = " + this.Id + " Step: " + x.ToString() + " " + y.ToString());
+#endif
             MapPoint @object = Map.GetObject(x, y);
             switch (@object.PointType)
             {
@@ -585,6 +589,7 @@ namespace AliveChessLibrary.GameObjects.Characters
                     break;
                 case PointTypes.Resource:
                     FindResource(@object);
+                    MoveBy(x, y);
                     break;
             }
         }

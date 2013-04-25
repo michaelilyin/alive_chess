@@ -13,6 +13,7 @@ namespace AliveChessLibrary.GameObjects.Abstract
         private int _mapPointX;
         private int _mapPointY; 
         private PointTypes _type;
+        private bool _initialized = false;
        
         private MapSector _mapSector;
         private IMapObject _owner;
@@ -140,6 +141,15 @@ namespace AliveChessLibrary.GameObjects.Abstract
                     _mapPointY = value;
                 }
             }
+        }
+
+        /// <summary>
+        /// инициализирована ли уже точка. Необходимо для корректной работы FloodAlgorithm.
+        /// </summary>
+        public bool Initialized
+        {
+            get { return _initialized; }
+            set { _initialized = value; }
         }
 
         #endregion

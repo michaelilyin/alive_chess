@@ -131,8 +131,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             {
                 if (_landscapePointType != value)
                 {
-                    if (this._y == 0)
-                        DebugConsole.WriteLine("XMLLevelLoader", _x.ToString() + " " + _y.ToString() + " " + value.ToString());
                     _landscapePointType = value;
                 }
             }

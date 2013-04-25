@@ -87,10 +87,10 @@ namespace AliveChessServer.LogicLayer
         }
 
         private static void CallExecutor(string executorName, Message msg)
-        {
+        {/*
 #if DEBUG
             DebugConsole.WriteLine("MainExecutor", "Executor <" + executorName + "> Command: " + msg.Command.GetType().Name);
-#endif
+#endif*/
             _executors[executorName].Execute(msg);
         }
 

@@ -45,11 +45,12 @@ namespace AliveChessLibrary.GameObjects.Buildings
         //[ProtoMember(2)]
         private MapSector _viewOnMap; // сектор на карте
 
-        private string _messegerMine; // сообщение от шахты
-        private ResourceStore _valutResurs; // указатель на Хранилище ресурсов
-        private int _intensityMiningMine; // интенсивность добычи ресурсов(количество ресурсов производимых за раз)
+        private string _messengerMine; // сообщение от шахты
+        //private ResourceStore _valutResurs; // указатель на Хранилище ресурсов
+        private double _miningRate; // скорость добычи ресурсов(среднее количество ресурсов, производимых в секунду)
         private bool _active; // активна ли шахта
-        private DateTime _dateLastWorkMine; // дата последенй работы шахты
+        private DateTime _dateLastMining; // дата последенй работы шахты
+        private double _realQuantity; // реальное количество добытого ресурса (для предотвращения потери дробной части при округлении во время пересылки в хранилище)
 
 #if !UNITY_EDITOR
         private int? _mapId;
@@ -61,7 +62,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private King _king;
 #endif
         private int _distance = 3;
-      
+
         private const int DEFAULT_SIZE = 1000;
 
         #endregion
@@ -77,6 +78,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             this.Map = null;
             this.King = null;
 #endif
+            _realQuantity = 0;
             _sector = new VisibleSpace(this);
 
             if (OnLoad != null)
@@ -111,11 +113,11 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// <param name="map">карта</param>
         /// <param name="sector">область арты</param>
         /// <param name="type">тип ресурса</param>
-        /// <param name="intensivityMining">интенсивность добычи</param>
-        public void Initialize(Map map, MapSector sector, ResourceTypes type, 
-            int intensivityMining)
+        /// <param name="miningRate">объем добычи в секунду</param>
+        public void Initialize(Map map, MapSector sector, ResourceTypes type,
+            double miningRate)
         {
-            Initialize(map, type, intensivityMining);
+            Initialize(map, type, miningRate);
 
             if (sector != null)
                 AddView(sector);
@@ -126,18 +128,18 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// </summary>
         /// <param name="map">карта</param>
         /// <param name="typeRes">тип ресурса</param>
-        /// <param name="intensivityMining">коэффициент активности</param>
+        /// <param name="miningRate">объем добычи в секунду</param>
         public void Initialize(Map map, ResourceTypes typeRes,
-            int intensivityMining)
+            double miningRate)
         {
             this._map.Entity = map;
             this._mapId = map.Id;
-            this._dateLastWorkMine = DateTime.Now;
+            this._dateLastMining = DateTime.Now;
             this._active = false; // активировать шахту
             this.MineType = typeRes;
             this._gainingResource = new Resource();
             this._gainingResource.ResourceType = typeRes;
-            this._intensityMiningMine = intensivityMining;
+            this._miningRate = miningRate;
             this._sizeMine = DEFAULT_SIZE;
         }
 
@@ -148,32 +150,32 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// <param name="map">карта</param>
         /// <param name="typeRes">тип ресурса</param>
         /// <param name="size">размер</param>
-        /// <param name="intensivityMining">коэффициент активности</param>
+        /// <param name="miningRate">объем добычи в секунду</param>
         public void Initialize(int id, Map map, ResourceTypes typeRes,
-            int size, int intensivityMining)
+            int size, double miningRate)
         {
-            this._mineId = id;
-            this._dateLastWorkMine = DateTime.Now;
-            this._active = false; // активировать шахту
+            Initialize(map, typeRes, miningRate);
             this._sizeMine = size;
-            Initialize(map, typeRes, intensivityMining);
+            this._mineId = id;
+            this._dateLastMining = DateTime.Now;
+            this._active = false; // активировать шахту
         }
 
-        /// <summary>
+        /*/// <summary>
         /// инициализация
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <param name="map">карта</param>
         /// <param name="typeRes">тип ресурса</param>
         /// <param name="size">размер</param>
-        /// <param name="intensivityMining">коэффициент активности</param>
+        /// <param name="miningRate">коэффициент активности</param>
         /// <param name="vault">назначенно хранилище</param>
         public void Initialize(int id, Map map, ResourceTypes typeRes,
-            int size, int intensivityMining, ResourceStore vault)
+            int size, float miningRate, ResourceStore vault)
         {
             this._valutResurs = vault;
-            Initialize(id, map, typeRes, size, intensivityMining);
-        }
+            Initialize(id, map, typeRes, size, miningRate);
+        }*/
 
         #endregion
 
@@ -219,19 +221,9 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// </summary>
         public void Activation()
         {
-            // Если шахта не переполнена
-            if (!this.MineOverflow())
-            {
-                //Установить флажок Activate в положение true
-                this._active = true;
-            }
-            // Если шахта переполнена
-            else
-            {
-                //Сформировать соответствующее сообщение от шахты
-                this._messegerMine = "Шахта переполнена,заберите ресурсы и перезпаустите шахту";
-            }
-
+            //Установить флажок Activate в положение true
+            this._active = true;
+            _dateLastMining = DateTime.Now;
         }
 
         /// <summary>
@@ -244,25 +236,41 @@ namespace AliveChessLibrary.GameObjects.Buildings
             if (this._active)
             {
                 // найти разницу между временем посленей работы шахты и текущем временем
-                TimeSpan difference = tmpDateTime - this._dateLastWorkMine;
-                // разделить полученное значение на интенсивность работы шахты и округлить до ближайшего целого
-                int amountResource = (int)Math.Round(difference.TotalSeconds / this._intensityMiningMine);
+                TimeSpan difference = tmpDateTime - this._dateLastMining;
+                // рассчитать накопившееся количество ресурса
+                _realQuantity += difference.TotalSeconds * this._miningRate;
+                int quantity = (int)Math.Floor(_realQuantity);
+
+
                 // если полученое значение больше нуля
-                if (amountResource > 0)
+                if (quantity > 0)
                 {
                     //создать необходимое количество ресурса
-                    this.СreateResource(amountResource);
+                    this.СreateResource(quantity);
 
                     // когда шахта создает ресурс то сообщение об этом отправляется
                     // игроку владеющему данной шахтой
-                    if (GetResourceEvent != null)
+                    if (King != null && GetResourceEvent != null)
                     {
-                        _gainingResource.CountResource = amountResource;
                         GetResourceEvent(this.King, _gainingResource, true);
+                        _gainingResource.CountResource = 0;
                     }
 
-                    // сохранить новую дату работы шахты
-                    this._dateLastWorkMine = tmpDateTime;
+                    // сохранить новую дату работы шахты и вычесть извлеченное количество ресурсов
+                    this._dateLastMining = tmpDateTime;
+                    _realQuantity -= quantity;
+
+                    //Если шахта переполнена
+                    if (this.MineOverflow())
+                    {
+                        //отсановить работу шахты
+                        this.Deactivation();
+                        //сформировать соответствующее сообщение
+                        this._messengerMine = "Шахта переполнена и остановлена";
+                        // MineExeption mineExeption = new MineExeption(this.messegerMine);
+                        // throw mineExeption;
+
+                    }
                 }
             }
         }
@@ -275,7 +283,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             this._active = false;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// присоединение хранилища ресурсов
         /// </summary>
         /// <param name="vault"></param>
@@ -299,7 +307,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         }
 
         /// <summary>
-        /// отсоеддинение хранилища ресурсов
+        /// отсоединение хранилища ресурсов
         /// </summary>
         public void DisconnectValut()
         {
@@ -315,7 +323,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 //вернуть соответствующее сообщение
                 this._messegerMine = "У данной шахты нет своего хранилища ресурсов";
             }
-        }
+        }*/
 
 
         /// <summary>
@@ -324,7 +332,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// <param name="amountResource"></param>
         public void СreateResource(int amountResource)
         {
-            Resource tmpRes = null;
+            /*Resource tmpRes = null;
 
             // Если имеется Хранилище ресурсов
             if (this.PresenceValutResurs())
@@ -338,32 +346,21 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
             }
             // Если Хранилища ресурсов нет
-            else
+            else*/
             {
-                //Увеличить счетчик количества добываемого ресурса в Шахте
+                //Увеличить счетчик количества добытого ресурса в Шахте
                 this._gainingResource.CountResource += amountResource;
-                //Если шахта переполнена
-                if (this.MineOverflow())
-                {
-                    //отсановить работу шахты
-                    this.Deactivation();
-                    //сформировать соответствующее сообщение
-                    this._messegerMine = "Шахта переполнена и остановлена";
-                    // MineExeption mineExeption = new MineExeption(this.messegerMine);
-                    // throw mineExeption;
-
-                }
             }
 
         }
 
         /// <summary>
-        /// получение количества ресурсов в шахте
+        /// получение количества ресурсов, хранящихся в шахте
         /// </summary>
         /// <returns></returns>
-        public int GetGainResourceCount()
+        public int GetResourceQuantity()
         {
-            // Если у шахты есть Хранилище ресурсов
+            /*// Если у шахты есть Хранилище ресурсов
             if (this.PresenceValutResurs())
             {
                 //ошибка, невозможно просмотреть количество ресурса, т.к ресурс передается в Хран рес
@@ -371,7 +368,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
             }
             // Если Хранилища ресурсов у шахты нет
-            else
+            else*/
             {
                 //вернуть количество ресурса в шахте
                 return this._gainingResource.CountResource;
@@ -391,7 +388,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 return false;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// проверка наличия хранилища ресурсов
         /// </summary>
         /// <returns></returns>
@@ -413,7 +410,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             this._valutResurs.AddResourceToRepository(this._gainingResource);
             // обнулить количества ресурсов в шахте
             this._gainingResource.CountResource = 0;
-        }
+        }*/
 
         #endregion
 
@@ -513,8 +510,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public string MessegerMine
         {
-            get { return _messegerMine; }
-            set { _messegerMine = value; }
+            get { return _messengerMine; }
+            set { _messengerMine = value; }
         }
 
         public int SizeMine
@@ -529,16 +526,16 @@ namespace AliveChessLibrary.GameObjects.Buildings
             set { _gainingResource = value; }
         }
 
-        public ResourceStore ValutResurs
+        /*public ResourceStore ValutResurs
         {
             get { return _valutResurs; }
             set { _valutResurs = value; }
-        }
+        }*/
 
-        public int IntensityMiningMine
+        public double MiningRate
         {
-            get { return _intensityMiningMine; }
-            set { _intensityMiningMine = value; }
+            get { return _miningRate; }
+            set { _miningRate = value; }
         }
 
         public bool Active
@@ -549,8 +546,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public DateTime DateLastWorkMine
         {
-            get { return _dateLastWorkMine; }
-            set { _dateLastWorkMine = value; }
+            get { return _dateLastMining; }
+            set { _dateLastMining = value; }
         }
 
         /// <summary>
@@ -584,7 +581,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         }
 
 #if !UNITY_EDITOR
-       
+
         public int? MapId
         {
             get
@@ -617,13 +614,13 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 {
                     this._gainingResource = new Resource();
                     this._gainingResource.ResourceType = value;
-                    this._mineType = value;
+                    //this._mineType = value;
                 }
             }
         }
 
 #if !UNITY_EDITOR
-   
+
         public int? KingId
         {
             get
@@ -644,7 +641,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         }
 #endif
 #if !UNITY_EDITOR
-        
+
         public King King
         {
             get
@@ -721,14 +718,14 @@ namespace AliveChessLibrary.GameObjects.Buildings
         #region Delegates
 
         public delegate void GetResourceHandler(King player, Resource r, bool fromMine);
-   
+
         #endregion
 
         #region Events
 
         public static event LoadingHandler<Mine> OnLoad;
         public event GetResourceHandler GetResourceEvent;
-       
+
         #endregion
     }
 }
