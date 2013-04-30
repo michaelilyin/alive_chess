@@ -407,7 +407,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
                     LogInPlayer(storage.Player);
                     storage.Player.IsAuthorized = true;
                     storage.Player.Messenger.SendNetworkMessage(
-                        new AuthorizeResponse(true, true, ""));
+                        new AuthorizeResponse(true, true, "", storage.Player.King.Id));
 
                     //_logger.Log(
                     //    storage.Player.Login, "Authorization", storage.King.Id.ToString(),

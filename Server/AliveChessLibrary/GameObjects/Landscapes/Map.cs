@@ -430,15 +430,17 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             lock (_kingsSync)
                 Kings.Add(king);
 
-            MapPoint mapPoint = CreatePoint(
+            /*MapPoint mapPoint = CreatePoint(
                 king.X, king.Y,
                 PointTypes.King);
 
-            SetObject(mapPoint);
+            SetObject(mapPoint);*/
+            MapPoint mapPoint = GetObject(king.X, king.Y);
+            //mapPoint.SetOwner(king);
 
             king.AddView(mapPoint);
 
-            mapPoint.WayCost = king.WayCost;
+            /*mapPoint.WayCost = king.WayCost;
 
             lock (_observerSync)
             {
@@ -446,7 +448,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
                 {
                     _observers.Add(king.Id, king);
                 }
-            }
+            }*/
         }
 
         /// <summary>

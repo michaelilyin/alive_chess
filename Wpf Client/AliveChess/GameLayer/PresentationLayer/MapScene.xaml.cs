@@ -249,6 +249,26 @@ namespace AliveChess.GameLayer.PresentationLayer
                     canvasDynamicObjects.Children.Add(rectArrDynamicObjects[i, j]);
                 }
             }
+            foreach (var castle in this._world.Map.Castles)
+            {
+                if (castle.KingId == _player.King.Id)
+                {
+                    /*Ellipse e = new Ellipse();
+                    e.Width = width/3;
+                    e.Height = height/3;
+                    e.Fill = new RadialGradientBrush(Colors.GreenYellow, Colors.LightGreen);
+                    TranslateTransform t = new TranslateTransform();
+                    t.X = (castle.X + castle.Width) * width - e.Width;
+                    t.Y = castle.Y * height;
+                    e.RenderTransform = t;
+                    canvasDynamicObjects.Children.Add(e);*/
+                    DropShadowEffect effect = new DropShadowEffect();
+                    effect.Color = Colors.Honeydew;
+                    effect.BlurRadius = 10;
+                    effect.ShadowDepth = 5;
+                    rectArrBuildings[castle.X, castle.Y].Effect = effect;
+                }
+            }
         }
 
         public void ConnectCallback(bool isConnected)
@@ -340,11 +360,17 @@ namespace AliveChess.GameLayer.PresentationLayer
             }
         }
 
-        public void RefreshMines()
+        public void RefreshBuildings()
         {
             foreach (var obj in _world.Map.Mines)
             {
                 rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
+                rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
+                rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
+            }
+            foreach (var obj in _world.Map.Castles)
+            {
+                rectArrBuildings[obj.X, obj.Y].Fill = _brushCastle;
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
             }
@@ -362,7 +388,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         {
             RefreshBasePoints();
             RefreshSingleObjects();
-            RefreshMines();
+            RefreshBuildings();
             RefreshResources();
             AddRectanglesToCanvas();
         }
@@ -420,6 +446,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             //TODO: разобраться, зачем нужны следующие 2 строки
             /*rectArrGameObjects[response.Castle.X, response.Castle.Y].Fill = _brushCastle;
             _castlePosition = new Point(response.Castle.X, response.Castle.Y);*/
+            _player.King.Castles = response.King.Castles;
             foreach (AliveChessLibrary.GameObjects.Buildings.Castle castle in response.King.Castles)
             {
                 rectArrBuildings[castle.X, castle.Y].Fill = _brushCastle;
@@ -595,7 +622,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                 {
                     if (!(collapsedResource.Contains(item.Id)))
                     {
-                        rectArrDynamicObjects[item.X, item.Y].Fill = _resourceBrushes[(int) item.ResourceType];
+                        rectArrDynamicObjects[item.X, item.Y].Fill = _resourceBrushes[(int)item.ResourceType];
                     }
                 }
             }
@@ -604,7 +631,31 @@ namespace AliveChess.GameLayer.PresentationLayer
                 rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
+
+
+                DropShadowEffect effect = new DropShadowEffect();
+                effect.BlurRadius = 10;
+                effect.ShadowDepth = 5;
+                if (obj.KingId == _player.King.Id)
+                {
+                    effect.Color = Colors.Honeydew;
+                }
+                else 
+                {
+                    effect.Color = Colors.OrangeRed;
+                }
+                if(obj.KingId != null)
+                    rectArrBuildings[obj.X, obj.Y].Effect = effect;
             }
+            /*
+            foreach (var king in response.Kings)
+            {
+                foreach (var mine in king.Mines)
+                {
+                    rectArrBuildings[mine.X, mine.Y].Effect = effect;
+                }
+            }*/
+
             if (response.Kings != null)
             {
 

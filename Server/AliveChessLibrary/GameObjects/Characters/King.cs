@@ -48,7 +48,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         private int? _mapId;
         private int? _playerId;
         private int? _animatId;
-      
+
         private int? _unionId;
         private int? _empireId;
 
@@ -60,7 +60,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         private IPlayer _player;
         private IEvaluator _evaluator;
-      
+
 #if !UNITY_EDITOR
         private EntityRef<Map> _map;
 
@@ -90,7 +90,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         private int _distance = 3;
 
         private VisibleSpace _sector;
-      
+
         private IInteraction _interaction;
 
         private readonly object _minesSync = new object();
@@ -234,9 +234,9 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// <param name="step"></param>
         public virtual void MoveBy(float x, float y)
         {
-            int iX = (int) x;
-            int iY = (int) y;
-            if ((this.PrevX != iX || this.PrevY != iY) && Map.Locate(iX, iY))
+            int iX = (int)x;
+            int iY = (int)y;
+            if ((this.X != iX || this.Y != iY) && Map.Locate(iX, iY))
             {
                 this.Position.X = x;
                 this.Position.Y = y;
@@ -247,14 +247,15 @@ namespace AliveChessLibrary.GameObjects.Characters
                 this.PrevX = this.X;
                 this.PrevY = this.Y;
 
-                (ViewOnMap = Map.GetObject(X, Y)).SetOwner(null);
+                (Map.GetObject(X, Y)).SetOwner(null);
 
                 Debug.Assert(Map.GetObject(X, Y).Owner == Map.GetObject(X, Y).Previous);
 
                 this.X = iX;
                 this.Y = iY;
 
-                (ViewOnMap = Map.GetObject(X, Y)).SetOwner(this);
+                ViewOnMap = Map.GetObject(X, Y);
+                ViewOnMap.SetOwner(this);
 
                 if (ChangeMapStateEvent != null)
                     ChangeMapStateEvent(this, new UpdateWorldEventArgs(Map, _position, UpdateType.KingMove));
@@ -312,12 +313,12 @@ namespace AliveChessLibrary.GameObjects.Characters
         public virtual void LeaveCastle()
         {
             (ViewOnMap = Map.GetObject(X, Y)).SetOwner(this);
-           
+
             if (ChangeMapStateEvent != null)
                 ChangeMapStateEvent(this, new UpdateWorldEventArgs(Map, _position, UpdateType.KingAppear));
 
             this._startCastle.KingInside = false;
-       
+
             this._state = KingState.BigMap;
             this._currentCastle = null;
         }
@@ -1181,7 +1182,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         public delegate void UpdateSectorHandler(King king); // событийный делегат. Передвижение короля
 
         //public delegate void ChangeMapStateHandler(King king, Map map, MapPoint point); // событийный делегат. Изменение ячейки на карте
-       
+
         #endregion
 
         #region Events

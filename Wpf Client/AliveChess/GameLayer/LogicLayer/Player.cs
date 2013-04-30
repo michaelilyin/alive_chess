@@ -15,6 +15,8 @@ namespace AliveChess.GameLayer.LogicLayer
     {
         private bool _isAuthorized;
         private List<King> _kings = new List<King>();
+        private King _king = new King();
+        private int _id;
 
         public void AddKing(King king)
         {
@@ -24,6 +26,11 @@ namespace AliveChess.GameLayer.LogicLayer
         public List<King> GetKingList()
         {
             return this._kings;
+        }
+
+        public King King
+        {
+            get { return this._king; }
         }
 
         public void RemoveKing(King king)
@@ -43,7 +50,8 @@ namespace AliveChess.GameLayer.LogicLayer
 
         public int Id
         {
-            get { throw new NotImplementedException(); }
+            get { return _id; }
+            set { _id = value; }
         }
 
         public Map Map

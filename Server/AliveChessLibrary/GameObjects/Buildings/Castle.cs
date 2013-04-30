@@ -33,6 +33,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private int _height;
         [ProtoMember(6)]
         private float _wayCost;
+        [ProtoMember(7)]
+        private int? _kingId;
 
         private int _imageId;
         private bool _kingInside;
@@ -42,7 +44,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private MapSector _viewOnMap; // сектор на карте
 
         private int? _mapId;
-        private int? _kingId;
         private int _resourceVaultId;
         private int _figureVaultId;
 

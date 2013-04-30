@@ -12,22 +12,30 @@ namespace AliveChessLibrary.Commands.RegisterCommand
         private bool _isAuthorized;
         [ProtoMember(3)]
         private string _errorMessage;
+        [ProtoMember(4)]
+        private int _kingId;
 
         public AuthorizeResponse()
         {
         }
 
         public AuthorizeResponse(bool isNewPlayer, bool isAuthorized,
-            string errorMessage)
+            string errorMessage, int kingId)
         {
             this._isNewPlayer = isNewPlayer;
             this._isAuthorized = isAuthorized;
             this._errorMessage = errorMessage;
+            this._kingId = kingId;
         }
 
         public Command Id
         {
             get { return Command.AuthorizeResponse; }
+        }
+
+        public int KingId
+        {
+            get { return _kingId; }
         }
 
         public bool IsNewPlayer

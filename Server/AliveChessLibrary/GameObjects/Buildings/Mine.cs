@@ -37,6 +37,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private Resource _gainingResource;
         [ProtoMember(8)]
         private int _sizeMine;
+        [ProtoMember(9)]
+        private int? _kingId;
 
         private int _imageId;
         private VisibleSpace _sector;
@@ -54,7 +56,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
 #if !UNITY_EDITOR
         private int? _mapId;
-        private int? _kingId;
         private EntityRef<Map> _map; // ссылка на карту
         private EntityRef<King> _king; // ссылка на короля
 #else
