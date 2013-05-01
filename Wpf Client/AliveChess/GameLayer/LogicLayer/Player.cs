@@ -31,6 +31,7 @@ namespace AliveChess.GameLayer.LogicLayer
         public King King
         {
             get { return this._king; }
+            set { _king = value; }
         }
 
         public void RemoveKing(King king)

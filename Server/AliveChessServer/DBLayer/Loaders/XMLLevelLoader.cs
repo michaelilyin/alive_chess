@@ -37,6 +37,7 @@ namespace AliveChessServer.DBLayer.Loaders
             GuidIDPair mapGuidGen = GuidGenerator.Instance.GeneratePair();
             GuidIDPair basePointGuidGen = GuidGenerator.Instance.GeneratePair();
             XmlTextReader reader = new XmlTextReader("..\\XML\\Map.xml");
+            bool mapIsReady = false;
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element)
@@ -55,6 +56,11 @@ namespace AliveChessServer.DBLayer.Loaders
                             }
                         case "mapObject":
                             {
+                                if (!mapIsReady && map != null)
+                                {
+                                    mapIsReady = true;
+                                    map.Fill();
+                                }
                                 _constructors[reader.GetAttribute("type")].Invoke(map, reader);
                             } break;
                         case "basePoint":
@@ -97,7 +103,11 @@ namespace AliveChessServer.DBLayer.Loaders
             }
 
             //CreateLandscape(map, basePoint);
-            map.Fill();
+            if (!mapIsReady)
+            {
+                mapIsReady = true;
+                map.Fill();
+            }
 
             return level;
         }

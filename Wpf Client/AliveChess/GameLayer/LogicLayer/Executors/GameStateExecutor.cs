@@ -17,14 +17,18 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
         {
             GetGameStateResponse response = (GetGameStateResponse) command;
             
-            GameCore.Instance.Player.AddKing(response.King);
-            response.King.AttachStartCastle(response.Castle);
+            //GameCore.Instance.Player.AddKing(response.King);
+            /*GameCore.Instance.Player.King.Castles = response.King.Castles;
+            GameCore.Instance.Player.King.AttachStartCastle(response.Castle);
+            GameCore.Instance.Player.King.X = response.King.;
+            GameCore.Instance.Player.King.AttachStartCastle(response.Castle);*/
+            GameCore.Instance.Player.King = response.King;
             EntitySet<Resource> esr = new EntitySet<Resource>();
             foreach (Resource r in response.Resources)
             {
                 esr.Add(r);
             }
-            response.King.Resources = esr;
+            GameCore.Instance.Player.King.Resources = esr;
 
             MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             if (mapScene != null)

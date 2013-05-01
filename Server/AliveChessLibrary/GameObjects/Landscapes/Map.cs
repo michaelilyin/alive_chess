@@ -460,15 +460,15 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             lock (_resourcesSync)
                 Resources.Add(resource);
 
-            MapPoint mapPoint = CreatePoint(
+            MapPoint mapPoint = GetObject(resource.X, resource.Y);/*CreatePoint(
                 resource.X, resource.Y,
-                PointTypes.Resource);
+                PointTypes.Resource);*/
 
-            SetObject(mapPoint);
+            //SetObject(mapPoint);
 
             resource.AddView(mapPoint);
 
-            mapPoint.WayCost = resource.WayCost;
+            //mapPoint.WayCost = resource.WayCost;
         }
 
         /// <summary>

@@ -115,7 +115,7 @@
     <Compile Include="GameLayer\LogicLayer\Executors\GetKingExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetListBuildingsInCastleExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetMapExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetObjectsResponse.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetObjectsExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetResourceMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\IExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\MoveKingExecutor.cs" />

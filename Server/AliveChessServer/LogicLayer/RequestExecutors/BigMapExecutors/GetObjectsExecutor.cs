@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.GameObjects.Abstract;
+using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Resources;
 using AliveChessLibrary.Interfaces;
@@ -25,6 +26,8 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
 
             List<King> kings = null;
             List<Resource> resources = null;
+            List<Castle> castles = null;
+            List<Mine> mines = null;
 
             Player player = msg.Sender;
             Level level = _environment.LevelManager.GetLevelById(player.LevelId);
@@ -34,6 +37,8 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
             {
                 kings = level.BigMapRoutine.GetGameObjects<King>(player.VisibleSpace, PointTypes.King, player);
                 resources = level.BigMapRoutine.GetGameObjects<Resource>(player.VisibleSpace, PointTypes.Resource, player);
+                castles = level.BigMapRoutine.GetGameObjects<Castle>(player.VisibleSpace, PointTypes.Castle, player);
+                mines = level.BigMapRoutine.GetGameObjects<Mine>(player.VisibleSpace, PointTypes.Mine, player);
             }
             else // получаем область видимости конкретного объекта
             {
@@ -42,10 +47,12 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
 
                 kings = level.BigMapRoutine.GetGameObjects<King>(observer.VisibleSpace, PointTypes.King, observer);
                 resources = level.BigMapRoutine.GetGameObjects<Resource>(observer.VisibleSpace, PointTypes.Resource, observer);
+                castles = level.BigMapRoutine.GetGameObjects<Castle>(observer.VisibleSpace, PointTypes.Castle, observer);
+                mines = level.BigMapRoutine.GetGameObjects<Mine>(observer.VisibleSpace, PointTypes.Mine, observer);
             }
 
             if (kings != null || resources != null)
-                player.Messenger.SendNetworkMessage(new GetObjectsResponse(resources, kings));
+                player.Messenger.SendNetworkMessage(new GetObjectsResponse(resources, kings, castles, mines));
         }
     }
 }

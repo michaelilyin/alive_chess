@@ -68,8 +68,10 @@ namespace AliveChessServer.LogicLayer.Environment
         {
             var kings = GetGameObjects<King>(king.VisibleSpace, PointTypes.King, king);
             var resources = GetGameObjects<Resource>(king.VisibleSpace, PointTypes.Resource, king);
+            var castles = GetGameObjects<Castle>(king.VisibleSpace, PointTypes.Castle, king);
+            var mines = GetGameObjects<Mine>(king.VisibleSpace, PointTypes.Mine, king);
 
-            king.Player.Messenger.SendNetworkMessage(new GetObjectsResponse(resources, kings));
+            king.Player.Messenger.SendNetworkMessage(new GetObjectsResponse(resources, kings, castles, mines));
         }
 
         #region Executors

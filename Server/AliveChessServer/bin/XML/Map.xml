@@ -4,7 +4,15 @@
 	  <player login = "player" password = "pw" role="player" />
     <player login = "admin" password = "pw" role="admin" />
   </players>
-<basePoint type="Grass" x="10"  y="10">
+<basePoint type="Grass" x="10"  y="10"></basePoint>	
+	<basePoint type="Snow" x="15"  y="15"></basePoint>
+	<basePoint type="Snow" x="15"  y="16"></basePoint>
+	<basePoint type="Snow" x="15"  y="17"></basePoint>
+	<basePoint type="Snow" x="16"  y="15"></basePoint>
+	<basePoint type="Snow" x="16"  y="17"></basePoint>
+	<basePoint type="Snow" x="17"  y="15"></basePoint>
+	<basePoint type="Snow" x="17"  y="16"></basePoint>
+	<basePoint type="Snow" x="17"  y="17"></basePoint>	
 		<mapObject type="Single" stype="Tree" x="2" y="9" />
 		<mapObject type="Single" stype="Tree" x="4" y="14" />
 		<mapObject type="Single" stype="Tree" x="5" y="2" />
@@ -458,13 +466,4 @@
 		<mapObject type="Mine" rtype="Coal" leftX="39" topY="2" />
 		<mapObject type="Mine" rtype="Wood" leftX="39" topY="36" />
 		<mapObject type="Mine" rtype="Wood" leftX="44" topY="24" />
-	</basePoint>	
-	<basePoint type="Snow" x="15"  y="15"></basePoint>
-	<basePoint type="Snow" x="15"  y="16"></basePoint>
-	<basePoint type="Snow" x="15"  y="17"></basePoint>
-	<basePoint type="Snow" x="16"  y="15"></basePoint>
-	<basePoint type="Snow" x="16"  y="17"></basePoint>
-	<basePoint type="Snow" x="17"  y="15"></basePoint>
-	<basePoint type="Snow" x="17"  y="16"></basePoint>
-	<basePoint type="Snow" x="17"  y="17"></basePoint>
 </map>

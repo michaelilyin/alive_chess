@@ -24,7 +24,7 @@
         </ToolBar>
 
 
-        <ScrollViewer Grid.Row="1" x:Name="scrollViewer1" VerticalScrollBarVisibility ="Auto" HorizontalScrollBarVisibility="Auto" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="1" x:Name="scrollViewerMap" VerticalScrollBarVisibility ="Auto" HorizontalScrollBarVisibility="Auto" Grid.RowSpan="2">
             <StackPanel>
                 <!--Border 
             BorderBrush="#FF496D09" 
@@ -59,10 +59,9 @@
                     Height="5000" 
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Top" 
-                    Width="5000" 
                     Grid.ColumnSpan="3" Background="Transparent" 
                         Panel.ZIndex="100"
-                    Grid.RowSpan="3" MouseLeftButtonDown="canvasDynamicObjects_MouseLeftButtonDown">
+                    Grid.RowSpan="3" MouseLeftButtonDown="canvasDynamicObjects_MouseLeftButtonDown" Width="5000">
                     <Canvas x:Name="canvasBuildings"
                                 Height="5000" 
                                 HorizontalAlignment="Left" 
