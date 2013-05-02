@@ -112,7 +112,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AliveChessCache.sync</DependentUpon>
     </Compile>
-    <Compile Include="DebugConsole.cs" />
     <Compile Include="LogicLayer\AI\Animat.cs" />
     <Compile Include="LogicLayer\AI\Evaluator.cs" />
     <Compile Include="LogicLayer\AI\Memory.cs" />

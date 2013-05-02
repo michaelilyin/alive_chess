@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading;
+using AliveChessLibrary;
 using AliveChessServer.LogicLayer.Environment;
 using AliveChessServer.LogicLayer.UsersManagement;
 using AliveChessServer.NetLayer;

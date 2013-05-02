@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using AliveChessLibrary;
 using AliveChessLibrary.Interfaces;
 
 namespace AliveChessServer.LogicLayer

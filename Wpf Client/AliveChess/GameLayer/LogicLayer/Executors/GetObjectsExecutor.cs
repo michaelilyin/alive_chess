@@ -19,7 +19,6 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
         public void Execute(ICommand command)
         {
             GetObjectsResponse response = (GetObjectsResponse)command;
-            MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             var resources = new EntitySet<Resource>();
             if(response.Resources != null)
                 resources.AddRange(response.Resources);
@@ -54,10 +53,12 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
                 }
             }
 
+            /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             mapScene.Dispatcher.Invoke(
                 DispatcherPriority.Normal,
                 new Action<GetObjectsResponse>(mapScene.ShowGetObjectsResult),
-                response);
+                response);*/
+            GameCore.Instance.BigMapRequestSender.ReceiveGetObjectsResponse(response);
         }
 
         #endregion

@@ -23,12 +23,20 @@ namespace AliveChess
         private readonly CommandPool _commands;
         private readonly WindowContext _windowContext;
         private readonly GameWorld _world;
+        private BigMapRequestSender _bigMapRequestSender;
+
+        public BigMapRequestSender BigMapRequestSender
+        {
+            get { return _bigMapRequestSender; }
+            //set { _bigMapRequestSender = value; }
+        }
 
         private GameCore()
         {
             _logger = new Logger();
             _commands = new CommandPool();
             _windowContext = new WindowContext();
+            _bigMapRequestSender = new BigMapRequestSender();
             _network = new NetworkManager(_logger, _commands);
             _executor = new RequestExecutor(_logger, _commands);
             _network.OnConnect += new NetworkManager.ConnectHandler(OnConnect);

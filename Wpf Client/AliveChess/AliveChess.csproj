@@ -76,6 +76,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameLayer\LogicLayer\BigMapRequestSender.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\LooseMineMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ErrorMessageExecutor.cs" />
     <Compile Include="Utilities\ClientFloodAlgorithm.cs" />
     <Page Include="GameLayer\PresentationLayer\BattleScene.xaml">
@@ -112,7 +114,7 @@
     <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\CaptureMineExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ComeInCastleExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GameStateExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\GetGameStateExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetKingExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetListBuildingsInCastleExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\GetMapExecutor.cs" />

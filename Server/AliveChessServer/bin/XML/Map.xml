@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <map sizeX="50" sizeY="50">
-  <players>
-	  <player login = "player" password = "pw" role="player" />
-    <player login = "admin" password = "pw" role="admin" />
-  </players>
-<basePoint type="Grass" x="10"  y="10"></basePoint>	
+	<players>
+		<player login = "player" password = "pw" role="player" />
+		<player login = "admin" password = "pw" role="admin" />
+	</players>
+	<wayCost type="Grass" value="0,25"></wayCost>	
+	<wayCost type="Ground" value="0,75"></wayCost>	
+	<wayCost type="Snow" value="0,75"></wayCost>
+	<wayCost type="Tree" value="1"></wayCost>
+	<wayCost type="Obstacle" value="999"></wayCost>
+	<wayCost type="Mine" value="0,25"></wayCost>
+	<wayCost type="Castle" value="0,25"></wayCost>
+	<wayCost type="Resource" value="0,25"></wayCost>
+	<basePoint type="Grass" x="10"  y="10"></basePoint>	
 	<basePoint type="Snow" x="15"  y="15"></basePoint>
 	<basePoint type="Snow" x="15"  y="16"></basePoint>
 	<basePoint type="Snow" x="15"  y="17"></basePoint>

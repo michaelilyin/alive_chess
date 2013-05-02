@@ -15,13 +15,13 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
         public void Execute(ICommand command)
         {
             MoveKingResponse response = (MoveKingResponse)command;
-            //GameCore.Instance.World.Create(response);
-            MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
+
+            /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
 
             mapScene.Dispatcher.Invoke(
                 DispatcherPriority.Normal,
                 new Action<MoveKingResponse>(mapScene.ShowMoveKingResult),
-                response);
+                response);*/
         }
     }
 }

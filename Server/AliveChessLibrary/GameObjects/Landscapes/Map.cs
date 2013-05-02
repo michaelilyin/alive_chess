@@ -528,7 +528,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
 
             basePoint.AddView(mapPoint);
 
-            mapPoint.WayCost = basePoint.WayCost;
+            //mapPoint.WayCost = basePoint.WayCost;
         }
 
         /// <summary>

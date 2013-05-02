@@ -40,7 +40,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         private int _kingMilitaryRank;
 
         private int _imageId;
-        private float _wayCost;
+        private float _wayCost = 0;
 
         private int _prevX;
         private int _prevY;
@@ -82,6 +82,9 @@ namespace AliveChessLibrary.GameObjects.Characters
         // король переместился
         private bool _updated;
 
+        private DateTime _timeLastMove; // время последнего перемещения
+        private FPosition _currentStep;
+
         private KingState _state;
 
         protected TimeSpan Time;
@@ -109,6 +112,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             this._state = KingState.BigMap;
             this._sector = new VisibleSpace(this);
             this._position = new FPosition();
+            _timeLastMove = DateTime.Now;
 
 #if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
@@ -458,20 +462,37 @@ namespace AliveChessLibrary.GameObjects.Characters
             if (this._state == KingState.BigMap)
             {
                 // если королю нужно идти
-                if (_steps.Count != 0)
+                if (_steps.Count != 0 || _currentStep != null)
                 {
-                    this._updated = true;
-                    // берем шаг из очереди и в методе DoStep() принимаем решение что делать
-                    lock (_stepsSync)
-                        DoStep(_steps.Dequeue());
-
-                    if (_steps.Count == 0)
+                    if (_currentStep == null)
                     {
-                        this._isMove = false;
-                        // король достиг пункта назначения и 
-                        // запрашивает область видимости (только на клиенте)
-                        if (UpdateSectorEvent != null)
-                            UpdateSectorEvent(this);
+                        lock (_stepsSync)
+                        {
+                            _currentStep = _steps.Dequeue();
+                        }
+                    }
+
+                    DateTime now = DateTime.Now;
+                    TimeSpan difference = now - _timeLastMove;
+                    float wayCost = Map.GetWayCost((int)_currentStep.X, (int)_currentStep.Y);
+                    if (difference.TotalSeconds >= wayCost)
+                    {
+                        this._updated = true;
+                        lock (_stepsSync)
+                        {
+                            _timeLastMove = now.AddSeconds(wayCost - difference.TotalSeconds);
+                            DoStep(_currentStep);
+                            _currentStep = null;
+                        }
+
+                        if (_steps.Count == 0)
+                        {
+                            this._isMove = false;
+                            // король достиг пункта назначения и 
+                            // запрашивает область видимости (только на клиенте)
+                            if (UpdateSectorEvent != null)
+                                UpdateSectorEvent(this);
+                        }
                     }
                 }
             }
@@ -499,6 +520,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// <param name="steps"></param>
         public virtual void AddSteps(Queue<FPosition> steps)
         {
+            _timeLastMove = DateTime.Now;
             this._isMove = true;
             lock (_stepsSync)
                 this._steps = steps;
@@ -565,7 +587,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         protected void DoStep(float x, float y)
         {
 #if DEBUG
-            DebugConsole.WriteLine(this, "Id = " + this.Id + " Step: " + x.ToString() + " " + y.ToString());
+            AliveChessLibrary.DebugConsole.WriteLine(this, "Id = " + this.Id + " Step: " + x.ToString() + " " + y.ToString());
 #endif
             MapPoint @object = Map.GetObject(x, y);
             switch (@object.PointType)
@@ -617,7 +639,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             if (CaptureMineEvent != null)
             {
 #if DEBUG
-                DebugConsole.WriteLine(this, "Capture mine: x = " + mine.X + " y = " + mine.Y);
+                AliveChessLibrary.DebugConsole.WriteLine(this, "Capture mine: x = " + mine.X + " y = " + mine.Y);
 #endif
                 if (!this.HasMine(mine))
                     CaptureMineEvent(this, mine.MapSector);

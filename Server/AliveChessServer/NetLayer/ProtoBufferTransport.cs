@@ -117,6 +117,7 @@ namespace AliveChessServer.NetLayer
             else _logger.Add("Chat plugin hasn't been loaded");
         }
 
+#warning Отсоединение игрока
         /// <summary>
         /// отключение игроков в отдельном потоке
         /// </summary>

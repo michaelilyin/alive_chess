@@ -14,14 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using AliveChess.GameLayer.LogicLayer;
-using AliveChess.Utilities;
-using AliveChessLibrary;
-using AliveChessLibrary.Commands.RegisterCommand;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.GameObjects.Resources;
-using AliveChessLibrary.Interfaces;
 
 
 namespace AliveChess.GameLayer.PresentationLayer
@@ -46,8 +42,6 @@ namespace AliveChess.GameLayer.PresentationLayer
         private bool _kingIsFocused = false;
         private bool _kingInCastle = false;
 
-        DispatcherTimer timerUpdate = new DispatcherTimer();
-
 
         private ImageBrush _brushKing;
         private ImageBrush _brushCastle;
@@ -58,7 +52,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         DropShadowEffect _enemyLighting = new DropShadowEffect();
         DropShadowEffect _playerLighting = new DropShadowEffect();
         DropShadowEffect _selectionLighting = new DropShadowEffect();
-
+        
         public MapScene()
         {
             //if (!rectIsInit)
@@ -72,29 +66,16 @@ namespace AliveChess.GameLayer.PresentationLayer
             canvasBuildings.Height = height * rectArrBuildings.GetLength(1);
             canvasDynamicObjects.Width = width * rectArrDynamicObjects.GetLength(0);
             canvasDynamicObjects.Height = height * rectArrDynamicObjects.GetLength(1);
+            GameCore.Instance.BigMapRequestSender.MapScene = this;
             /*scrollViewerMap.Width = width * rectArrGround.GetLength(0);
             scrollViewerMap.Height = height * rectArrGround.GetLength(1);*/
             InitBrushes();
             InitRectangles();
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
             ResponceComplete.responceComplete += new ResponceCompleteDelegate(ResponceComplete_responceComplete);
-            timerUpdate.Tick += new EventHandler(timerUpdate_Tick);
-            timerUpdate.Interval = new TimeSpan(0, 0, 0, 0, 20);
 
             //}
             //MyEvent += new MyDelegate(MapScene_MyEvent);
-        }
-
-        /// <summary>
-        /// Обновление состояния игры (ресурсы, замки, короли)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void timerUpdate_Tick(object sender, EventArgs e)
-        {
-            GetGameState();
-            GetObjectsRequest r = new GetObjectsRequest();
-            GameCore.Instance.Network.Send(r);
         }
 
         void MapScene_MyEvent()
@@ -271,7 +252,10 @@ namespace AliveChess.GameLayer.PresentationLayer
                 for (int j = 0; j < rectangles.GetLength(1); j++)
                 {
                     if (rectangles[i, j] != null)
+                    {
                         rectangles[i, j].Fill = Brushes.Transparent;
+                        rectangles[i, j].Effect = null;
+                    }
                 }
             }
 
@@ -284,18 +268,16 @@ namespace AliveChess.GameLayer.PresentationLayer
                 NavigationService.RemoveBackEntry();
             }
             catch (Exception) { }
-            GetMapRequest request = new GetMapRequest();
-            GameCore.Instance.Network.Send(request);
+            GameCore.Instance.BigMapRequestSender.SendGetMapRequest();
         }
 
         public void ShowGetMapResult()
         {
             DrawAll();
             //Получение короля и замка:
-            GetGameState();
+            GameCore.Instance.BigMapRequestSender.SendGetGameStateRequest();
             //TODO: Вероятно, нужно для нормального возврата из замка
             //GetKing();
-            timerUpdate.Start();
 
         }
 
@@ -423,20 +405,6 @@ namespace AliveChess.GameLayer.PresentationLayer
             ShowGetMapResult();
         }
 
-        private void GetKing()
-        {
-
-#warning Отправка запросов серверу
-            GetKingRequest request = new GetKingRequest();
-            GameCore.Instance.Network.Send(request);
-        }
-
-        private void GetGameState()
-        {
-            GetGameStateRequest request = new GetGameStateRequest();
-            GameCore.Instance.Network.Send(request);
-        }
-
         #region Выделение
         DropShadowEffect active = new DropShadowEffect();
         int lastX = 0;
@@ -466,7 +434,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         }
         #endregion
 
-        public void ShowGetStateResult(GetGameStateResponse response)
+        public void ShowGetStateResult()
         {
             /*foreach (AliveChessLibrary.GameObjects.Buildings.Castle castle in _player.King.Castles)
             {
@@ -533,13 +501,21 @@ namespace AliveChess.GameLayer.PresentationLayer
 
                 if (IsGameObject(x, y) == GameObjects.Castle)
                 {
-                    ComeInCastleRequest request = new ComeInCastleRequest();
+                    /*ComeInCastleRequest request = new ComeInCastleRequest();
                     request.CastleId = GameCore.Instance.Player.GetKingList()[0].Castles[0].Id;
-                    GameCore.Instance.Network.Send(request);
+                    GameCore.Instance.Network.Send(request);*/
+                    foreach (var castle in _world.Map.Castles)
+                    {
+                        if (castle.X == x && castle.Y == y)
+                        {
+                            GameCore.Instance.BigMapRequestSender.SendComeInCastleRequest(castle.Id);
+                            break;
+                        }
+                    }
                 }
                 else
                 {
-                    MoveKing(new Point(x, y));
+                    GameCore.Instance.BigMapRequestSender.SendMoveKingRequest(new Point(x, y));
                 }
             }
             else
@@ -560,14 +536,6 @@ namespace AliveChess.GameLayer.PresentationLayer
                         _kingIsFocused = true;
                     }
                 }
-        }
-
-        private void MoveKing(Point kingDest)
-        {
-            MoveKingRequest request = new MoveKingRequest();
-            request.X = (int)kingDest.X;
-            request.Y = (int)kingDest.Y;
-            GameCore.Instance.Network.Send(request);
         }
 
         public void ShowGetKingResult(GetKingResponse response)
@@ -597,7 +565,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             return null;
         }
 
-        public void ShowMoveKingResult(MoveKingResponse response)
+        public void ShowMoveKingResult()
         {/*
 
             if (response.Steps != null)
@@ -637,7 +605,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         /// Отображение объектов в зоне видимости
         /// </summary>
         /// <param name="response"></param>
-        public void ShowGetObjectsResult(GetObjectsResponse response)
+        public void ShowGetObjectsResult()
         {
             DrawDynamicObjects();
             DrawBuildings();
@@ -665,7 +633,7 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void ShowComeInCastleResult(ComeInCastleResponse response)
         {
-            timerUpdate.Stop();
+            //timerUpdate.Stop();
             Uri uri = new Uri("/GameLayer/PresentationLayer/CastleScene.xaml",
                                                        UriKind.Relative);
             base.MoveTo(uri);

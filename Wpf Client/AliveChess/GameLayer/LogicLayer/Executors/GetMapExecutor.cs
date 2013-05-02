@@ -15,13 +15,14 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
         {
             GetMapResponse response = (GetMapResponse)command;
 #warning Создание карты
-            GameCore.Instance.World.Create(response);
+            GameCore.Instance.World.Create(response);/*
             MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
 
             mapScene.Dispatcher.Invoke(
                 DispatcherPriority.Normal,
                 new Action<GetMapResponse>(mapScene.ShowGetMapResult),
-                response);
+                response);*/
+            GameCore.Instance.BigMapRequestSender.ReceiveGetMapResponse(response);
         }
     }    
 }

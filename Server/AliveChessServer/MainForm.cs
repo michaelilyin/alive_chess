@@ -34,8 +34,8 @@ namespace AliveChessServer
         public MainForm()
         {
 #if DEBUG
-            DebugConsole.AllocConsole();
-            DebugConsole.WriteLine(this, "HELLO");
+            AliveChessLibrary.DebugConsole.AllocConsole();
+            AliveChessLibrary.DebugConsole.WriteLine(this, "HELLO");
 #endif
             InitializeComponent();
         }

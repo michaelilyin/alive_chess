@@ -67,7 +67,7 @@ namespace AliveChess.GameLayer.LogicLayer
         private void CreateAuthorizeExecutors()
         {
             _executors.Add(Command.AuthorizeResponse, new AuthorizeExecutor());
-            _executors.Add(Command.GetGameStateResponse, new GameStateExecutor());
+            _executors.Add(Command.GetGameStateResponse, new GetGameStateExecutor());
         }
 
         private void CreateBigMapExecutors()
@@ -81,6 +81,7 @@ namespace AliveChess.GameLayer.LogicLayer
             _executors.Add(Command.BigMapResponse, new BigMapExecutor());
             _executors.Add(Command.CaptureMineResponse, new CaptureMineRequestExecutor());
             _executors.Add(Command.UpdateWorldMessage, new UpdateWorldMessageExecutor());
+            _executors.Add(Command.LooseMineMessage, new LooseMineMessageExecutor());
         }
 
         private void CreateCastleExecutors()

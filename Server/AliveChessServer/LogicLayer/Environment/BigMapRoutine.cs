@@ -83,7 +83,7 @@ namespace AliveChessServer.LogicLayer.Environment
             if (resource != null)
             {
 #if DEBUG
-                DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y + " q = " + resource.CountResource);
+                AliveChessLibrary.DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y + " q = " + resource.CountResource);
 #endif
                 player.Resources.Add(resource);
                 player.StartCastle.ResourceStore.AddResourceToRepository(resource);

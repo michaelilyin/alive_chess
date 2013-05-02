@@ -19,6 +19,7 @@ namespace AliveChessServer.DBLayer.Loaders
         private LevelRoutine _levelRoutine;
         private readonly Dictionary<string, BuildObject> _constructors;
         private readonly List<Identity> _players = new List<Identity>();
+        Dictionary<string, float> wayCosts = new Dictionary<string, float>();
 
         public XMLLevelLoader(GameWorld environment)
         {
@@ -54,6 +55,22 @@ namespace AliveChessServer.DBLayer.Loaders
                                 level = new Level(map, levelType);
                                 break;
                             }
+                        case "wayCost":
+                            {
+                                double value;
+                                try
+                                {
+                                    value = Convert.ToDouble(reader.GetAttribute("value"));
+                                }
+                                catch (FormatException e)
+                                {
+                                    break;
+                                }
+                                string key = reader.GetAttribute("type");
+                                if (key != null)
+                                    wayCosts.Add(key, (float)value);
+                                break;
+                            }
                         case "mapObject":
                             {
                                 if (!mapIsReady && map != null)
@@ -72,6 +89,8 @@ namespace AliveChessServer.DBLayer.Loaders
                                 basePoint.X = x;
                                 basePoint.Y = y;
                                 string type = reader.GetAttribute("type");
+                                if (type == null)
+                                    break;
                                 LandscapeTypes landscapeType = LandscapeTypes.None;
                                 switch (type)
                                 {
@@ -85,6 +104,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                         landscapeType = LandscapeTypes.Ground;
                                         break;
                                 }
+                                basePoint.WayCost = wayCosts[type];
                                 basePoint.LandscapeType = landscapeType;
                                 map.AddBasePoint(basePoint);
                             } break;
@@ -112,7 +132,7 @@ namespace AliveChessServer.DBLayer.Loaders
             return level;
         }
 
-        private static void CreateSingle(Map map, XmlReader reader)
+        private void CreateSingle(Map map, XmlReader reader)
         {
             string type = reader.GetAttribute("stype");
 
@@ -123,11 +143,9 @@ namespace AliveChessServer.DBLayer.Loaders
             {
                 case "Tree":
                     objType = SingleObjectType.Tree;
-                    wayCost = 4;
                     break;
                 case "Obstacle":
                     objType = SingleObjectType.Obstacle;
-                    wayCost = 999;
                     break;
             }
 
@@ -142,14 +160,14 @@ namespace AliveChessServer.DBLayer.Loaders
                              Map = map,
                              X = x,
                              Y = y,
-                             WayCost = wayCost,
+                             WayCost = wayCosts[type ?? objType.ToString()],
                              SingleObjectType = objType,
                          };
 
             map.AddSingleObject(single);
         }
 
-        private static void CreateResource(Map map, XmlReader reader)
+        private void CreateResource(Map map, XmlReader reader)
         {
             string type = reader.GetAttribute("rtype");
             ResourceTypes objType = ResourceTypes.Gold;
@@ -184,18 +202,18 @@ namespace AliveChessServer.DBLayer.Loaders
                                Map = map,
                                X = x,
                                Y = y,
-                               WayCost = 1,
+                               WayCost = wayCosts["Resource"],
                                ResourceType = objType
                            };
             resource.CountResource = Convert.ToInt32(reader.GetAttribute("quantity"));
 
 #if DEBUG
-            DebugConsole.WriteLine("XMLLevelLoader", "Resource: " + objType.ToString() + " x = " + resource.X + " y = " + resource.Y);
+            AliveChessLibrary.DebugConsole.WriteLine("XMLLevelLoader", "Resource: " + objType.ToString() + " x = " + resource.X + " y = " + resource.Y);
 #endif
             map.AddResource(resource);
         }
 
-        private static void CreateCastle(Map map, XmlReader reader)
+        private void CreateCastle(Map map, XmlReader reader)
         {
             int lX = Convert.ToInt32(reader.GetAttribute("leftX"));
             int tY = Convert.ToInt32(reader.GetAttribute("topY"));
@@ -210,7 +228,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                 Y = tY,
                                 Width = 2,
                                 Height = 2,
-                                WayCost = 2
+                                WayCost = wayCosts["Castle"]
                             };
 
             FigureStore figures = new FigureStore { Id = ID };
@@ -256,7 +274,7 @@ namespace AliveChessServer.DBLayer.Loaders
             map.AddCastle(castle);
         }
 
-        private static void CreateMine(Map map, XmlReader reader)
+        private void CreateMine(Map map, XmlReader reader)
         {
             string type = reader.GetAttribute("rtype");
 
@@ -293,13 +311,13 @@ namespace AliveChessServer.DBLayer.Loaders
                            Y = tY,
                            Width = 2,
                            Height = 2,
-                           WayCost = 3,
+                           WayCost = wayCosts["Mine"],
                            MineType = objType,
                            SizeMine = 100,
                        };
 
 #if DEBUG
-            DebugConsole.WriteLine("XMLLevelLoader", "Mine: " + objType.ToString() + " x = " + mine.X + " y = " + mine.Y);
+            AliveChessLibrary.DebugConsole.WriteLine("XMLLevelLoader", "Mine: " + objType.ToString() + " x = " + mine.X + " y = " + mine.Y);
 #endif
             //TODO: Читать из XML экономики
             int size = 10;
