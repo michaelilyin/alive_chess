@@ -48,7 +48,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
                     else
                     {
                         king.Player.Messenger.SendNetworkMessage(
-                            new ErrorMessage("You're inside castle"));
+                            new ErrorMessage("Местность недоступна."));
                     }
                 }
             }

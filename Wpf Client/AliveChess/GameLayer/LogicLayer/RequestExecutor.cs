@@ -32,6 +32,7 @@ namespace AliveChess.GameLayer.LogicLayer
             CreateAuthorizeExecutors();
             CreateBigMapExecutors();
             CreateCastleExecutors();
+            CreateErrorExecutors();
         }
 
         public void Start()
@@ -85,6 +86,11 @@ namespace AliveChess.GameLayer.LogicLayer
         private void CreateCastleExecutors()
         {
             _executors.Add(Command.GetListBuildingsInCastleResponse, new GetListBuildingsInCastleExecutor());
+        }
+
+        private void CreateErrorExecutors()
+        {
+            _executors.Add(Command.ErrorMessage, new ErrorMessageExecutor());
         }
     }
 }

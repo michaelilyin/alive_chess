@@ -117,14 +117,17 @@ namespace AliveChessServer.DBLayer.Loaders
             string type = reader.GetAttribute("stype");
 
             SingleObjectType objType = SingleObjectType.Tree;
+            float wayCost = 4;
 
             switch (type)
             {
                 case "Tree":
                     objType = SingleObjectType.Tree;
+                    wayCost = 4;
                     break;
                 case "Obstacle":
                     objType = SingleObjectType.Obstacle;
+                    wayCost = 999;
                     break;
             }
 
@@ -139,7 +142,7 @@ namespace AliveChessServer.DBLayer.Loaders
                              Map = map,
                              X = x,
                              Y = y,
-                             WayCost = 4,
+                             WayCost = wayCost,
                              SingleObjectType = objType,
                          };
 
