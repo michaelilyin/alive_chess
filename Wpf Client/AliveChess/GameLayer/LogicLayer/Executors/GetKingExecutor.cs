@@ -18,13 +18,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
         {
             GetKingResponse response = (GetKingResponse)command;
             GameCore.Instance.Player.AddKing(response.King);
-
-            MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
-
-            mapScene.Dispatcher.Invoke(
-                DispatcherPriority.Normal,
-                new Action<GetKingResponse>(mapScene.ShowGetKingResult),
-                response);
+            GameCore.Instance.BigMapCommandController.ReceiveGetKingResponse(response);
         }
 
         #endregion

@@ -58,7 +58,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
                 DispatcherPriority.Normal,
                 new Action<GetObjectsResponse>(mapScene.ShowGetObjectsResult),
                 response);*/
-            GameCore.Instance.BigMapRequestSender.ReceiveGetObjectsResponse(response);
+            GameCore.Instance.BigMapCommandController.ReceiveGetObjectsResponse(response);
         }
 
         #endregion

@@ -10,7 +10,7 @@ using AliveChessLibrary.Commands.BigMapCommand;
 
 namespace AliveChess.GameLayer.LogicLayer
 {
-    public class BigMapRequestSender
+    public class BigMapCommandController
     {
         DispatcherTimer timerUpdateGameState = new DispatcherTimer();
         DispatcherTimer timerGetObjects = new DispatcherTimer();
@@ -26,10 +26,10 @@ namespace AliveChess.GameLayer.LogicLayer
             set { _mapScene = value; }
         }
 
-        public BigMapRequestSender()
+        public BigMapCommandController()
         {
             timerUpdateGameState.Tick += new EventHandler(timerUpdateGameState_Tick);
-            timerUpdateGameState.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerUpdateGameState.Interval = new TimeSpan(0, 0, 0, 0, 20);
             timerGetObjects.Tick += new EventHandler(timerGetObjects_Tick);
             timerGetObjects.Interval = new TimeSpan(0, 0, 0, 0, 20);
         }
@@ -76,16 +76,22 @@ namespace AliveChess.GameLayer.LogicLayer
             GameCore.Instance.Network.Send(request);
         }
 
+        public void ReceiveGetKingResponse(GetKingResponse response)
+        {
+            if (_mapScene != null)
+                _mapScene.Dispatcher.Invoke(DispatcherPriority.Background, new Action(_mapScene.ShowGetKingResult));
+        }
+
         public void SendGetGameStateRequest()
         {
             GetGameStateRequest request = new GetGameStateRequest();
             GameCore.Instance.Network.Send(request);
         }
 
-        public void ReceiveGetStateResponse(GetGameStateResponse response)
+        public void ReceiveGetGameStateResponse(GetGameStateResponse response)
         {
             if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_mapScene.ShowGetStateResult));
+                _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetGameStateResult));
             timerUpdateGameState.Start();
         }
 
@@ -98,7 +104,7 @@ namespace AliveChess.GameLayer.LogicLayer
         public void ReceiveGetObjectsResponse(GetObjectsResponse response)
         {
             if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_mapScene.ShowGetObjectsResult));
+                _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetObjectsResult));
             timerGetObjects.Start();
         }
 
@@ -130,7 +136,15 @@ namespace AliveChess.GameLayer.LogicLayer
         public void ReceiveMoveKingResponse(MoveKingResponse response)
         {
             if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_mapScene.ShowMoveKingResult));
+                _mapScene.Dispatcher.Invoke(DispatcherPriority.Background, new Action(_mapScene.ShowMoveKingResult));
+        }
+
+        public void ReceiveCaptureMineResponse(CaptureMineResponse response)
+        {
+            if (_mapScene != null)
+            {
+                _mapScene.Dispatcher.Invoke(DispatcherPriority.Background, new Action(_mapScene.ShowCaptureMineResult));
+            }
         }
     }
 }

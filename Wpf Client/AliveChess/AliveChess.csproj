@@ -76,7 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameLayer\LogicLayer\BigMapRequestSender.cs" />
+    <Compile Include="GameLayer\LogicLayer\BigMapCommandController.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\LooseMineMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ErrorMessageExecutor.cs" />
     <Compile Include="Utilities\ClientFloodAlgorithm.cs" />

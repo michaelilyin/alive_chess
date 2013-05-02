@@ -186,7 +186,8 @@ namespace AliveChessServer.LogicLayer.UsersManagement
                         _authorizeQueue.Enqueue(storage);
 
                     king.ChangeMapStateEvent  += level.BigMapRoutine.UpdatePointState;
-                    king.UpdateSectorEvent    += level.BigMapRoutine.UpdateSectorState;
+                    //не нужно, клиент сам запросит объекты
+                    //king.UpdateSectorEvent    += level.BigMapRoutine.UpdateSectorState;
                     king.CollectResourceEvent += level.BigMapRoutine.CollectResource;
                     king.CaptureMineEvent += level.BigMapRoutine.CaptureMine;
                 }

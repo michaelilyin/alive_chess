@@ -22,6 +22,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
                 DispatcherPriority.Normal,
                 new Action<MoveKingResponse>(mapScene.ShowMoveKingResult),
                 response);*/
+            GameCore.Instance.BigMapCommandController.ReceiveMoveKingResponse(response);
         }
     }
 }

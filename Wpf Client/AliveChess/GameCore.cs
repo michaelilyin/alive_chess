@@ -23,12 +23,11 @@ namespace AliveChess
         private readonly CommandPool _commands;
         private readonly WindowContext _windowContext;
         private readonly GameWorld _world;
-        private BigMapRequestSender _bigMapRequestSender;
+        private BigMapCommandController _bigMapCommandController;
 
-        public BigMapRequestSender BigMapRequestSender
+        public BigMapCommandController BigMapCommandController
         {
-            get { return _bigMapRequestSender; }
-            //set { _bigMapRequestSender = value; }
+            get { return _bigMapCommandController; }
         }
 
         private GameCore()
@@ -36,7 +35,7 @@ namespace AliveChess
             _logger = new Logger();
             _commands = new CommandPool();
             _windowContext = new WindowContext();
-            _bigMapRequestSender = new BigMapRequestSender();
+            _bigMapCommandController = new BigMapCommandController();
             _network = new NetworkManager(_logger, _commands);
             _executor = new RequestExecutor(_logger, _commands);
             _network.OnConnect += new NetworkManager.ConnectHandler(OnConnect);

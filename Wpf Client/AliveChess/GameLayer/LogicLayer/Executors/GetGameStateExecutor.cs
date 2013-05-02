@@ -38,7 +38,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
                     new Action<GetGameStateResponse>(mapScene.ShowGetStateResult),
                     response);
             }*/
-            GameCore.Instance.BigMapRequestSender.ReceiveGetStateResponse(response);
+            GameCore.Instance.BigMapCommandController.ReceiveGetGameStateResponse(response);
         }
     }
 }

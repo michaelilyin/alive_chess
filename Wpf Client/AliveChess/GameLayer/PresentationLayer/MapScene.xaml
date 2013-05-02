@@ -61,7 +61,7 @@
                     VerticalAlignment="Top" 
                     Grid.ColumnSpan="3" Background="Transparent" 
                         Panel.ZIndex="100"
-                    Grid.RowSpan="3" MouseLeftButtonDown="canvasDynamicObjects_MouseLeftButtonDown" Width="5000">
+                    Grid.RowSpan="3" MouseLeftButtonDown="canvasDynamicObjects_MouseLeftButtonDown" Width="5000" MouseRightButtonDown="canvasDynamicObjects_MouseRightButtonDown">
                     <Canvas x:Name="canvasBuildings"
                                 Height="5000" 
                                 HorizontalAlignment="Left" 

@@ -30,16 +30,16 @@ namespace AliveChess.GameLayer.PresentationLayer
         private GameWorld _world = GameCore.Instance.World;
         private Player _player = GameCore.Instance.Player;
 
-        private Rectangle[,] rectArrGround = new Rectangle[50, 50];
-        private Rectangle[,] rectArrLandscape = new Rectangle[50, 50];
-        private Rectangle[,] rectArrBuildings = new Rectangle[50, 50];
-        private Rectangle[,] rectArrDynamicObjects = new Rectangle[50, 50];
+        private Rectangle[,] rectArrGround;
+        private Rectangle[,] rectArrLandscape;
+        private Rectangle[,] rectArrBuildings;
+        private Rectangle[,] rectArrDynamicObjects;
 
         private const int width = 50;
-        private const int height = 50;
-        private bool _rectIsInit = false;
+        private const int height = width;
+        private bool _rectanglesInitialized = false;
 
-        private bool _kingIsFocused = false;
+        private bool _kingSelected = false;
         private bool _kingInCastle = false;
 
 
@@ -52,35 +52,13 @@ namespace AliveChess.GameLayer.PresentationLayer
         DropShadowEffect _enemyLighting = new DropShadowEffect();
         DropShadowEffect _playerLighting = new DropShadowEffect();
         DropShadowEffect _selectionLighting = new DropShadowEffect();
-        
+
         public MapScene()
         {
-            //if (!rectIsInit)
-            //{
             InitializeComponent();
-            canvasGround.Width = width * rectArrGround.GetLength(0);
-            canvasGround.Height = height * rectArrGround.GetLength(1);
-            canvasLandscape.Width = width * rectArrLandscape.GetLength(0);
-            canvasLandscape.Height = height * rectArrLandscape.GetLength(1);
-            canvasBuildings.Width = width * rectArrBuildings.GetLength(0);
-            canvasBuildings.Height = height * rectArrBuildings.GetLength(1);
-            canvasDynamicObjects.Width = width * rectArrDynamicObjects.GetLength(0);
-            canvasDynamicObjects.Height = height * rectArrDynamicObjects.GetLength(1);
-            GameCore.Instance.BigMapRequestSender.MapScene = this;
-            /*scrollViewerMap.Width = width * rectArrGround.GetLength(0);
-            scrollViewerMap.Height = height * rectArrGround.GetLength(1);*/
-            InitBrushes();
-            InitRectangles();
+            GameCore.Instance.BigMapCommandController.MapScene = this;
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
             ResponceComplete.responceComplete += new ResponceCompleteDelegate(ResponceComplete_responceComplete);
-
-            //}
-            //MyEvent += new MyDelegate(MapScene_MyEvent);
-        }
-
-        void MapScene_MyEvent()
-        {
-            //canvas1_MouseLeftButtonDown(this, new MouseButtonEventArgs(Mouse.PrimaryDevice, 1, MouseButton.Left));
         }
         private delegate void MyDelegate();
         private event MyDelegate MyEvent;
@@ -89,6 +67,24 @@ namespace AliveChess.GameLayer.PresentationLayer
         {
             if (MyEvent != null)
                 MyEvent();
+        }
+
+        public void ConnectCallback(bool isConnected)
+        {
+            try
+            {
+                NavigationService.RemoveBackEntry();
+            }
+            catch (Exception) { }
+            GameCore.Instance.BigMapCommandController.SendGetMapRequest();
+        }
+
+        private void SceneMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_rectanglesInitialized == false)
+            {
+                ConnectCallback(true);
+            }
         }
 
         public void InitBrushes()
@@ -149,30 +145,33 @@ namespace AliveChess.GameLayer.PresentationLayer
             _playerLighting.Color = Colors.Honeydew;
             _selectionLighting.BlurRadius = 10;
             _selectionLighting.ShadowDepth = 5;
-            _selectionLighting.Color = Colors.LawnGreen;
+            _selectionLighting.Color = Colors.Gold;
         }
 
         private void InitRectangles()
         {
-            ImageBrush brush0 = _groundBrushes[0];
-            for (int i = 0; i < 50; i++)
+            rectArrGround = new Rectangle[_world.Map.SizeX, _world.Map.SizeY];
+            rectArrLandscape = new Rectangle[_world.Map.SizeX, _world.Map.SizeY];
+            rectArrBuildings = new Rectangle[_world.Map.SizeX, _world.Map.SizeY];
+            rectArrDynamicObjects = new Rectangle[_world.Map.SizeX, _world.Map.SizeY];
+            canvasGround.Width = width * rectArrGround.GetLength(0);
+            canvasGround.Height = height * rectArrGround.GetLength(1);
+            canvasLandscape.Width = width * rectArrLandscape.GetLength(0);
+            canvasLandscape.Height = height * rectArrLandscape.GetLength(1);
+            canvasBuildings.Width = width * rectArrBuildings.GetLength(0);
+            canvasBuildings.Height = height * rectArrBuildings.GetLength(1);
+            canvasDynamicObjects.Width = width * rectArrDynamicObjects.GetLength(0);
+            canvasDynamicObjects.Height = height * rectArrDynamicObjects.GetLength(1);
+            for (int i = 0; i < _world.Map.SizeX; i++)
             {
-                for (int j = 0; j < 50; j++)
+                for (int j = 0; j < _world.Map.SizeY; j++)
                 {
-                    /*Rectangle r = new Rectangle();
-                    r.Height = height + 1;
-                    r.Width = width + 1;
-                    r.Fill = brush0;
-                    TranslateTransform t = new TranslateTransform();
-                    t.X = i * width;
-                    t.Y = j * height;
-                    r.RenderTransform = t;*/
                     rectArrGround[i, j] = null;
-
                 }
-                for (int k = 0; k < 50; k++)
+                for (int k = 0; k < _world.Map.SizeY; k++)
                 {
                     Rectangle r = new Rectangle();
+                    r.CacheMode = new BitmapCache();
                     r.Height = height;
                     r.Width = width;
                     r.Fill = Brushes.Transparent;
@@ -182,7 +181,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                     r.RenderTransform = t;
                     rectArrLandscape[i, k] = r;
                 }
-                for (int k = 0; k < 50; k++)
+                for (int k = 0; k < _world.Map.SizeY; k++)
                 {
                     Rectangle r = new Rectangle();
                     r.Height = height;
@@ -194,7 +193,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                     r.RenderTransform = t;
                     rectArrBuildings[i, k] = r;
                 }
-                for (int k = 0; k < 50; k++)
+                for (int k = 0; k < _world.Map.SizeY; k++)
                 {
                     Rectangle r = new Rectangle();
                     r.Height = height;
@@ -207,40 +206,20 @@ namespace AliveChess.GameLayer.PresentationLayer
                     rectArrDynamicObjects[i, k] = r;
                 }
             }
-            _rectIsInit = true;
+            _rectanglesInitialized = true;
         }
 
         private void AddRectanglesToCanvas()
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < _world.Map.SizeX; i++)
             {
-                for (int j = 0; j < 50; j++)
+                for (int j = 0; j < _world.Map.SizeY; j++)
                 {
                     if (rectArrGround[i, j] != null)
                         canvasGround.Children.Add(rectArrGround[i, j]);
                     canvasLandscape.Children.Add(rectArrLandscape[i, j]);
                     canvasBuildings.Children.Add(rectArrBuildings[i, j]);
                     canvasDynamicObjects.Children.Add(rectArrDynamicObjects[i, j]);
-                }
-            }
-            foreach (var castle in this._world.Map.Castles)
-            {
-                if (castle.KingId == _player.King.Id)
-                {
-                    /*Ellipse e = new Ellipse();
-                    e.Width = width/3;
-                    e.Height = height/3;
-                    e.Fill = new RadialGradientBrush(Colors.GreenYellow, Colors.LightGreen);
-                    TranslateTransform t = new TranslateTransform();
-                    t.X = (castle.X + castle.Width) * width - e.Width;
-                    t.Y = castle.Y * height;
-                    e.RenderTransform = t;
-                    canvasDynamicObjects.Children.Add(e);*/
-                    DropShadowEffect effect = new DropShadowEffect();
-                    effect.Color = Colors.Honeydew;
-                    effect.BlurRadius = 10;
-                    effect.ShadowDepth = 5;
-                    rectArrBuildings[castle.X, castle.Y].Effect = effect;
                 }
             }
         }
@@ -258,30 +237,9 @@ namespace AliveChess.GameLayer.PresentationLayer
                     }
                 }
             }
-
         }
 
-        public void ConnectCallback(bool isConnected)
-        {
-            try
-            {
-                NavigationService.RemoveBackEntry();
-            }
-            catch (Exception) { }
-            GameCore.Instance.BigMapRequestSender.SendGetMapRequest();
-        }
-
-        public void ShowGetMapResult()
-        {
-            DrawAll();
-            //Получение короля и замка:
-            GameCore.Instance.BigMapRequestSender.SendGetGameStateRequest();
-            //TODO: Вероятно, нужно для нормального возврата из замка
-            //GetKing();
-
-        }
-
-        private MapPoint GetPoint(int x, int y)
+        private MapPoint _getPoint(int x, int y)
         {
             return this._world.Map[x, y];
         }
@@ -289,14 +247,20 @@ namespace AliveChess.GameLayer.PresentationLayer
         private Rectangle _createRectangle(int X, int Y, LandscapeTypes type)
         {
             Rectangle r = new Rectangle();
-            r.Height = height + 1;
-            r.Width = width + 1;
+            r.Height = height;
+            r.Width = width;
             r.Fill = _groundBrushes[(int)type];
             TranslateTransform t = new TranslateTransform();
             t.X = X * width;
             t.Y = Y * height;
             r.RenderTransform = t;
             return r;
+        }
+
+        private void KingToFocus()
+        {
+            scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width + width / 2 - scrollViewerMap.ActualWidth / 2);
+            scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * width + width / 2 - scrollViewerMap.ActualHeight / 2);
         }
 
         public void DrawGround()
@@ -310,7 +274,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             foreach (var basePoint in _world.Map.BasePoints)
             {
                 Queue<MapPoint> cells = new Queue<MapPoint>();
-                cells.Enqueue(GetPoint(basePoint.X, basePoint.Y));
+                cells.Enqueue(_getPoint(basePoint.X, basePoint.Y));
 
                 while (cells.Count > 0)
                 {
@@ -318,22 +282,22 @@ namespace AliveChess.GameLayer.PresentationLayer
 
                     if (landscape.X > 0 && landscape.X < _world.Map.SizeX && rectArrGround[landscape.X - 1, landscape.Y] == null)
                     {
-                        cells.Enqueue(GetPoint(landscape.X - 1, landscape.Y));
+                        cells.Enqueue(_getPoint(landscape.X - 1, landscape.Y));
                         rectArrGround[landscape.X - 1, landscape.Y] = _createRectangle(landscape.X - 1, landscape.Y, basePoint.LandscapeType);
                     }
                     if (landscape.X < _world.Map.SizeX - 1 && rectArrGround[landscape.X + 1, landscape.Y] == null)
                     {
-                        cells.Enqueue(GetPoint(landscape.X + 1, landscape.Y));
+                        cells.Enqueue(_getPoint(landscape.X + 1, landscape.Y));
                         rectArrGround[landscape.X + 1, landscape.Y] = _createRectangle(landscape.X + 1, landscape.Y, basePoint.LandscapeType);
                     }
                     if (landscape.Y > 0 && landscape.Y < _world.Map.SizeY && rectArrGround[landscape.X, landscape.Y - 1] == null)
                     {
-                        cells.Enqueue(GetPoint(landscape.X, landscape.Y - 1));
+                        cells.Enqueue(_getPoint(landscape.X, landscape.Y - 1));
                         rectArrGround[landscape.X, landscape.Y - 1] = _createRectangle(landscape.X, landscape.Y - 1, basePoint.LandscapeType);
                     }
                     if (landscape.Y < _world.Map.SizeY - 1 && rectArrGround[landscape.X, landscape.Y + 1] == null)
                     {
-                        cells.Enqueue(GetPoint(landscape.X, landscape.Y + 1));
+                        cells.Enqueue(_getPoint(landscape.X, landscape.Y + 1));
                         rectArrGround[landscape.X, landscape.Y + 1] = _createRectangle(landscape.X, landscape.Y + 1, basePoint.LandscapeType);
                     }
                 }
@@ -350,7 +314,7 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void DrawBuildings()
         {
-            ClearRectangles(rectArrBuildings);
+            //ClearRectangles(rectArrBuildings);
             foreach (var obj in _world.Map.Mines)
             {
                 rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
@@ -385,10 +349,11 @@ namespace AliveChess.GameLayer.PresentationLayer
             foreach (var obj in _world.Map.Kings)
             {
                 rectArrDynamicObjects[obj.X, obj.Y].Fill = _brushKing;
-
                 if (obj.Id != _player.King.Id)
                     rectArrDynamicObjects[obj.X, obj.Y].Effect = _enemyLighting;
             }
+            if (_kingSelected)
+                rectArrDynamicObjects[_player.King.X, _player.King.Y].Effect = _selectionLighting;
         }
 
         public void DrawAll()
@@ -397,52 +362,52 @@ namespace AliveChess.GameLayer.PresentationLayer
             DrawLandscape();
             DrawBuildings();
             DrawDynamicObjects();
+        }
+
+        private void canvasLandscape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void canvasDynamicObjects_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point mousePosition = e.GetPosition((IInputElement)sender);
+            //индексы для ячейки карты в массиве ячеек rectArr
+            int x = (int)(mousePosition.X / width);
+            int y = (int)(mousePosition.Y / height);
+            if (_kingSelected)
+            {
+                foreach (var castle in _world.Map.Castles)
+                {
+                    if (castle.X == x && castle.Y == y)
+                    {
+                        GameCore.Instance.BigMapCommandController.SendComeInCastleRequest(castle.Id);
+                        return;
+                    }
+                }
+                GameCore.Instance.BigMapCommandController.SendMoveKingRequest(new Point(x, y));
+            }
+            else if (_player.King.X == x && _player.King.Y == y)
+            {
+                _kingSelected = true;
+            }
+        }
+
+        private void canvasDynamicObjects_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _kingSelected = false;
+        }
+
+
+        public void ShowGetMapResult()
+        {
+            InitBrushes();
+            InitRectangles();
+            DrawAll();
             AddRectanglesToCanvas();
         }
 
-        public void ShowGetMapResult(GetMapResponse responce)
+        public void ShowGetGameStateResult()
         {
-            ShowGetMapResult();
-        }
-
-        #region Выделение
-        DropShadowEffect active = new DropShadowEffect();
-        int lastX = 0;
-        int lastY = 0;
-        private void canvasLandscape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {//TODO: Проверить, работает ли
-            if (_rectIsInit)
-            {
-                active.BlurRadius = 10;
-                active.Color = Colors.Red;
-                active.ShadowDepth = 5;
-                Point mousePosition = e.GetPosition((IInputElement)sender);
-                //индексы для ячейки карты в массиве ячеек rectArr
-                int x = (int)(mousePosition.X / width);
-                int y = (int)(mousePosition.Y / height);
-
-                rectArrGround[lastX, lastY].Effect = null;
-
-                rectArrGround[x, y].Effect = active;
-                lastX = x;
-                lastY = y;
-            }
-            else
-            {
-                Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
-            }
-        }
-        #endregion
-
-        public void ShowGetStateResult()
-        {
-            /*foreach (AliveChessLibrary.GameObjects.Buildings.Castle castle in _player.King.Castles)
-            {
-                rectArrBuildings[castle.X, castle.Y].Fill = _brushCastle;
-                rectArrBuildings[castle.X, castle.Y].Width = castle.Width * width;
-                rectArrBuildings[castle.X, castle.Y].Height = castle.Height * height;
-                rectArrBuildings[castle.X, castle.Y].Effect = _playerLighting;
-            }*/
             foreach (var res in _player.King.Resources)
             {
                 switch (res.ResourceType)
@@ -464,141 +429,6 @@ namespace AliveChess.GameLayer.PresentationLayer
                         break;
                 }
             }
-            /*if (_kingPosition.X >= 0)
-                rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = _brushKing;
-            else
-            {*/
-            /*if (_kingPosition.X >= 0)
-                rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = Brushes.Transparent;
-            _kingPosition = new Point(_player.King.X, _player.King.Y);
-            rectArrDynamicObjects[_player.King.X, _player.King.Y].Fill = _brushKing;*/
-            //KingToFocus();
-
-            //}
-            /*Refresh();*/
-
-        }
-
-        public void ShowCaptureMineResult(CaptureMineResponse response)
-        {
-            DrawBuildings();
-        }
-
-        private void KingToFocus()
-        {
-            scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width + width / 2 - scrollViewerMap.ActualWidth / 2);
-            scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * width + width / 2 - scrollViewerMap.ActualHeight / 2);
-        }
-
-        private void canvasDynamicObjects_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (_kingIsFocused)
-            {
-                Point mousePosition = e.GetPosition((IInputElement)sender);
-                //индексы для ячейки карты в массиве ячеек rectArr
-                int x = (int)(mousePosition.X / width);
-                int y = (int)(mousePosition.Y / height);
-
-                if (IsGameObject(x, y) == GameObjects.Castle)
-                {
-                    /*ComeInCastleRequest request = new ComeInCastleRequest();
-                    request.CastleId = GameCore.Instance.Player.GetKingList()[0].Castles[0].Id;
-                    GameCore.Instance.Network.Send(request);*/
-                    foreach (var castle in _world.Map.Castles)
-                    {
-                        if (castle.X == x && castle.Y == y)
-                        {
-                            GameCore.Instance.BigMapRequestSender.SendComeInCastleRequest(castle.Id);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    GameCore.Instance.BigMapRequestSender.SendMoveKingRequest(new Point(x, y));
-                }
-            }
-            else
-                if (_rectIsInit)
-                {
-                    Point mousePosition = e.GetPosition((IInputElement)sender);
-                    //индексы для ячейки карты в массиве ячеек rectArr
-                    int x = (int)(mousePosition.X / width);
-                    int y = (int)(mousePosition.Y / height);
-
-                    rectArrDynamicObjects[lastX, lastY].Effect = null;
-
-                    rectArrDynamicObjects[x, y].Effect = _selectionLighting;
-                    lastX = x;
-                    lastY = y;
-                    if (IsGameObject(x, y) == GameObjects.King)
-                    {
-                        _kingIsFocused = true;
-                    }
-                }
-        }
-
-        public void ShowGetKingResult(GetKingResponse response)
-        {
-            /*KingToFocus();
-            rectArrDynamicObjects[response.King.X, response.King.Y].Fill = _brushKing;
-            _kingPosition = new Point(response.King.X, response.King.Y);*/
-            //scrollViewer1.ScrollToHorizontalOffset(1);
-
-        }
-
-        private GameObjects? IsGameObject(int x, int y)
-        {
-
-            if (_player.King.X == x && _player.King.Y == y)
-            {
-                return GameObjects.King;
-            }
-            else
-            {
-                foreach (var castle in _player.King.Castles)
-                {
-                    if (castle.X == x && castle.Y == y)
-                        return GameObjects.Castle;
-                }
-            }
-            return null;
-        }
-
-        public void ShowMoveKingResult()
-        {/*
-
-            if (response.Steps != null)
-            {
-                //foreach (var pos in response.Steps)
-                //{
-                //    DoMove(brushKing, pos);
-                //    KingToFocus();
-                //}
-                _steps = response.Steps;
-                _nextStep = new Point();
-                _nextStep.X = _steps[0].X;
-                _nextStep.Y = _steps[0].Y;
-                _stepCount = _steps.Count;
-                timerMove.Start();
-            }*/
-            _kingIsFocused = false;
-            //rectArrGame[response.King.X, response.King.Y].Fill = brushKing;
-        }
-
-        public void DoMove(Position pos)
-        {
-            /*rectArrDynamicObjects[(int)_kingPosition.X, (int)_kingPosition.Y].Fill = Brushes.Transparent;
-            rectArrDynamicObjects[pos.X, pos.Y].Fill = _brushKing;
-            _kingPosition.X = pos.X;
-            _kingPosition.Y = pos.Y;
-            //if (_kingIsFocused)
-            KingToFocus();
-            canvasDynamicObjects.InvalidateVisual();
-            rectArrDynamicObjects[pos.X, pos.Y].InvalidateVisual();
-            //System.Threading.Thread.SpinWait(100);
-            //System.Threading.Thread.Sleep(100);*/
-
         }
 
         /// <summary>
@@ -607,28 +437,25 @@ namespace AliveChess.GameLayer.PresentationLayer
         /// <param name="response"></param>
         public void ShowGetObjectsResult()
         {
-            DrawDynamicObjects();
             DrawBuildings();
+            DrawDynamicObjects();
+        }
+
+        public void ShowCaptureMineResult()
+        {
+            //DrawBuildings();
+        }
+
+        public void ShowGetKingResult()
+        {
+        }
+
+        public void ShowMoveKingResult()
+        {
         }
 
         public void ShowGetResourceMessageResult(GetResourceMessage message)
         {
-            /*Resource res = GetResource(message.Resource.ResourceType);
-            if (res != null)
-                res.CountResource += message.Resource.CountResource;
-            message.Resource.ChangeMapStateEvent += ChangeMapStateEventHandler;
-            message.Resource.Disappear();*/
-            //UpdateWorldMessage updateMessage = new UpdateWorldMessage(message.Resource, /**/, UpdateType.ResourceDisappear);
-        }
-
-        private Resource GetResource(ResourceTypes type)
-        {
-            foreach (Resource res in _player.GetKingList().First().Resources)
-            {
-                if (res.ResourceType == type)
-                    return res;
-            }
-            return null;
         }
 
         public void ShowComeInCastleResult(ComeInCastleResponse response)
@@ -640,20 +467,6 @@ namespace AliveChess.GameLayer.PresentationLayer
             if ((response.CastleId == _player.GetKingList().First().Castles[0].Id) && (NavigationService != null))
                 NavigationService.Navigate(uri);
         }
-
-        private void SceneMap_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_rectIsInit == false)
-            {
-                ConnectCallback(true);
-            }
-        }
     }
-
-    public enum GameObjects
-    {
-        Castle, King
-    }
-
 
 }
