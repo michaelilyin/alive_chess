@@ -76,20 +76,19 @@ namespace AliveChessServer.LogicLayer.Environment
 
         #region Executors
 
-        public void CollectResource(King player, MapPoint point)
+        public void CollectResource(King king, MapPoint point)
         {
-            Resource resource = player.Map.SearchResourceById(point.Owner.Id);
+            Resource resource = king.Map.SearchResourceById(point.Owner.Id);
 
             if (resource != null)
             {
 #if DEBUG
-                AliveChessLibrary.DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y + " q = " + resource.CountResource);
+                AliveChessLibrary.DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y + " q = " + resource.Quantity);
 #endif
-                player.Resources.Add(resource);
-                player.StartCastle.ResourceStore.AddResourceToRepository(resource);
+                king.ResourceStore.AddResourceToStore(resource);
                 resource.Disappear();
-                player.Map.RemoveResource(resource);
-                player.Player.Messenger.SendNetworkMessage(new GetResourceMessage(resource, false));
+                king.Map.RemoveResource(resource);
+                king.Player.Messenger.SendNetworkMessage(new GetResourceMessage(resource, false));
             }
         }
 

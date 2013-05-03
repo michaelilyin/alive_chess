@@ -158,6 +158,7 @@
     <Compile Include="GameObjects\Abstract\IVisibleSpace.cs" />
     <Compile Include="GameObjects\Abstract\UpdateType.cs" />
     <Compile Include="GameObjects\Abstract\UpdateWorldEventArgs.cs" />
+    <Compile Include="GameObjects\Buildings\InnerBuildingType.cs" />
     <Compile Include="GameObjects\Characters\IKing.cs" />
     <Compile Include="GameObjects\Characters\IPlayer.cs" />
     <Compile Include="GameObjects\Characters\MovingEntity.cs" />
@@ -200,11 +201,9 @@
     <Compile Include="GameObjects\Abstract\MapSector.cs" />
     <Compile Include="Interaction\Negotiate.cs" />
     <Compile Include="Interaction\NegotiateTheme.cs" />
-    <Compile Include="GameObjects\Buildings\InnerBuildingFactory.cs" />
     <Compile Include="GameObjects\Buildings\IInnerBuilding.cs" />
     <Compile Include="GameObjects\Buildings\ResBuild.cs" />
     <Compile Include="GameObjects\Characters\CostUnit.cs" />
-    <Compile Include="GameObjects\Characters\UnitFacrory.cs" />
     <Compile Include="GameObjects\Characters\UnitType.cs" />
     <Compile Include="GameObjects\Characters\Vicegerent.cs" />
     <Compile Include="GameObjects\Landscapes\BasePoint.cs" />

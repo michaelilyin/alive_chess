@@ -26,7 +26,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         [ProtoMember(4)]
         private ResourceTypes _resourceType;
         [ProtoMember(5)]
-        private int _resourceCount;
+        private int _quantity;
         [ProtoMember(6)]
         private float _wayCost;
 
@@ -41,7 +41,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 #if !UNITY_EDITOR
         private EntityRef<Map> _map;
         private EntityRef<King> _king;
-        private EntityRef<ResourceStore> _vault;
+        private EntityRef<ResourceStore> _resourceStore;
 #else
         private Map _map;
         private King _king;
@@ -56,7 +56,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         {
 #if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
-            this._vault = default(EntityRef<ResourceStore>);
+            this._resourceStore = default(EntityRef<ResourceStore>);
 #else
             this.Map = null;
             this.Vault = null;
@@ -262,7 +262,7 @@ namespace AliveChessLibrary.GameObjects.Resources
             {
                 if (this._vaultId != value)
                 {
-                    if (this._vault.HasLoadedOrAssignedValue)
+                    if (this._resourceStore.HasLoadedOrAssignedValue)
                     {
                         throw new ForeignKeyReferenceAlreadyHasValueException();
                     }
@@ -290,18 +290,15 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         //[Column(Name = "resource_count", Storage = "_resourceCount", CanBeNull = false, 
         //    DbType = Constants.DB_INT)]
-        public int CountResource
+        public int Quantity
         {
             get
             {
-                return this._resourceCount;
+                return this._quantity;
             }
             set
             {
-                if (this._resourceCount != value)
-                {
-                    this._resourceCount = value;
-                }
+                this._quantity = value;
             }
         }
 
@@ -337,26 +334,26 @@ namespace AliveChessLibrary.GameObjects.Resources
         }
 
         //[Association(Name = "fk_resource_vault", Storage = "_vault", ThisKey = "VaultId", IsForeignKey = true)]
-        public ResourceStore Vault
+        public ResourceStore ResourceStore
         {
             get
             {
-                return this._vault.Entity;
+                return this._resourceStore.Entity;
             }
             set
             {
-                if (_vault.Entity != value)
+                if (_resourceStore.Entity != value)
                 {
-                    if (_vault.Entity != null)
+                    if (_resourceStore.Entity != null)
                     {
-                        var previousVault = _vault.Entity;
-                        _vault.Entity = null;
+                        var previousVault = _resourceStore.Entity;
+                        _resourceStore.Entity = null;
                         previousVault.Resources.Remove(this);
                     }
-                    _vault.Entity = value;
+                    _resourceStore.Entity = value;
                     if (value != null)
                     {
-                        _vault.Entity.Resources.Add(this);
+                        _resourceStore.Entity.Resources.Add(this);
                         _vaultId = value.Id;
                     }
                     else
@@ -368,7 +365,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         }
 
         //[Association(Name = "fk_resource_king", Storage = "_king", ThisKey = "KingId", IsForeignKey = true)]
-        public King King
+        /*public King King
         {
             get
             {
@@ -396,7 +393,7 @@ namespace AliveChessLibrary.GameObjects.Resources
                     }
                 }
             }
-        }
+        }*/
 #else
         public Map Map
         {

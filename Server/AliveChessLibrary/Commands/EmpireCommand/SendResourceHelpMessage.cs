@@ -36,7 +36,7 @@ namespace AliveChessLibrary.Commands.EmpireCommand
             if ((index = _resources.FindIndex<Resource>(x =>
                 x.ResourceType == r.ResourceType)) < 0)
                 _resources.Add(r);
-            else _resources[index].CountResource += r.CountResource;
+            else _resources[index].Quantity += r.Quantity;
         }
 
         public List<Resource> Resources

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Threading;
-using AliveChess.GameLayer.PresentationLayer;
+﻿using AliveChess.GameLayer.PresentationLayer;
 using AliveChessLibrary.Commands;
 using AliveChessLibrary.Commands.BigMapCommand;
-using AliveChess.GameLayer.PresentationLayer;
 
-namespace AliveChess.GameLayer.LogicLayer.Executors
+namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
 {
     public class UpdateWorldMessageExecutor : IExecutor
     {
@@ -21,6 +14,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
             //HACK: не реализовано
 
             UpdateWorldMessage response = (UpdateWorldMessage)command;
+#warning Не реализовано
             MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
 
             /*mapScene.Dispatcher.Invoke(

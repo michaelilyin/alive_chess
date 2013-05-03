@@ -115,10 +115,10 @@ namespace AliveChessServer.DBLayer.Loaders
                 this._dqlContext.SubmitChanges();
                 castle.FigureStore = figureStore;
 
-                ResourceStore resourceStore = new ResourceStore();
+                /*ResourceStore resourceStore = new ResourceStore();
                 this._dqlContext.ResourceStores.InsertOnSubmit(resourceStore);
                 this._dqlContext.SubmitChanges();
-                castle.ResourceStore = resourceStore;
+                castle.ResourceStore = resourceStore;*/
             }
         }
 
@@ -202,15 +202,15 @@ namespace AliveChessServer.DBLayer.Loaders
         public void DeferredLoadFigureStore(Castle sender)
         {
             FigureStore figureStore = _dqlContext
-                .FigureStores.First(x => x.Id == sender.FigureVaultId);
+                .FigureStores.First(x => x.Id == sender.FigureStoreId);
             sender.FigureStore = figureStore;
         }
 
         public void DeferredLoadResourceStore(Castle sender)
         {
-            ResourceStore resourceStore = _dqlContext
-                .ResourceStores.First(x => x.Id == sender.ResourceVaultId);
-            sender.ResourceStore = resourceStore;
+            /*ResourceStore resourceStore = _dqlContext
+                .ResourceStores.First(x => x.Id == sender.ResourceStoreId);
+            sender.ResourceStore = resourceStore;*/
         }
 
         private void OnLoadCastle(Castle target)

@@ -17,13 +17,13 @@ namespace AliveChessLibrary.GameObjects.Characters
         [ProtoMember(2)]
         private UnitType _unitType;
         [ProtoMember(3)]
-        private int _unitCount = 1;
+        private int _quantity = 1;
 
-        private int? _vaultId;
+        private int? _figureStoreId;
         private int? _kingId;
 #if !UNITY_EDITOR
         private EntityRef<King> _king;
-        private EntityRef<FigureStore> _vault;
+        private EntityRef<FigureStore> _figureStore;
 #else
         private King _king;
         private FigureStore _vault;
@@ -32,7 +32,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         {
 #if !UNITY_EDITOR
             this._king = default(EntityRef<King>);
-            this._vault = default(EntityRef<FigureStore>);
+            this._figureStore = default(EntityRef<FigureStore>);
 #else
             this.King = null;
             this.Vault = null;
@@ -54,23 +54,20 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
         }
 
-        public int UnitCount
+        public int Quantity
         {
             get
             {
-                return this._unitCount;
+                return _quantity;
             }
             set
             {
-                if (this._unitCount != value)
-                {
-                    this._unitCount = value;
-                }
+                _quantity = value;
             }
         }
 
 #if !UNITY_EDITOR
-     
+
         public int? KingId
         {
             get
@@ -90,26 +87,26 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
         }
 
-        public int? VaultId
+        public int? FigureStoreId
         {
             get
             {
-                return this._vaultId;
+                return this._figureStoreId;
             }
             set
             {
-                if (this._vaultId != value)
+                if (this._figureStoreId != value)
                 {
-                    if (this._vault.HasLoadedOrAssignedValue)
+                    if (this._figureStore.HasLoadedOrAssignedValue)
                     {
                         throw new ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this._vaultId = value;
+                    this._figureStoreId = value;
                 }
             }
         }
 #endif
- 
+
         public UnitType UnitType
         {
             get
@@ -126,7 +123,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         }
 
 #if !UNITY_EDITOR
-     
+
         public King King
         {
             get
@@ -158,31 +155,31 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
         }
 
-        public FigureStore Vault
+        public FigureStore FigureStore
         {
             get
             {
-                return this._vault.Entity;
+                return this._figureStore.Entity;
             }
             set
             {
-                if (_vault.Entity != value)
+                if (_figureStore.Entity != value)
                 {
-                    if (_vault.Entity != null)
+                    if (_figureStore.Entity != null)
                     {
-                        var previousVault = _vault.Entity;
-                        _vault.Entity = null;
+                        var previousVault = _figureStore.Entity;
+                        _figureStore.Entity = null;
                         previousVault.Units.Remove(this);
                     }
-                    _vault.Entity = value;
+                    _figureStore.Entity = value;
                     if (value != null)
                     {
-                        _vault.Entity.Units.Add(this);
-                        _vaultId = value.Id;
+                        _figureStore.Entity.Units.Add(this);
+                        _figureStoreId = value.Id;
                     }
                     else
                     {
-                        _vaultId = null;
+                        _figureStoreId = null;
                     }
                 }
             }

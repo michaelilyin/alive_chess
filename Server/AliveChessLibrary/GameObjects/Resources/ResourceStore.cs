@@ -12,11 +12,10 @@ namespace AliveChessLibrary.GameObjects.Resources
     //[Table(Name = "dbo.resource_vault")]
     public sealed class ResourceStore
     {
-        private int _vaultId;
+        private int _id;
         private int? _storeId;
-        private string vaultMesseger; // сообщение от Хранилища ресурсов
 
-        private int _size;
+        private int _size; //текущее количество ресурсов в хранилище, видимо
         private const int CAPACITY = 1000;
 #if !UNITY_EDITOR
         private EntitySet<Resource> _resources; // масcив хранимых ресурсов
@@ -34,13 +33,13 @@ namespace AliveChessLibrary.GameObjects.Resources
         }
 
         #region Methods
-       
-        public void AddResourceToRepository(Resource addResource)
+
+        public void AddResourceToStore(Resource addResource)
         {
             Resource tmpRes = GetResource(addResource.ResourceType);
             if (tmpRes != null)
             {
-                tmpRes.CountResource += addResource.CountResource;
+                tmpRes.Quantity += addResource.Quantity;
             }
             else
             {
@@ -51,9 +50,9 @@ namespace AliveChessLibrary.GameObjects.Resources
         public bool DeleteResourceFromRepository(ResourceTypes type, int count)
         {
             Resource r = GetResource(type);
-            if (r != null && r.CountResource >= count)
+            if (r != null && r.Quantity >= count)
             {
-                r.CountResource -= count;
+                r.Quantity -= count;
                 return true;
             }
             else return false;
@@ -71,16 +70,17 @@ namespace AliveChessLibrary.GameObjects.Resources
             return null;
         }
 
+        //Что-то непонятное, используется один раз в Emipre
         public Resource PushResource(ResourceTypes type, int count)
         {
             Resource result = null;
             Resource res = GetResource(type);
-            if (res.CountResource >= count)
+            if (res.Quantity >= count)
             {
                 result = new Resource();
                 result.Id = res.Id;
                 result.Id = res.Id;
-                result.CountResource = count;
+                result.Quantity = count;
                 result.ResourceType = type;
                 DeleteResourceFromRepository(type, count);
                 return result;
@@ -88,7 +88,7 @@ namespace AliveChessLibrary.GameObjects.Resources
             else
             {
                 result = GetResource(type);
-                DeleteResourceFromRepository(type, result.CountResource);
+                DeleteResourceFromRepository(type, result.Quantity);
                 return result;
             }
         }
@@ -99,7 +99,7 @@ namespace AliveChessLibrary.GameObjects.Resources
             {
                 if (this.Resources[i].ResourceType == typeRes)
                 {
-                    return this.Resources[i].CountResource;
+                    return this.Resources[i].Quantity;
                 }
             }
             return 0;
@@ -107,12 +107,12 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         private void AttachResource(Resource entity)
         {
-            entity.Vault = this;
+            entity.ResourceStore = this;
         }
 
         private void DetachResource(Resource entity)
         {
-            entity.Vault = null;
+            entity.ResourceStore = null;
         }
 
         #endregion
@@ -122,6 +122,9 @@ namespace AliveChessLibrary.GameObjects.Resources
             get { return CAPACITY; }
         }
 
+        /// <summary>
+        /// Число хранящихся ресурсов
+        /// </summary>
         public int CurrentCapacity
         {
             get { return _size; }
@@ -133,26 +136,17 @@ namespace AliveChessLibrary.GameObjects.Resources
             get { return _size >= CAPACITY; }
         }
 
-        public string VaultMesseger
-        {
-            get { return this.vaultMesseger; }
-            set { this.vaultMesseger = value; }
-        }
-
         //[Column(Name = "resource_vault_id", Storage = "_vaultId", CanBeNull = false,
         //    DbType = Constants.DB_INT, IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id
         {
             get
             {
-                return this._vaultId;
+                return this._id;
             }
             set
             {
-                if (this._vaultId != value)
-                {
-                    this._vaultId = value;
-                }
+                this._id = value;
             }
         }
 
@@ -165,10 +159,7 @@ namespace AliveChessLibrary.GameObjects.Resources
             }
             set
             {
-                if (this._storeId != value)
-                {
-                    this._storeId = value;
-                }
+                this._storeId = value;
             }
         }
 

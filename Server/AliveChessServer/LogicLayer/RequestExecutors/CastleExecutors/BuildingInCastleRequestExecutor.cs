@@ -25,12 +25,12 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             BuildingInCastleRequest request = (BuildingInCastleRequest)cmd.Command;
             this._queryManager = cmd.Sender;
             King king = cmd.Sender.King;
-            king.CurrentCastle.AddBuildings(request.Type);
-            int l = king.CurrentCastle.SizeListbuilldingsInCastle();
+            king.CurrentCastle.AddBuilding(request.Type);
+            int l = king.CurrentCastle.NumberOfBuildings();
             List<InnerBuilding> s = new List<InnerBuilding>();
             for (int i = 0; i < l; i++)
             {
-                s.Add(king.CurrentCastle.GetBuildings(i));
+                s.Add(king.CurrentCastle.GetBuilding(i));
             }
             var response = new BuildingInCastleResponse();
             response.Buildings_list = s;

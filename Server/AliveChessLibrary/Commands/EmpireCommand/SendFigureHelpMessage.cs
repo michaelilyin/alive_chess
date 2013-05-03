@@ -37,7 +37,7 @@ namespace AliveChessLibrary.Commands.EmpireCommand
             int index = -1;
             if ((index = _units.FindIndex<Unit>(x => x.UnitType == u.UnitType)) < 0)
                 _units.Add(u);
-            else _units[index].UnitCount += u.UnitCount;
+            else _units[index].Quantity += u.Quantity;
         }
 
         public List<Unit> Units

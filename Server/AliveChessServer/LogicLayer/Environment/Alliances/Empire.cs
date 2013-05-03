@@ -130,12 +130,12 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
             for (int i = 0; i < _kings.Count; i++)
             {
                 // получаем требуемый ресурс
-                Resource resource = _kings[i].StartCastle.ResourceStore.GetResource(ResourceTypes.Gold);
+                Resource resource = _kings[i].ResourceStore.GetResource(ResourceTypes.Gold);
                 // берем нужное количество ресурса у короля
-                int count = _taxRate*resource.CountResource/100;
+                int count = _taxRate*resource.Quantity/100;
                 if (count > 0)
                 {
-                    Resource pushedResource = _kings[i].StartCastle.ResourceStore
+                    Resource pushedResource = _kings[i].ResourceStore
                         .PushResource(resource.ResourceType, count);
                     // добавляем ресурс в хранилище империи
                     _store.Entity.AddResource(pushedResource);

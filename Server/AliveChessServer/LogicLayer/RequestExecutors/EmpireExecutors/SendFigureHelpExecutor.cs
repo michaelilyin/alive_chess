@@ -38,7 +38,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.EmpireExecutors
                     {
                         // удаляем фигуры из хранилища отправителя
                         // и добавляем их в хранилище начального замка получателя
-                        if (store.RemoveFigure(u.UnitType, u.UnitCount))
+                        if (store.RemoveFigure(u.UnitType, u.Quantity))
                             receiver.StartCastle.FigureStore.AddFigureToRepository(u);
                     }
                     if (!receiver.Player.Bot)

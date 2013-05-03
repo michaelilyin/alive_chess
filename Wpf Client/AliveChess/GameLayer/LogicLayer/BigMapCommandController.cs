@@ -20,14 +20,17 @@ namespace AliveChess.GameLayer.LogicLayer
 
         private MapScene _mapScene = null;
 
+        private GameCore _gameCore;
+
         public MapScene MapScene
         {
             get { return _mapScene; }
             set { _mapScene = value; }
         }
 
-        public BigMapCommandController()
+        public BigMapCommandController(GameCore gameCore)
         {
+            _gameCore = gameCore;
             timerUpdateGameState.Tick += new EventHandler(timerUpdateGameState_Tick);
             timerUpdateGameState.Interval = new TimeSpan(0, 0, 0, 0, 20);
             timerGetObjects.Tick += new EventHandler(timerGetObjects_Tick);
@@ -59,7 +62,7 @@ namespace AliveChess.GameLayer.LogicLayer
         public void SendGetMapRequest()
         {
             GetMapRequest request = new GetMapRequest();
-            GameCore.Instance.Network.Send(request);
+            _gameCore.Network.Send(request);
         }
 
         public void ReceiveGetMapResponse(GetMapResponse responce)
@@ -73,7 +76,7 @@ namespace AliveChess.GameLayer.LogicLayer
         public void SendGetKingRequest()
         {
             GetKingRequest request = new GetKingRequest();
-            GameCore.Instance.Network.Send(request);
+            _gameCore.Network.Send(request);
         }
 
         public void ReceiveGetKingResponse(GetKingResponse response)
@@ -85,44 +88,47 @@ namespace AliveChess.GameLayer.LogicLayer
         public void SendGetGameStateRequest()
         {
             GetGameStateRequest request = new GetGameStateRequest();
-            GameCore.Instance.Network.Send(request);
+            _gameCore.Network.Send(request);
         }
 
         public void ReceiveGetGameStateResponse(GetGameStateResponse response)
         {
             if (_mapScene != null)
+            {
                 _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetGameStateResult));
-            timerUpdateGameState.Start();
+                timerUpdateGameState.Start();
+            }
         }
 
         public void SendGetObjectsRequest()
         {
             GetObjectsRequest r = new GetObjectsRequest();
-            GameCore.Instance.Network.Send(r);
+            _gameCore.Network.Send(r);
         }
 
         public void ReceiveGetObjectsResponse(GetObjectsResponse response)
         {
             if (_mapScene != null)
+            {
                 _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetObjectsResult));
-            timerGetObjects.Start();
+                timerGetObjects.Start();
+            }
         }
 
         public void SendComeInCastleRequest(int id)
         {
             ComeInCastleRequest request = new ComeInCastleRequest();
             request.CastleId = id;
-            GameCore.Instance.Network.Send(request);
+            _gameCore.Network.Send(request);
         }
 
         public void ReceiveComeInCastleResponse(ComeInCastleResponse response)
         {
             timerUpdateGameState.Stop();
-            Uri uri = new Uri("/GameLayer/PresentationLayer/CastleScene.xaml",
-                                                       UriKind.Relative);
-            /*base.MoveTo(uri);
-            if ((response.CastleId == _player.GetKingList().First().Castles[0].Id) && (NavigationService != null))
-                NavigationService.Navigate(uri);*/
+            timerGetObjects.Stop();
+            if (_mapScene != null)
+                _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowComeInCastleResult));
+            _mapScene = null;
         }
 
         public void SendMoveKingRequest(Point kingDest)
@@ -130,7 +136,7 @@ namespace AliveChess.GameLayer.LogicLayer
             MoveKingRequest request = new MoveKingRequest();
             request.X = (int)kingDest.X;
             request.Y = (int)kingDest.Y;
-            GameCore.Instance.Network.Send(request);
+            _gameCore.Network.Send(request);
         }
 
         public void ReceiveMoveKingResponse(MoveKingResponse response)

@@ -12,18 +12,18 @@ namespace ModuleBatleAliveChess
         private byte black = 1;
 
 
-        private byte[] pawn = new byte[2] {10, 1};
-        private byte[] knight = new byte[2] {0, 3};
-        private byte[] queen = new byte[2] {1, 7}; //Must be ordered from queen upto bishop
-        private byte[] rook = new byte[2] {2, 5};
-        private byte[] bishop = new byte[2] {3, 3};
+        private byte[] pawn = new byte[2] { 10, 1 };
+        private byte[] knight = new byte[2] { 0, 3 };
+        private byte[] queen = new byte[2] { 1, 7 }; //Must be ordered from queen upto bishop
+        private byte[] rook = new byte[2] { 2, 5 };
+        private byte[] bishop = new byte[2] { 3, 3 };
         private byte king = 4;
         private byte wPawn = 5;
         private byte bPawn = 6;
         private byte empty = 7; //пустой
 
-        private byte[] bArm = new byte[16] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-        private byte[] wArm = new byte[16] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        private byte[] bArm = new byte[16] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        private byte[] wArm = new byte[16] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 
         public void DownloadArmy(IList<Unit> armPlayer, IList<Unit> armOpponent)
@@ -33,44 +33,44 @@ namespace ModuleBatleAliveChess
             wArm[5] = 1;
             for (int i = 0; i < armPlayer.Count; i++)
             {
-                if (Convert.ToInt32(armPlayer[i].UnitType) == 2)
+                if (armPlayer[i].UnitType == UnitType.Rook)
                 {
-                    count = Convert.ToByte(armPlayer[i].UnitCount/2);
+                    count = Convert.ToByte(armPlayer[i].Quantity / 2);
                     bArm[0] = count;
                     bArm[7] = count;
-                    count = Convert.ToByte(armOpponent[i].UnitCount/2);
+                    count = Convert.ToByte(armOpponent[i].Quantity / 2);
                     wArm[0] = count;
                     wArm[7] = count;
                 }
-                if (armPlayer[i].UnitType == 0)
+                if (armPlayer[i].UnitType == UnitType.Knight)
                 {
-                    count = Convert.ToByte(armPlayer[i].UnitCount/2);
+                    count = Convert.ToByte(armPlayer[i].Quantity / 2);
                     bArm[1] = count;
                     bArm[6] = count;
-                    count = Convert.ToByte(armOpponent[i].UnitCount/2);
+                    count = Convert.ToByte(armOpponent[i].Quantity / 2);
                     wArm[1] = count;
                     wArm[6] = count;
                 }
-                if (Convert.ToInt32(armPlayer[i].UnitType) == 3)
+                if (armPlayer[i].UnitType == UnitType.Bishop)
                 {
-                    count = Convert.ToByte(armPlayer[i].UnitCount/2);
+                    count = Convert.ToByte(armPlayer[i].Quantity / 2);
                     bArm[2] = count;
                     bArm[5] = count;
-                    count = Convert.ToByte(armOpponent[i].UnitCount/2);
+                    count = Convert.ToByte(armOpponent[i].Quantity / 2);
                     wArm[2] = count;
                     wArm[5] = count;
                 }
-                if (Convert.ToInt32(armPlayer[i].UnitType) == 1)
+                if (armPlayer[i].UnitType == UnitType.Queen)
                 {
-                    count = Convert.ToByte(armPlayer[i].UnitCount/2);
+                    count = Convert.ToByte(armPlayer[i].Quantity / 2);
                     bArm[3] = count;
-                    count = Convert.ToByte(armOpponent[i].UnitCount/2);
+                    count = Convert.ToByte(armOpponent[i].Quantity / 2);
                     wArm[3] = count;
                 }
 
-                if (Convert.ToInt32(armPlayer[i].UnitType) == 10)
+                if (armPlayer[i].UnitType == UnitType.Pawn)
                 {
-                    count = Convert.ToByte(armPlayer[i].UnitCount/8);
+                    count = Convert.ToByte(armPlayer[i].Quantity / 8);
                     bArm[8] = count;
                     bArm[9] = count;
                     bArm[10] = count;
@@ -79,7 +79,7 @@ namespace ModuleBatleAliveChess
                     bArm[13] = count;
                     bArm[14] = count;
                     bArm[15] = count;
-                    count = Convert.ToByte(armOpponent[i].UnitCount/8);
+                    count = Convert.ToByte(armOpponent[i].Quantity / 8);
                     wArm[8] = count;
                     wArm[9] = count;
                     wArm[10] = count;
@@ -203,9 +203,9 @@ namespace ModuleBatleAliveChess
         }
 
 
-        private char[] sideLetter = new char[2] {'w', 'b'};
+        private char[] sideLetter = new char[2] { 'w', 'b' };
 
-        private char[,] pieceFace = new char[2,8]
+        private char[,] pieceFace = new char[2, 8]
                                         {
                                             {'N', 'Q', 'R', 'B', 'K', 'P', '-', ' '},
                                             {'n', 'q', 'r', 'b', 'k', '-', 'p', ' '}

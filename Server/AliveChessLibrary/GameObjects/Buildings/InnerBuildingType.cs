@@ -1,11 +1,18 @@
-﻿namespace AliveChessLibrary.GameObjects.Buildings
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AliveChessLibrary.GameObjects.Buildings
 {
     public enum InnerBuildingType
     {
-        Voencomat      = 0, //для создания пешек
-        Stable         = 1, // для создания коней
-        SchoolOfficers = 2, // для создание офицеров
-        VVU            = 3, // для создания лодьи
-        GeneralStaff   = 4  // для создания королев
+        Quarters, //казармы для создания пешек
+        TrainingGround, // тренировочная площадка для создания слонов (офицеров)
+        Stabling, // конюшня для создания коней
+        Workshop, // мастерская для создания ладьи
+        RoyalGuardQuarters,  // казармы королевской гвардии для создания ферзей
+        Forge, // кузница - повышает боевую мощь производимых юнитов
+        Hospital // больница - восстанавливает здоровье юнитов, находящихся в городе
     }
 }

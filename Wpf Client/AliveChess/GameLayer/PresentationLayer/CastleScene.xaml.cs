@@ -26,6 +26,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         public CastleScene()
         {
             InitializeComponent();
+            GameCore.Instance.CastleCommandController.CastleScene = this;
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
         }
 
@@ -44,6 +45,8 @@ namespace AliveChess.GameLayer.PresentationLayer
             {
                 NavigationService.Navigate(uri);
             }
+            GameCore.Instance.CastleCommandController.CastleScene = null;
+            GameCore.Instance.CastleCommandController.Castle = null;
         }
 
         public void ConnectCallback(bool isConnected)
@@ -55,14 +58,11 @@ namespace AliveChess.GameLayer.PresentationLayer
             //catch (Exception) { }
             //GetMapRequest request = new GetMapRequest();
             //GameCore.Instance.Network.Send(request);
-            GetListBuildingsInCastleRequest request = new GetListBuildingsInCastleRequest();
-            GameCore.Instance.Network.Send(request);
+            GameCore.Instance.CastleCommandController.SendGetListBuildingsInCastleRequest();
         }
 
-        public void ShowGetListBuildingsInCastleResult(GetListBuildingsInCastleResponse response)
+        public void ShowGetListBuildingsInCastleResult()
         {
-            IList<InnerBuilding> buildings = (response.List);
-            
         }
     }
 }

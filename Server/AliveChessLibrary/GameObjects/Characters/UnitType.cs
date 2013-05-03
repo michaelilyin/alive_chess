@@ -1,11 +1,12 @@
 ﻿namespace AliveChessLibrary.GameObjects.Characters
 {
-    public enum UnitType//Slisarenko
+    public enum UnitType
     {
-        Knight = 0,
-        Queen  = 1,
-        Rook   = 2,
-        Bishop = 3,
-        Pawn   = 10
+        Pawn, //Пешка
+        Bishop, //Слон == 3 пешки
+        Knight, //Конь == 3 пешки
+        Rook, //Ладья == 5 пешек
+        Queen, //Ферзь == 9 пешек
+        King //Король
     }
 }

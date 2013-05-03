@@ -205,7 +205,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                WayCost = wayCosts["Resource"],
                                ResourceType = objType
                            };
-            resource.CountResource = Convert.ToInt32(reader.GetAttribute("quantity"));
+            resource.Quantity = Convert.ToInt32(reader.GetAttribute("quantity"));
 
 #if DEBUG
             AliveChessLibrary.DebugConsole.WriteLine("XMLLevelLoader", "Resource: " + objType.ToString() + " x = " + resource.X + " y = " + resource.Y);
@@ -235,33 +235,13 @@ namespace AliveChessServer.DBLayer.Loaders
             castle.FigureStore = figures;
             Unit uu = new Unit();
             uu.UnitType = UnitType.Knight;
-            uu.UnitCount = 1;
+            uu.Quantity = 1;
             figures.AddFigureToRepository(uu);
 
-            ResourceStore resources = new ResourceStore { Id = ID };
-            castle.ResourceStore = resources;
-            Resource rr = new Resource();
-            rr.ResourceType = ResourceTypes.Gold;
-            rr.CountResource = 500;
-            resources.AddResourceToRepository(rr);
-            rr = new Resource();
-            rr.ResourceType = ResourceTypes.Wood;
-            rr.CountResource = 0;
-            resources.AddResourceToRepository(rr);
-            rr = new Resource();
-            rr.ResourceType = ResourceTypes.Stone;
-            rr.CountResource = 0;
-            resources.AddResourceToRepository(rr);
-            rr = new Resource();
-            rr.ResourceType = ResourceTypes.Coal;
-            rr.CountResource = 0;
-            resources.AddResourceToRepository(rr);
-            rr = new Resource();
-            rr.ResourceType = ResourceTypes.Iron;
-            rr.CountResource = 0;
-            resources.AddResourceToRepository(rr);
+            /*ResourceStore resourceStore = new ResourceStore { Id = ID };
+            castle.ResourceStore = resourceStore;*/
 
-            castle.CreatStartArmy();
+            castle.CreateInitialArmy();
 
             Vicegerent vicegerent = new Vicegerent
                                     {
@@ -371,18 +351,45 @@ namespace AliveChessServer.DBLayer.Loaders
                 var player = new Player(level, identity.Login, identity.Password);
 
                 player.Id = id;
-
+                ResourceStore resourceStore = new ResourceStore();
+                resourceStore.Id = player.Id;
                 var king = new King
                            {
                                Id = id,
                                Experience = 0,
-                               MilitaryRank = 0
+                               MilitaryRank = 0,
+                               ResourceStore = resourceStore
                            };
+
+                Resource rr = new Resource();
+                rr.ResourceType = ResourceTypes.Gold;
+                rr.Quantity = 500;
+                resourceStore.AddResourceToStore(rr);
+                rr = new Resource();
+                rr.ResourceType = ResourceTypes.Wood;
+                rr.Quantity = 0;
+                resourceStore.AddResourceToStore(rr);
+                rr = new Resource();
+                rr.ResourceType = ResourceTypes.Stone;
+                rr.Quantity = 0;
+                resourceStore.AddResourceToStore(rr);
+                rr = new Resource();
+                rr.ResourceType = ResourceTypes.Coal;
+                rr.Quantity = 0;
+                resourceStore.AddResourceToStore(rr);
+                rr = new Resource();
+                rr.ResourceType = ResourceTypes.Iron;
+                rr.Quantity = 0;
+                resourceStore.AddResourceToStore(rr);
 
                 player.AddKing(king);
                 player.Map = player.King.Map = player.Level.Map;
 
                 Castle castle = player.Level.Map.SearchFreeCastle();
+                if (castle == null)
+                {
+                    //TODO: Нужно перенаправлять игрока на другую карту
+                }
 
                 king.X = castle.X != player.Map.SizeX - 1
                              ? castle.X - 1

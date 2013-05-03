@@ -16,7 +16,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
             Castle castle = player.Map.SearchCastleById(request.CastleId);
             if (castle != null)
             {
-                if (castle.Player != null && castle.IsBelongTo(player.King))
+                if (castle.Player != null && castle.BelongsTo(player.King))
                 {
                     int castleId = castle.Id;
                     player.King.ComeInCastle(castle);

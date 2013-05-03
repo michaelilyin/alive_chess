@@ -26,8 +26,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             Player info = _playerManager.GetPlayerInfoById(cmd.Sender.Id);
             int l = info.King.CurrentCastle.InnerBuildings.Count;
             List<InnerBuilding> s = new List<InnerBuilding>();
-            for (int i = 0; i < l; i++) s.Add(info.King.CurrentCastle.GetBuildings(i));
-            s.Add(new AliveChessLibrary.GameObjects.Buildings.InnerBuildingFactory().Build(new System.Guid("{1A853210-CF28-4F8A-9A77-C25589E93CC6}"),1, InnerBuildingType.Voencomat, "Voenkomat"));
+            for (int i = 0; i < l; i++) s.Add(info.King.CurrentCastle.GetBuilding(i));
             var response = new GetListBuildingsInCastleResponse();
             response.List = s;// as IList<InnerBuilding>;
             _queryManager.Messenger.SendNetworkMessage(response);

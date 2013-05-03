@@ -68,6 +68,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         private readonly EntitySet<Unit> _units;
         private readonly EntitySet<Castle> _castles;
         private readonly EntitySet<Resource> _resources;
+        private ResourceStore _resourceStore;
 #else
         private Map _map;
         private List<Mine> _mines;
@@ -1142,7 +1143,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         /// список ресурсов
         /// </summary>
         public virtual EntitySet<Resource> Resources
@@ -1155,6 +1156,12 @@ namespace AliveChessLibrary.GameObjects.Characters
             {
                 this._resources.Assign(value);
             }
+        }*/
+
+        public virtual ResourceStore ResourceStore
+        {
+            get { return _resourceStore; }
+            set { _resourceStore = value; }
         }
 #else
         public virtual Map Map

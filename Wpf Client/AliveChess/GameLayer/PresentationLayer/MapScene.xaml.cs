@@ -41,6 +41,7 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private bool _kingSelected = false;
         private bool _kingInCastle = false;
+        private bool _followingKing = false;
 
 
         private ImageBrush _brushKing;
@@ -56,9 +57,14 @@ namespace AliveChess.GameLayer.PresentationLayer
         public MapScene()
         {
             InitializeComponent();
+            scrollViewerMap.CanContentScroll = false;
+            InitBrushes();
             GameCore.Instance.BigMapCommandController.MapScene = this;
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
             ResponceComplete.responceComplete += new ResponceCompleteDelegate(ResponceComplete_responceComplete);
+            /*scrollViewerMap.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            scrollViewerMap.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;*/
+            //GameCore.Instance.BigMapCommandController.SendGetMapRequest();
         }
         private delegate void MyDelegate();
         private event MyDelegate MyEvent;
@@ -247,8 +253,8 @@ namespace AliveChess.GameLayer.PresentationLayer
         private Rectangle _createRectangle(int X, int Y, LandscapeTypes type)
         {
             Rectangle r = new Rectangle();
-            r.Height = height;
-            r.Width = width;
+            r.Height = height + 1;
+            r.Width = width + 1;
             r.Fill = _groundBrushes[(int)type];
             TranslateTransform t = new TranslateTransform();
             t.X = X * width;
@@ -259,15 +265,29 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private void KingToFocus()
         {
-            scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width + width / 2 - scrollViewerMap.ActualWidth / 2);
-            scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * width + width / 2 - scrollViewerMap.ActualHeight / 2);
+            if (_player.King.X * width >= scrollViewerMap.HorizontalOffset + scrollViewerMap.ActualWidth - 2 * width)
+                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width - scrollViewerMap.ActualWidth + 4 * width);
+            if (_player.King.X * width <= scrollViewerMap.HorizontalOffset + 2 * width)
+                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width - 4 * width);
+            if (_player.King.Y * height >= scrollViewerMap.VerticalOffset + scrollViewerMap.ActualHeight - 3 * height)
+                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * height - scrollViewerMap.ActualHeight + 5 * height);
+            if (_player.King.Y * height <= scrollViewerMap.VerticalOffset + 2 * height)
+                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * height - 4 * height);
+            /*{
+                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width + width / 2 - scrollViewerMap.ActualWidth / 2);
+                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * width + width / 2 - scrollViewerMap.ActualHeight / 2);
+                _followingKing = true;
+            }*/
+            if (!_kingSelected)
+                _followingKing = false;
         }
 
         public void DrawGround()
         {
+            if (!_rectanglesInitialized)
+                InitRectangles();
             foreach (var basePoint in _world.Map.BasePoints)
             {
-
                 rectArrGround[basePoint.X, basePoint.Y] = _createRectangle(basePoint.X, basePoint.Y, basePoint.LandscapeType);
             }
 
@@ -306,6 +326,8 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void DrawLandscape()
         {
+            if (!_rectanglesInitialized)
+                InitRectangles();
             foreach (var obj in _world.Map.SingleObjects)
             {
                 rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[(int)obj.SingleObjectType];
@@ -314,6 +336,8 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void DrawBuildings()
         {
+            if (!_rectanglesInitialized)
+                InitRectangles();
             //ClearRectangles(rectArrBuildings);
             foreach (var obj in _world.Map.Mines)
             {
@@ -341,6 +365,8 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void DrawDynamicObjects()
         {
+            if (!_rectanglesInitialized)
+                InitRectangles();
             ClearRectangles(rectArrDynamicObjects);
             foreach (var obj in _world.Map.Resources)
             {
@@ -384,7 +410,14 @@ namespace AliveChess.GameLayer.PresentationLayer
                         return;
                     }
                 }
-                GameCore.Instance.BigMapCommandController.SendMoveKingRequest(new Point(x, y));
+                if (x != _player.King.X || y != _player.King.Y)
+                {
+                    GameCore.Instance.BigMapCommandController.SendMoveKingRequest(new Point(x, y));
+                }
+                else
+                {
+                    _followingKing = !_followingKing;
+                }
             }
             else if (_player.King.X == x && _player.King.Y == y)
             {
@@ -395,37 +428,38 @@ namespace AliveChess.GameLayer.PresentationLayer
         private void canvasDynamicObjects_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _kingSelected = false;
+            _followingKing = false;
         }
 
 
         public void ShowGetMapResult()
         {
-            InitBrushes();
             InitRectangles();
             DrawAll();
             AddRectanglesToCanvas();
+            _followingKing = true;
         }
 
         public void ShowGetGameStateResult()
         {
-            foreach (var res in _player.King.Resources)
+            foreach (var res in _player.King.ResourceStore.Resources)
             {
                 switch (res.ResourceType)
                 {
                     case ResourceTypes.Gold:
-                        LabelGoldQuantity.Content = res.CountResource.ToString();
+                        LabelGoldQuantity.Content = res.Quantity.ToString();
                         break;
                     case ResourceTypes.Stone:
-                        LabelStoneQuantity.Content = res.CountResource.ToString();
+                        LabelStoneQuantity.Content = res.Quantity.ToString();
                         break;
                     case ResourceTypes.Wood:
-                        LabelWoodQuantity.Content = res.CountResource.ToString();
+                        LabelWoodQuantity.Content = res.Quantity.ToString();
                         break;
                     case ResourceTypes.Iron:
-                        LabelIronQuantity.Content = res.CountResource.ToString();
+                        LabelIronQuantity.Content = res.Quantity.ToString();
                         break;
                     case ResourceTypes.Coal:
-                        LabelCoalQuantity.Content = res.CountResource.ToString();
+                        LabelCoalQuantity.Content = res.Quantity.ToString();
                         break;
                 }
             }
@@ -434,11 +468,12 @@ namespace AliveChess.GameLayer.PresentationLayer
         /// <summary>
         /// Отображение объектов в зоне видимости
         /// </summary>
-        /// <param name="response"></param>
         public void ShowGetObjectsResult()
         {
             DrawBuildings();
             DrawDynamicObjects();
+            if (_followingKing)
+                KingToFocus();
         }
 
         public void ShowCaptureMineResult()
@@ -458,14 +493,43 @@ namespace AliveChess.GameLayer.PresentationLayer
         {
         }
 
-        public void ShowComeInCastleResult(ComeInCastleResponse response)
+        public void ShowComeInCastleResult()
         {
             //timerUpdate.Stop();
-            Uri uri = new Uri("/GameLayer/PresentationLayer/CastleScene.xaml",
-                                                       UriKind.Relative);
+            Uri uri = new Uri("/GameLayer/PresentationLayer/CastleScene.xaml", UriKind.Relative);
             base.MoveTo(uri);
-            if ((response.CastleId == _player.GetKingList().First().Castles[0].Id) && (NavigationService != null))
+            if ((NavigationService != null))
                 NavigationService.Navigate(uri);
+        }
+
+        private void scrollViewerMap_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            //_followingKing = false;
+        }
+
+        private void scrollViewerMap_KeyDown(object sender, KeyEventArgs e)
+        {
+            _followingKing = false;
+            /*if (e.Key == Key.Up || e.Key == Key.W)
+            {
+                scrollViewerMap.ScrollToVerticalOffset(scrollViewerMap.VerticalOffset - height);
+                _followingKing = false;
+            } 
+            else if (e.Key == Key.Down || e.Key == Key.S)
+            {
+                scrollViewerMap.ScrollToVerticalOffset(scrollViewerMap.VerticalOffset + height);
+                _followingKing = false;
+            } 
+            else if (e.Key == Key.Left || e.Key == Key.A)
+            {
+                scrollViewerMap.ScrollToHorizontalOffset(scrollViewerMap.HorizontalOffset - width);
+                _followingKing = false;
+            } 
+            else if (e.Key == Key.Right || e.Key == Key.D)
+            {
+                scrollViewerMap.ScrollToHorizontalOffset(scrollViewerMap.HorizontalOffset + width);
+                _followingKing = false;
+            } */
         }
     }
 

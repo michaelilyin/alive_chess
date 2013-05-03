@@ -38,46 +38,28 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         private int _imageId;
         private bool _kingInside;
-        private VisibleSpace _visibleSector;
+        private VisibleSpace _visibleSpace;
         private bool _isAttached = false;
 
         private MapSector _viewOnMap; // сектор на карте
 
         private int? _mapId;
-        private int _resourceVaultId;
-        private int _figureVaultId;
+        private int _figureStoreId;
 
 #if !UNITY_EDITOR
         private EntityRef<Map> _map; // ссылка на карту
         private EntityRef<King> _king; // ссылка на короля
         private EntityRef<Vicegerent> _vicegerent; // наместник
         private EntitySet<InnerBuilding> _innerBuildings; // список внутренних строений
-        private EntityRef<ResourceStore> _resourceStore;
         private EntityRef<FigureStore> _figureStore;
 #else
         private Map _map; // ссылка на карту
         private King _king; // ссылка на короля
         private Vicegerent _vicegerent; // наместник
         private List<InnerBuilding> _innerBuildings; // список внутренних строений
-        private ResourceStore _resourceStore;
         private FigureStore _figureStore;
 #endif
         private int _distance = 5;
-       
-        ///Slisarenko
-        //фабрика юнитов
-        private UnitFacrory _factory;
-        //для призыва пешек
-        private InnerBuilding _recruitmentOffice;
-        //фабрика постройки зданий
-        private InnerBuildingFactory Fabric = new InnerBuildingFactory();
-        //Армия в замке
-        //private List<Unit> _army = new List<Unit>();
-
-        //список ресурсов для постройки  
-        //private List<IInnerBuilding> list = new List<IInnerBuilding>();
-
-        ///Slisarenko
 
         #endregion
 
@@ -90,17 +72,15 @@ namespace AliveChessLibrary.GameObjects.Buildings
             this._king = default(EntityRef<King>);
             this._vicegerent = default(EntityRef<Vicegerent>);
             this._figureStore = default(EntityRef<FigureStore>);
-            this._resourceStore = default(EntityRef<ResourceStore>);
             this._innerBuildings = new EntitySet<InnerBuilding>();
 #else
             this.Map = null;
             this.King = null;
             this.Vicegerent = null;
             this.FigureStore = null;
-            this.ResourceStore = null;
             this.InnerBuildings = new List<InnerBuilding>();
 #endif
-            _visibleSector = new VisibleSpace(this);
+            _visibleSpace = new VisibleSpace(this);
 
             if (OnLoad != null)
                 OnLoad(this);
@@ -120,10 +100,9 @@ namespace AliveChessLibrary.GameObjects.Buildings
         {
             _map.Entity = map;
             _mapId = map.Id;
-            _factory = new UnitFacrory();
-            _recruitmentOffice = new InnerBuilding();
+            InnerBuilding _recruitmentOffice = new InnerBuilding();
             _recruitmentOffice.ProducedUnitType = UnitType.Pawn;
-            _recruitmentOffice.InnerBuildingType = InnerBuildingType.Voencomat;
+            _recruitmentOffice.InnerBuildingType = InnerBuildingType.Quarters;
             _recruitmentOffice.Name = "Recruitment office";
             _innerBuildings.Add(_recruitmentOffice);
         }
@@ -184,18 +163,19 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// </summary>
         /// <param name="king"></param>
         /// <returns></returns>
-        public bool IsBelongTo(King king)
+        public bool BelongsTo(King king)
         {
             return this.King == king;
         }
 
       
-        public int SizeListbuilldingsInCastle()
+        public int NumberOfBuildings()
         {
             return InnerBuildings.Count;
         }
 #warning Создание юнита
-       // Создание юнита и отправка в армию
+        //TODO: Переделать по-нормальному
+        // Создание юнита и отправка в армию
         public void CreateUnitAndAddInArmy(int count, UnitType type)
         {
             for (int i = 0; i < InnerBuildings.Count; i++)
@@ -208,6 +188,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         }
 
         //Добавление в армию замка
+        //TODO: Переделать по-нормальному
         private void AddInArmy(Unit un)
         {
             bool t = false;
@@ -215,7 +196,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             {
                 if (FigureStore.Units[i].UnitType == un.UnitType)
                 {
-                    FigureStore.Units[i].UnitCount += un.UnitCount;
+                    FigureStore.Units[i].Quantity += un.Quantity;
                     t = true;
                     break;
                 }
@@ -223,7 +204,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             if (!t) FigureStore.Units.Add(un);
         }
 
-        public bool test_res(int[] f)
+        /*public bool test_res(int[] f)
         {
             if (f[0] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Coal))
                 return false;
@@ -236,7 +217,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             if (f[4] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Wood))
                 return false;
             return true;
-        }
+        }*/
 
         //передать армию замка королю
         public void GetArmyToKing()
@@ -248,7 +229,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 {
                     if (FigureStore.Units[j].UnitType == King.Units[i].UnitType)
                     {
-                        King.Units[i].UnitCount += FigureStore.Units[j].UnitCount;
+                        King.Units[i].Quantity += FigureStore.Units[j].Quantity;
                         t = true;
                         break;
 
@@ -263,30 +244,22 @@ namespace AliveChessLibrary.GameObjects.Buildings
             FigureStore.Units.Clear();
         }
        
-        public InnerBuilding GetBuildings(int i)
+        //TODO: Переделать по-нормальному (получение здания по типу или по id)
+        public InnerBuilding GetBuilding(int i)
         {
             return InnerBuildings[i];
         }
 
-        public void AddBuildings(InnerBuildingType type)
+        //TODO: Переделать по-нормальному, добавлять уже готовое здание
+        public void AddBuilding(InnerBuildingType type)
         {
             //_innerBuildings.Add(Fabric.Build(pair.Guid, pair.Id, type, type.ToString(), _gameData));
-        }
-
-        //public List<Unit> ArmyInsideCastle
-        //{
-        //    get { return FigureStore.Units.ToList(); }
-        //}
-
-        public InnerBuilding RecruitmentOffice
-        {
-            get { return _recruitmentOffice; }
         }
 
         /// <summary>
         /// Создание начальной армии 
         /// </summary>
-        public void CreatStartArmy()
+        public void CreateInitialArmy()
         {
             //GuidIDPair pair = generator.Invoke();
             //int cost = Convert.ToInt32(CostUnit.One);
@@ -314,6 +287,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             //AddUnit(p, _figureStore.Entity.Units);
         }
 
+//TODO: Нигде не используется, переписать этот бред
         /// <summary>
         ///добавление юнита 
         /// </summary>
@@ -326,7 +300,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             {
                 if (un.Id == arm[i].Id)
                 {
-                    arm[i].UnitCount++;
+                    arm[i].Quantity++;
                     ok = false;
                     break;
                 }
@@ -464,8 +438,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// </summary>
         public VisibleSpace VisibleSpace
         {
-            get { return _visibleSector; }
-            set { _visibleSector = value; }
+            get { return _visibleSpace; }
+            set { _visibleSpace = value; }
         }
 
         /// <summary>
@@ -512,29 +486,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 if (_figureStore.Entity != value)
                 {
                     _figureStore.Entity = value;
-                    _figureVaultId = _figureStore.Entity.Id;
-                }
-            }
-        }
-
-        /// <summary>
-        /// хранилище ресурсов
-        /// </summary>
-        public ResourceStore ResourceStore
-        {
-            get
-            {
-                if (_resourceStore.Entity == null && OnDeferredLoadingResourceStore != null)
-                    OnDeferredLoadingResourceStore(this);
-
-                return this._resourceStore.Entity;
-            }
-            set
-            {
-                if (_resourceStore.Entity != value)
-                {
-                    _resourceStore.Entity = value;
-                    _resourceVaultId = _resourceStore.Entity.Id;
+                    _figureStoreId = _figureStore.Entity.Id;
                 }
             }
         }
@@ -601,45 +553,23 @@ namespace AliveChessLibrary.GameObjects.Buildings
 #if !UNITY_EDITOR
 
         /// <summary>
-        /// идентификатор хранилища ресурсов
-        /// </summary>
-        public int ResourceVaultId
-        {
-            get
-            {
-                return this._resourceVaultId;
-            }
-            set
-            {
-                if (this._resourceVaultId != value)
-                {
-                    if (this._resourceStore.HasLoadedOrAssignedValue)
-                    {
-                        throw new ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this._resourceVaultId = value;
-                }
-            }
-        }
-
-        /// <summary>
         /// идентификатор хранилища фигур
         /// </summary>
-        public int FigureVaultId
+        public int FigureStoreId
         {
             get
             {
-                return this._figureVaultId;
+                return this._figureStoreId;
             }
             set
             {
-                if (this._figureVaultId != value)
+                if (this._figureStoreId != value)
                 {
                     if (this._figureStore.HasLoadedOrAssignedValue)
                     {
                         throw new ForeignKeyReferenceAlreadyHasValueException();
                     }
-                    this._figureVaultId = value;
+                    this._figureStoreId = value;
                 }
             }
         }

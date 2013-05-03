@@ -35,7 +35,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         {
             Unit tmpRes = GetFigure(addResource.UnitType);
             if (tmpRes != null)
-                tmpRes.UnitCount += addResource.UnitCount;
+                tmpRes.Quantity += addResource.Quantity;
             else this.Units.Add(addResource);
         }
 
@@ -51,9 +51,9 @@ namespace AliveChessLibrary.GameObjects.Resources
         public bool RemoveFigure(UnitType type, int count)
         {
             Unit r = GetFigure(type);
-            if (r == null || r.UnitCount >= count)
+            if (r == null || r.Quantity >= count)
             {
-                r.UnitCount -= count;
+                r.Quantity -= count;
                 return true;
             }
             else return false;
@@ -66,17 +66,17 @@ namespace AliveChessLibrary.GameObjects.Resources
                 {
                     return x.UnitType == typeRes;
                 });
-            return u != null ? u.UnitCount : 0;
+            return u != null ? u.Quantity : 0;
         }
 
         private void AttachFigure(Unit entity)
         {
-            entity.Vault = this;
+            entity.FigureStore = this;
         }
 
         private void DetachFigure(Unit entity)
         {
-            entity.Vault = null;
+            entity.FigureStore = null;
         }
 
         #endregion

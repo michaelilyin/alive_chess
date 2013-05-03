@@ -254,7 +254,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
                     if (King != null && GetResourceEvent != null)
                     {
                         GetResourceEvent(this.King, _gainingResource, true);
-                        _gainingResource.CountResource = 0;
+                        _gainingResource.Quantity = 0;
                     }
 
                     // сохранить новую дату работы шахты и вычесть извлеченное количество ресурсов
@@ -350,7 +350,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             else*/
             {
                 //Увеличить счетчик количества добытого ресурса в Шахте
-                this._gainingResource.CountResource += amountResource;
+                this._gainingResource.Quantity += amountResource;
             }
 
         }
@@ -372,7 +372,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             else*/
             {
                 //вернуть количество ресурса в шахте
-                return this._gainingResource.CountResource;
+                return this._gainingResource.Quantity;
             }
         }
 
@@ -383,7 +383,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private bool MineOverflow()
         {
             // Если размер ресурса превышает максимальный размер шахты
-            if (this._gainingResource.CountResource >= this._sizeMine)
+            if (this._gainingResource.Quantity >= this._sizeMine)
                 return true;
             else
                 return false;

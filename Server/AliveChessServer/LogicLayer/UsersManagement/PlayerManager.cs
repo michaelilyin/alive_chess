@@ -264,7 +264,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
         {
             GuidIDPair guid;
 
-            ResourceStore vault = new ResourceStore();
+            ResourceStore resourceStore = new ResourceStore();
             
             //vault.Id = castle.Id;
             //vault.Id = castle.DbId;
@@ -273,44 +273,44 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             Resource gold = new Resource();
             //gold.Id = guid.Guid;
             //gold.Id = guid.Id;
-            gold.CountResource = 100;
+            gold.Quantity = 100;
             gold.ResourceType = ResourceTypes.Gold;
-            vault.AddResourceToRepository(gold);
+            resourceStore.AddResourceToStore(gold);
 
             guid = GuidGenerator.Instance.GeneratePair();
             guid = GuidGenerator.Instance.GeneratePair();
             Resource wood = new Resource();
             //wood.Id = guid.Guid;
             //wood.Id = guid.Id;
-            wood.CountResource = 50;
+            wood.Quantity = 50;
             wood.ResourceType = ResourceTypes.Wood;
-            vault.AddResourceToRepository(wood);
+            resourceStore.AddResourceToStore(wood);
 
             guid = GuidGenerator.Instance.GeneratePair();
             Resource stone = new Resource();
             //gold.Id = guid.Guid;
             //gold.Id = guid.Id;
-            stone.CountResource = 10;
+            stone.Quantity = 10;
             stone.ResourceType = ResourceTypes.Stone;
-            vault.AddResourceToRepository(stone);
+            resourceStore.AddResourceToStore(stone);
 
             guid = GuidGenerator.Instance.GeneratePair();
             Resource iron = new Resource();
             //wood.Id = guid.Guid;
             //wood.Id = guid.Id;
-            iron.CountResource = 5;
+            iron.Quantity = 5;
             iron.ResourceType = ResourceTypes.Iron;
-            vault.AddResourceToRepository(iron);
+            resourceStore.AddResourceToStore(iron);
 
             guid = GuidGenerator.Instance.GeneratePair();
             Resource coal = new Resource();
             //wood.Id = guid.Guid;
             //wood.Id = guid.Id;
-            coal.CountResource = 15;
+            coal.Quantity = 15;
             coal.ResourceType = ResourceTypes.Coal;
-            vault.AddResourceToRepository(coal);
+            resourceStore.AddResourceToStore(coal);
 
-            castle.ResourceStore = vault;
+            castle.King.ResourceStore = resourceStore;
         }
 
         public void Update()

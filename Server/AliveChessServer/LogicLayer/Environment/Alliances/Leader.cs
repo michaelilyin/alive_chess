@@ -223,10 +223,22 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
             set { _king.Units.Assign(value); }
         }
 
-        public override EntitySet<Resource> Resources
+        /*public override EntitySet<Resource> Resources
         {
             get { return _king.Resources; }
             set { _king.Resources.Assign(value); }
+        }*/
+
+        public override ResourceStore ResourceStore
+        {
+            get
+            {
+                return _king.ResourceStore;
+            }
+            set
+            {
+                _king.ResourceStore = value;
+            }
         }
 
         public override int? AnimatId

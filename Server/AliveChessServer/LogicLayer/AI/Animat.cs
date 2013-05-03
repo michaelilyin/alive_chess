@@ -176,7 +176,7 @@ namespace AliveChessServer.LogicLayer.AI
             if (resource != null)
             {
                 player.Map.RemoveResource(resource);
-                player.Resources.Add(resource);
+                player.ResourceStore.AddResourceToStore(resource);
             }
         }
 

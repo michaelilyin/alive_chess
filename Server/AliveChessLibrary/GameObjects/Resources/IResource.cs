@@ -10,7 +10,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         /// <summary>
         /// количество
         /// </summary>
-        int CountResource { get; set; }
+        int Quantity { get; set; }
 
         /// <summary>
         /// тип ресурса

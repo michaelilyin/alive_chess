@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Linq;
-using System.Text;
-using System.Windows.Threading;
+﻿using System.Data.Linq;
 using AliveChessLibrary.Commands;
 using AliveChessLibrary.Commands.BigMapCommand;
-using AliveChess.GameLayer.PresentationLayer;
 using AliveChessLibrary.GameObjects.Resources;
 
-namespace AliveChess.GameLayer.LogicLayer.Executors
+namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
 {
     public class GetGameStateExecutor : IExecutor
     {
@@ -23,12 +17,9 @@ namespace AliveChess.GameLayer.LogicLayer.Executors
             GameCore.Instance.Player.King.X = response.King.;
             GameCore.Instance.Player.King.AttachStartCastle(response.Castle);*/
             GameCore.Instance.Player.King = response.King;
-            EntitySet<Resource> esr = new EntitySet<Resource>();
-            foreach (Resource r in response.Resources)
-            {
-                esr.Add(r);
-            }
-            GameCore.Instance.Player.King.Resources = esr;
+            GameCore.Instance.Player.King.ResourceStore = new ResourceStore();
+            EntitySet<Resource> esr = CustomConverter.ListToEntitySet(response.Resources);
+            GameCore.Instance.Player.King.ResourceStore.Resources = esr;
 
             /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             if (mapScene != null)

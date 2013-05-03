@@ -77,9 +77,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GameLayer\LogicLayer\BigMapCommandController.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\LooseMineMessageExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\CastleCommandController.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\LooseMineMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ErrorMessageExecutor.cs" />
-    <Compile Include="Utilities\ClientFloodAlgorithm.cs" />
     <Page Include="GameLayer\PresentationLayer\BattleScene.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -111,18 +111,18 @@
     <Compile Include="GameCore.cs" />
     <Compile Include="GameLayer\LogicLayer\CustomConverter.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\AuthorizeExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\CaptureMineExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\ComeInCastleExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetGameStateExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetKingExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetListBuildingsInCastleExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetMapExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetObjectsExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\GetResourceMessageExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\BigMapExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\CaptureMineExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\ComeInCastleExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\GetGameStateExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\GetKingExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\GetListBuildingsInCastleExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\GetMapExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\GetObjectsExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\GetResourceMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\IExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\MoveKingExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\UpdateWorldMessageExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\MoveKingExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\UpdateWorldMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\ExecutorType.cs" />
     <Compile Include="GameLayer\LogicLayer\GameWorld.cs" />
     <Compile Include="GameLayer\LogicLayer\Player.cs" />
@@ -206,6 +206,9 @@
     <Resource Include="Resources\stone.png" />
     <Resource Include="Resources\tree.png" />
     <Resource Include="Resources\wood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <PropertyGroup>
     <StartArguments />

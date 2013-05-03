@@ -83,7 +83,7 @@ namespace BehaviorAILibrary.PerseptionLayer
                 obj = target;
                 foreach (Castle item in targets)
                 {
-                    if (!item.IsBelongTo(_player))
+                    if (!item.BelongsTo(_player))
                     {
                         double tmp = Math.Sqrt(Math.Pow(_player.X - item.X, 2) + Math.Pow(_player.Y - item.Y, 2));
                         if (tmp < distance)
@@ -108,7 +108,7 @@ namespace BehaviorAILibrary.PerseptionLayer
                 obj = target;
                 foreach (Castle item in targets)
                 {
-                    if (item.IsBelongTo(_player))
+                    if (item.BelongsTo(_player))
                     {
                         double tmp = Math.Sqrt(Math.Pow(_player.X - item.X, 2) + Math.Pow(_player.Y - item.Y, 2));
                         if (tmp < distance)

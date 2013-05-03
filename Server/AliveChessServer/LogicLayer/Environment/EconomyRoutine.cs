@@ -23,7 +23,7 @@ namespace AliveChessServer.LogicLayer.Environment
         
         public void SendResource(King player, Resource r, bool fromMine)
         {
-            player.StartCastle.ResourceStore.AddResourceToRepository(r);
+            player.ResourceStore.AddResourceToStore(r);
             //player.Player.Messenger.SendNetworkMessage(new GetResourceMessage(r, fromMine));
         }
 
