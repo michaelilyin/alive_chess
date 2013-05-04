@@ -3,11 +3,11 @@
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class GetListBuildingsInCastleRequest : ICommand
+    public class GetCastleArmyRequest : ICommand
     {
         public Command Id
         {
-            get { return Command.GetListBuildingsInCastleRequest; }
+            get { return Command.GetCastleArmyRequest; }
         }
     }
 }

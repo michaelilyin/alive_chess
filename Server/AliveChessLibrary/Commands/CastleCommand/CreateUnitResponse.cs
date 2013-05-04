@@ -5,14 +5,14 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class BuyFigureResponse : ICommand
+    public class CreateUnitResponse : ICommand
     {
         [ProtoMember(1)]
         private List<Unit> _units;
 
         public Command Id
         {
-            get { return Command.BuyFigureResponse; }
+            get { return Command.CreateUnitResponse; }
         }
 
         public List<Unit> Units

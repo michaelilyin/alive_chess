@@ -1,24 +1,42 @@
-﻿using AliveChessLibrary.Commands.BigMapCommand;
+﻿using System;
+using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Resources;
+using AliveChessServer.LogicLayer.EconomyEngine;
 using AliveChessServer.LogicLayer.UsersManagement;
 
 namespace AliveChessServer.LogicLayer.Environment
 {
-    public class EconomyRoutine : IRoutine
+    public class EconomyRoutine : ITimeRoutine
     {
         private Level _level;
-        private PlayerManager playerManager;
+        private PlayerManager _playerManager;
         private TimeManager _timeManager;
+        private Economy _economy;
 
-        public EconomyRoutine(TimeManager timeManager)
+        public EconomyRoutine(Level level, TimeManager timeManager)
         {
-            this._timeManager = timeManager;
+            _level = level;
+            _timeManager = timeManager;
         }
 
-        public void Update()
+        public void Initialize(Economy economy)
         {
-           //
+            _economy = economy;
+            foreach (var castle in _level.Map.Castles)
+            {
+                castle.BuildingFactory = new BuildingFactory(_economy);
+                castle.UnitFactory = new UnitFactory(_economy);
+            }
+        }
+
+        public void Update(GameTime time)
+        {
+            if (time.Elapsed > TimeSpan.FromMilliseconds(50))
+            {
+
+                time.SavePreviousTimestamp();
+            }
         }
         
         public void SendResource(King player, Resource r, bool fromMine)
@@ -29,8 +47,13 @@ namespace AliveChessServer.LogicLayer.Environment
 
         public PlayerManager PlayerManager
         {
-            get { return playerManager; }
-            set { playerManager = value; }
+            get { return _playerManager; }
+            set { _playerManager = value; }
+        }
+
+        public Economy Economy
+        {
+            get { return _economy; }
         }
     }
 }

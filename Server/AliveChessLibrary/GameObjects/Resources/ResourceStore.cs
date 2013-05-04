@@ -47,7 +47,7 @@ namespace AliveChessLibrary.GameObjects.Resources
             }
         }
 
-        public bool DeleteResourceFromRepository(ResourceTypes type, int count)
+        public bool DeleteResourceFromStore(ResourceTypes type, int count)
         {
             Resource r = GetResource(type);
             if (r != null && r.Quantity >= count)
@@ -71,29 +71,29 @@ namespace AliveChessLibrary.GameObjects.Resources
         }
 
         //Что-то непонятное, используется один раз в Emipre
-        public Resource PushResource(ResourceTypes type, int count)
+        public Resource PushResource(ResourceTypes type, int quantity)
         {
             Resource result = null;
             Resource res = GetResource(type);
-            if (res.Quantity >= count)
+            if (res.Quantity >= quantity)
             {
                 result = new Resource();
                 result.Id = res.Id;
                 result.Id = res.Id;
-                result.Quantity = count;
+                result.Quantity = quantity;
                 result.ResourceType = type;
-                DeleteResourceFromRepository(type, count);
+                DeleteResourceFromStore(type, quantity);
                 return result;
             }
             else
             {
                 result = GetResource(type);
-                DeleteResourceFromRepository(type, result.Quantity);
+                DeleteResourceFromStore(type, result.Quantity);
                 return result;
             }
         }
 
-        public int GetResourceCountInRepository(ResourceTypes typeRes)
+        public int GetResourceQuantity(ResourceTypes typeRes)
         {
             for (int i = 0; i < this.Resources.Count; i++)
             {

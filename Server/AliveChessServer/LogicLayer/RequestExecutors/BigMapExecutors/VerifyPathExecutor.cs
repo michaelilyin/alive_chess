@@ -33,7 +33,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
                 if (msg.Sender.King.State == KingState.BigMap)
                 {
                     msg.Sender.Waiting = true;
-                    msg.Sender.Time.SavePreviosTimestamp();
+                    msg.Sender.Time.SavePreviousTimestamp();
 
                     if (request.Path != null)
                     {

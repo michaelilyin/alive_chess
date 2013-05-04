@@ -17,6 +17,7 @@ using AliveChess.GameLayer.LogicLayer;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Landscapes;
+using AliveChessLibrary.GameObjects.Objects;
 using AliveChessLibrary.GameObjects.Resources;
 
 
@@ -37,19 +38,19 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private const int width = 50;
         private const int height = width;
-        private bool _rectanglesInitialized = false;
+        private bool _rectanglesInitialized;
 
-        private bool _kingSelected = false;
+        private bool _kingSelected;
         private bool _kingInCastle = false;
-        private bool _followingKing = false;
+        private bool _followingKing;
 
 
         private ImageBrush _brushKing;
         private ImageBrush _brushCastle;
-        private ImageBrush[] _groundBrushes = new ImageBrush[4];
-        private ImageBrush[] _landscapeBrushes = new ImageBrush[2];
-        private ImageBrush[] _mineBrushes = new ImageBrush[5];
-        private ImageBrush[] _resourceBrushes = new ImageBrush[5];
+        private Dictionary<LandscapeTypes, ImageBrush> _groundBrushes = new Dictionary<LandscapeTypes, ImageBrush>();
+        private Dictionary<SingleObjectType, ImageBrush> _landscapeBrushes = new Dictionary<SingleObjectType, ImageBrush>();
+        private Dictionary<ResourceTypes, ImageBrush> _mineBrushes = new Dictionary<ResourceTypes, ImageBrush>();
+        private Dictionary<ResourceTypes, ImageBrush> _resourceBrushes = new Dictionary<ResourceTypes, ImageBrush>();
         DropShadowEffect _enemyLighting = new DropShadowEffect();
         DropShadowEffect _playerLighting = new DropShadowEffect();
         DropShadowEffect _selectionLighting = new DropShadowEffect();
@@ -107,18 +108,18 @@ namespace AliveChess.GameLayer.PresentationLayer
             BitmapImage bmNone = new BitmapImage(new Uri(@"Resources\none.png", UriKind.RelativeOrAbsolute));
             ImageBrush grass = new ImageBrush(bmGrass);
             grass.Stretch = Stretch.UniformToFill;
-            _groundBrushes[(int)LandscapeTypes.Grass] = grass;
-            _groundBrushes[(int)LandscapeTypes.Snow] = new ImageBrush(bmSnow);
-            _groundBrushes[(int)LandscapeTypes.Ground] = new ImageBrush(bmGround);
-            _groundBrushes[(int)LandscapeTypes.None] = new ImageBrush(bmNone);
+            _groundBrushes[LandscapeTypes.Grass] = grass;
+            _groundBrushes[LandscapeTypes.Snow] = new ImageBrush(bmSnow);
+            _groundBrushes[LandscapeTypes.Ground] = new ImageBrush(bmGround);
+            _groundBrushes[LandscapeTypes.None] = new ImageBrush(bmNone);
 
             //Одиночное дерево
             BitmapImage bmTree = new BitmapImage(new Uri(@"Resources\tree.png", UriKind.RelativeOrAbsolute));
             //Скала (непроходимая)
             BitmapImage bmRock = new BitmapImage(new Uri(@"Resources\rock.png", UriKind.RelativeOrAbsolute));
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle] =
+            _landscapeBrushes[AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle] =
                 new ImageBrush(bmRock);
-            _landscapeBrushes[(int)AliveChessLibrary.GameObjects.Objects.SingleObjectType.Tree] =
+            _landscapeBrushes[AliveChessLibrary.GameObjects.Objects.SingleObjectType.Tree] =
                 new ImageBrush(bmTree);
 
             BitmapImage bmGoldMine = new BitmapImage(new Uri(@"Resources\goldmine.png", UriKind.RelativeOrAbsolute));
@@ -126,22 +127,22 @@ namespace AliveChess.GameLayer.PresentationLayer
             BitmapImage bmIronMine = new BitmapImage(new Uri(@"Resources\ironmine.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmQuarry = new BitmapImage(new Uri(@"Resources\quarry.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmSawMill = new BitmapImage(new Uri(@"Resources\sawmill.png", UriKind.RelativeOrAbsolute));
-            _mineBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Gold] = new ImageBrush(bmGoldMine);
-            _mineBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Coal] = new ImageBrush(bmCoalMine);
-            _mineBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Iron] = new ImageBrush(bmIronMine);
-            _mineBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Stone] = new ImageBrush(bmQuarry);
-            _mineBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Wood] = new ImageBrush(bmSawMill);
+            _mineBrushes[ResourceTypes.Gold] = new ImageBrush(bmGoldMine);
+            _mineBrushes[ResourceTypes.Coal] = new ImageBrush(bmCoalMine);
+            _mineBrushes[ResourceTypes.Iron] = new ImageBrush(bmIronMine);
+            _mineBrushes[ResourceTypes.Stone] = new ImageBrush(bmQuarry);
+            _mineBrushes[ResourceTypes.Wood] = new ImageBrush(bmSawMill);
 
             BitmapImage bmGold = new BitmapImage(new Uri(@"Resources\gold.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmCoal = new BitmapImage(new Uri(@"Resources\coal.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmIron = new BitmapImage(new Uri(@"Resources\iron.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmStone = new BitmapImage(new Uri(@"Resources\stone.png", UriKind.RelativeOrAbsolute));
             BitmapImage bmWood = new BitmapImage(new Uri(@"Resources\wood.png", UriKind.RelativeOrAbsolute));
-            _resourceBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Gold] = new ImageBrush(bmGold);
-            _resourceBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Coal] = new ImageBrush(bmCoal);
-            _resourceBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Iron] = new ImageBrush(bmIron);
-            _resourceBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Stone] = new ImageBrush(bmStone);
-            _resourceBrushes[(int)AliveChessLibrary.GameObjects.Resources.ResourceTypes.Wood] = new ImageBrush(bmWood);
+            _resourceBrushes[ResourceTypes.Gold] = new ImageBrush(bmGold);
+            _resourceBrushes[ResourceTypes.Coal] = new ImageBrush(bmCoal);
+            _resourceBrushes[ResourceTypes.Iron] = new ImageBrush(bmIron);
+            _resourceBrushes[ResourceTypes.Stone] = new ImageBrush(bmStone);
+            _resourceBrushes[ResourceTypes.Wood] = new ImageBrush(bmWood);
 
             _enemyLighting.BlurRadius = 10;
             _enemyLighting.ShadowDepth = 5;
@@ -255,7 +256,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             Rectangle r = new Rectangle();
             r.Height = height + 1;
             r.Width = width + 1;
-            r.Fill = _groundBrushes[(int)type];
+            r.Fill = _groundBrushes[type];
             TranslateTransform t = new TranslateTransform();
             t.X = X * width;
             t.Y = Y * height;
@@ -265,14 +266,18 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         private void KingToFocus()
         {
-            if (_player.King.X * width >= scrollViewerMap.HorizontalOffset + scrollViewerMap.ActualWidth - 2 * width)
-                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width - scrollViewerMap.ActualWidth + 4 * width);
-            if (_player.King.X * width <= scrollViewerMap.HorizontalOffset + 2 * width)
-                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width - 4 * width);
-            if (_player.King.Y * height >= scrollViewerMap.VerticalOffset + scrollViewerMap.ActualHeight - 3 * height)
-                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * height - scrollViewerMap.ActualHeight + 5 * height);
-            if (_player.King.Y * height <= scrollViewerMap.VerticalOffset + 2 * height)
-                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * height - 4 * height);
+            int deltaX = (int)(scrollViewerMap.ActualWidth / 10);
+            int deltaY = (int)(scrollViewerMap.ActualHeight / 10);
+            int delta = deltaX > deltaY ? deltaY : deltaX;
+            int border = 50;
+            if (_player.King.X * width >= scrollViewerMap.HorizontalOffset + scrollViewerMap.ActualWidth - 2 * delta - border)
+                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width - scrollViewerMap.ActualWidth + 4 * delta + border);
+            if (_player.King.X * width <= scrollViewerMap.HorizontalOffset + 2 * delta)
+                scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width - 4 * delta);
+            if (_player.King.Y * height >= scrollViewerMap.VerticalOffset + scrollViewerMap.ActualHeight - 2 * delta - border)
+                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * height - scrollViewerMap.ActualHeight + 4 * delta + border);
+            if (_player.King.Y * height <= scrollViewerMap.VerticalOffset + 2 * delta)
+                scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * height - 4 * delta);
             /*{
                 scrollViewerMap.ScrollToHorizontalOffset(_player.King.X * width + width / 2 - scrollViewerMap.ActualWidth / 2);
                 scrollViewerMap.ScrollToVerticalOffset(_player.King.Y * width + width / 2 - scrollViewerMap.ActualHeight / 2);
@@ -330,7 +335,7 @@ namespace AliveChess.GameLayer.PresentationLayer
                 InitRectangles();
             foreach (var obj in _world.Map.SingleObjects)
             {
-                rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[(int)obj.SingleObjectType];
+                rectArrLandscape[obj.X, obj.Y].Fill = _landscapeBrushes[obj.SingleObjectType];
             }
         }
 
@@ -341,7 +346,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             //ClearRectangles(rectArrBuildings);
             foreach (var obj in _world.Map.Mines)
             {
-                rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[(int)obj.MineType];
+                rectArrBuildings[obj.X, obj.Y].Fill = _mineBrushes[obj.MineType];
                 rectArrBuildings[obj.X, obj.Y].Width = obj.Width * width;
                 rectArrBuildings[obj.X, obj.Y].Height = obj.Height * height;
 
@@ -370,7 +375,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             ClearRectangles(rectArrDynamicObjects);
             foreach (var obj in _world.Map.Resources)
             {
-                rectArrDynamicObjects[obj.X, obj.Y].Fill = _resourceBrushes[(int)obj.ResourceType];
+                rectArrDynamicObjects[obj.X, obj.Y].Fill = _resourceBrushes[obj.ResourceType];
             }
             foreach (var obj in _world.Map.Kings)
             {

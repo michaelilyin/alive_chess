@@ -5,24 +5,24 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class GetRecBuildingsResponse : ICommand
+    public class GetBuildingCostResponse : ICommand
     {
         //[ProtoMember(1)]
         private int _count;
         //[ProtoMember(2)]
         private ResourceTypes _type;
         [ProtoMember(1)]
-        private ResBuild resBuild;
+        private CreationCost _buidningCost;
 
         public Command Id
         {
-            get { return Command.GetRecBuildingsResponse; }
+            get { return Command.GetBuildingCostResponse; }
         }
 
-        public ResBuild ResBuild
+        public CreationCost BuildingCost
         {
-            get { return resBuild; }
-            set { resBuild = value; }
+            get { return _buidningCost; }
+            set { _buidningCost = value; }
         }
 
         //public int Count

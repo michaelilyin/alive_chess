@@ -8,12 +8,12 @@ using AliveChessServer.NetLayer;
 
 namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 {
-    public class ShowArmyKingExecutor : IExecutor
+    public class GetKingArmyExecutor : IExecutor
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
        
-        public ShowArmyKingExecutor(GameLogic gameLogic)
+        public GetKingArmyExecutor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
             this._playerManager = gameLogic.PlayerManager;
@@ -21,11 +21,11 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 
         public void Execute(Message msg)
         {
-            ShowArmyKingRequest request = (ShowArmyKingRequest)msg.Command;
+            GetKingArmyRequest request = (GetKingArmyRequest)msg.Command;
            // PlayerInfo info = _playerManager.GetPlayerInfoById(msg.Sender.Id);
             List<Unit> arm = msg.Sender.King.Units.ToList();
             //_queryManager.SendGetArmyToKing(info, arm);
-            msg.Sender.Messenger.SendNetworkMessage(new ShowArmyKingResponse() { Army_list = arm });
+            msg.Sender.Messenger.SendNetworkMessage(new GetKingArmyResponse() { Units = arm });
         }
     }
 }

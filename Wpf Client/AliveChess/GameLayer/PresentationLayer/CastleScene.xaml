@@ -9,6 +9,24 @@
 	Title="CastleScene" x:Name="SceneCastle">
 
     <Grid>
-        <Button x:Name="buttonExit" Content="Выход из замка" HorizontalAlignment="Right" VerticalAlignment="Top" Click="buttonExit_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Label Name="LabelGold" Content="Золото:"/>
+            <Label Name="LabelGoldQuantity" Content="0"/>
+            <Label Name="LabelWood" Content="Дерево:"/>
+            <Label Name="LabelWoodQuantity" Content="0"/>
+            <Label Name="LabelStone" Content="Камень:"/>
+            <Label Name="LabelStoneQuantity" Content="0"/>
+            <Label Name="LabelIron" Content="Железо:"/>
+            <Label Name="LabelIronQuantity" Content="0"/>
+            <Label Name="LabelCoal" Content="Уголь:"/>
+            <Label Name="LabelCoalQuantity" Content="0"/>
+        </ToolBar>
+        <Button Grid.Row="1" x:Name="buttonExit" Content="Выход из замка" HorizontalAlignment="Right" VerticalAlignment="Top" Click="buttonExit_Click"/>
+        <ListBox x:Name="ListBoxBuildings" HorizontalAlignment="Left" Height="Auto" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </PresentationLayer:GameScene>

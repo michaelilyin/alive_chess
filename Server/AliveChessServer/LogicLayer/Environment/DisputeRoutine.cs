@@ -127,7 +127,7 @@ namespace AliveChessServer.LogicLayer.Environment
                     }
                 }
 
-                time.SavePreviosTimestamp();
+                time.SavePreviousTimestamp();
             }
         }
 

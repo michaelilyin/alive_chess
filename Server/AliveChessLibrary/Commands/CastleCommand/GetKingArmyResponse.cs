@@ -7,20 +7,20 @@ using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChessLibrary.Commands.CastleCommand
 {
-    public class ShowArmyCastleResponse : ICommand
+    public class GetKingArmyResponse : ICommand
     {
         [ProtoMember(1)]
-        private List<Unit> army_list;
+        private List<Unit> _units;
 
-        public List<Unit> Army_list
+        public List<Unit> Units
         {
-            get { return army_list; }
-            set { army_list = value; }
+            get { return _units; }
+            set { _units = value; }
         }
 
         public Command Id
         {
-            get { return Command.ShowArmyCastleResponse; }
+            get { return Command.GetKingArmyResponse; }
         }
     }
 }

@@ -41,7 +41,7 @@ namespace AliveChessServer.LogicLayer.Environment
                         aliance.DoLogic(time);
                 }
 
-                time.SavePreviosTimestamp();
+                time.SavePreviousTimestamp();
             }
         }
 

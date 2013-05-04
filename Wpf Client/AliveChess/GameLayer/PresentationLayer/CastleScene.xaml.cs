@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,6 +17,7 @@ using System.Windows.Shapes;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.Commands.CastleCommand;
 using AliveChessLibrary.GameObjects.Buildings;
+using AliveChessLibrary.GameObjects.Resources;
 
 namespace AliveChess.GameLayer.PresentationLayer
 {
@@ -23,10 +26,27 @@ namespace AliveChess.GameLayer.PresentationLayer
     /// </summary>
     public partial class CastleScene : GameScene
     {
+        private Rectangle[,] rectArrGround;
+        private Rectangle[,] rectArrBuildings;
+
+        DropShadowEffect _enemyLighting = new DropShadowEffect();
+        DropShadowEffect _playerLighting = new DropShadowEffect();
+        DropShadowEffect _selectionLighting = new DropShadowEffect();
+
+        private Castle _castle;
+
+        public Castle Castle
+        {
+            get { return _castle; }
+            set { _castle = value; }
+        }
+
         public CastleScene()
         {
             InitializeComponent();
+            _castle = GameCore.Instance.CastleCommandController.Castle;
             GameCore.Instance.CastleCommandController.CastleScene = this;
+            GameCore.Instance.BigMapCommandController.CastleScene = this;
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
         }
 
@@ -61,8 +81,37 @@ namespace AliveChess.GameLayer.PresentationLayer
             GameCore.Instance.CastleCommandController.SendGetListBuildingsInCastleRequest();
         }
 
-        public void ShowGetListBuildingsInCastleResult()
+        public void ShowGetGameStateResult()
         {
+            foreach (var res in GameCore.Instance.Player.King.ResourceStore.Resources)
+            {
+                switch (res.ResourceType)
+                {
+                    case ResourceTypes.Gold:
+                        LabelGoldQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Stone:
+                        LabelStoneQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Wood:
+                        LabelWoodQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Iron:
+                        LabelIronQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Coal:
+                        LabelCoalQuantity.Content = res.Quantity.ToString();
+                        break;
+                }
+            }
+        }
+
+        public void ShowGetBuildingsResult()
+        {
+            foreach (var building in _castle.InnerBuildings)
+            {
+                ListBoxBuildings.Items.Add(building.InnerBuildingType.ToString());
+            }
         }
     }
 }

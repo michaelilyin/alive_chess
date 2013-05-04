@@ -10,16 +10,19 @@ namespace AliveChessServer.LogicLayer.Environment
         private LevelRoutine _levelRoutine;
 
         private ILevelLoader _levelLoader;
+        private IEconomyLoader _economyLoader;
+
         private List<FastBattle> _fastBattles;
 
         public GameWorld(string connectionString, TimeManager timeManager, AliveChessLogger logger)
         {
-            this._timeManager = timeManager;
-            this._fastBattles = new List<FastBattle>();
-            this._levelLoader = new XMLLevelLoader(this);
+            _timeManager = timeManager;
+            _fastBattles = new List<FastBattle>();
+            _levelLoader = new XMLLevelLoader(this);
+            _economyLoader = new XMLEconomyLoader();
             //this._levelLoader = new SQLLevelLoader(connectionString, logger);
-            this._levelRoutine = new LevelRoutine(this, _levelLoader, _timeManager, logger);
-            this._levelLoader.LevelRoutine = _levelRoutine;
+            _levelRoutine = new LevelRoutine(this, _levelLoader, _economyLoader, _timeManager, logger);
+            _levelLoader.LevelRoutine = _levelRoutine;
         }
 
         public void Initialize()

@@ -4,7 +4,9 @@ using AliveChessLibrary;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.Interaction;
+using AliveChessServer.DBLayer.Loaders;
 using AliveChessServer.LogicLayer.AI;
+using AliveChessServer.LogicLayer.EconomyEngine;
 using AliveChessServer.LogicLayer.Environment.Alliances;
 using AliveChessServer.LogicLayer.UsersManagement;
 
@@ -20,6 +22,7 @@ namespace AliveChessServer.LogicLayer.Environment
         private GameTime _bigMapTime;
         private GameTime _dialogTime;
         private GameTime _allianceTime;
+        private GameTime _economyTime;
 
         private EntityRef<Map> _map;
         private EntityRef<Animat> _animat;
@@ -69,19 +72,11 @@ namespace AliveChessServer.LogicLayer.Environment
             this._levelType = type;
         }
 
-        public Level(Map map, LevelTypes type, TimeManager timeManager, PlayerManager playerManager,
-            AliveChessLogger logger)
-            : this(map, type)
-        {
-            Initialize(timeManager, playerManager, logger);
-        }
-
         #endregion
 
         #region Methods
 
-        public void Initialize(TimeManager timeManager, 
-            PlayerManager playerManager, AliveChessLogger logger)
+        public void Initialize(TimeManager timeManager, PlayerManager playerManager, AliveChessLogger logger, IEconomyLoader economyLoader)
         {
             this._timeManager = timeManager;
             this._playerManager = playerManager;
@@ -89,7 +84,7 @@ namespace AliveChessServer.LogicLayer.Environment
             this._bigMapRoutine = new BigMapRoutine(this, timeManager, logger);
             this._disputeRoutine = new DisputeRoutine(this, timeManager);
             this._battleRoutine = new BattleRoutine(timeManager);
-            this._economyRoutine = new EconomyRoutine(timeManager);
+            this._economyRoutine = new EconomyRoutine(this, timeManager);
 
             this._alianceRoutine.PlayerManager = playerManager;
             this._bigMapRoutine.PlayerManager = playerManager;
@@ -97,13 +92,17 @@ namespace AliveChessServer.LogicLayer.Environment
             this._economyRoutine.PlayerManager = playerManager;
 
             this._bigMapTime   = new GameTime();
-            this._dialogTime   = new GameTime();
+            this._dialogTime = new GameTime();
             this._allianceTime = new GameTime();
+            this._economyTime = new GameTime();
 
             this._timeManager.AddTime(_bigMapTime);
             this._timeManager.AddTime(_dialogTime);
             this._timeManager.AddTime(_allianceTime);
+            this._timeManager.AddTime(_economyTime);
 
+            Economy economy = economyLoader.LoadEconomy(this.LevelType);
+            _economyRoutine.Initialize(economy);
             ActivateMines();
         }
 
@@ -112,6 +111,7 @@ namespace AliveChessServer.LogicLayer.Environment
             BigMapRoutine.Update(_bigMapTime);
             DisputeRoutine.Update(_dialogTime);
             EmpireManager.Update(_allianceTime);
+            EconomyRoutine.Update(_economyTime);
         }
 
         public Union CreateUnion(King organizator, King respondent)

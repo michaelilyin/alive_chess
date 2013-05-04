@@ -4,7 +4,7 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class BuyFigureRequest : ICommand
+    public class CreateUnitRequest : ICommand
     {
         [ProtoMember(1)]
         private int _figureCount;
@@ -13,7 +13,7 @@ namespace AliveChessLibrary.Commands.CastleCommand
 
         public Command Id
         {
-            get { return  Command.BuyFigureRequest; }
+            get { return  Command.CreateUnitRequest; }
             
         }
 

@@ -10,13 +10,13 @@ using System.Data.Linq;
 
 namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 {
-    public class BuyFigureExecutor : IExecutor
+    public class CreateUnitExecutor : IExecutor
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
         private Player _queryManager;
        
-        public BuyFigureExecutor(GameLogic gameLogic)
+        public CreateUnitExecutor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
             this._playerManager = gameLogic.PlayerManager;
@@ -25,7 +25,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
         public void Execute(Message cmd)
         {
             this._queryManager = cmd.Sender;
-            BuyFigureRequest request = (BuyFigureRequest)cmd.Command;
+            CreateUnitRequest request = (CreateUnitRequest)cmd.Command;
             //PlayerInfo plInfo = _playerManager.GetPlayerInfoById(cmd.Sender.Id);
             King king = cmd.Sender.King;
             king.CurrentCastle.CreateUnitAndAddInArmy(request.FigureCount, request.FigureType);
@@ -35,7 +35,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             {
                 response_list.Add(u);
             }
-            var response = new BuyFigureResponse();
+            var response = new CreateUnitResponse();
             response.Units = response_list;
             _queryManager.Messenger.SendNetworkMessage(response);
 

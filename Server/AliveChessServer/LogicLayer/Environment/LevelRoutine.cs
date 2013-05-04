@@ -11,6 +11,7 @@ namespace AliveChessServer.LogicLayer.Environment
     {
         private GameWorld _environment;
         private ILevelLoader _levelLoader;
+        private IEconomyLoader _economyLoader;
         private PlayerManager _playerManager;
         private TimeManager _timeManager;
         private AliveChessLogger _logger;
@@ -19,7 +20,7 @@ namespace AliveChessServer.LogicLayer.Environment
 
         private object _levelSync = new object();
 
-        public LevelRoutine(GameWorld environment, ILevelLoader levelLoader, 
+        public LevelRoutine(GameWorld environment, ILevelLoader levelLoader, IEconomyLoader economyLoader,
             TimeManager timeManager, AliveChessLogger logger)
         {
             this._logger = logger;
@@ -27,12 +28,13 @@ namespace AliveChessServer.LogicLayer.Environment
             this._levelLoader = levelLoader;
             this._timeManager = timeManager;
             this._levels = new EntitySet<Level>();
+            _economyLoader = economyLoader;
         }
 
         public void Load()
         {
             Level level = _levelLoader.LoadLevel(LevelTypes.Easy);
-            level.Initialize(_timeManager, _playerManager, _logger);
+            level.Initialize(_timeManager, _playerManager, _logger, _economyLoader);
 
             lock (_levelSync)
                 _levels.Add(level);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Landscapes;
@@ -45,6 +46,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         private int? _mapId;
         private int _figureStoreId;
+        private IBuildingFactory _buildingFactory;
+        private IUnitFactory _unitFactory;
 
 #if !UNITY_EDITOR
         private EntityRef<Map> _map; // ссылка на карту
@@ -86,28 +89,33 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 OnLoad(this);
         }
 
-        public Castle(int id, Map map)
+        /*public Castle(int id, Map map)
             : this()
         {
             Initialize(id, map);
-        }
+        }*/
 
         #endregion
 
         #region Initialization
-       
+
         public void Initialize(Map map)
         {
             _map.Entity = map;
             _mapId = map.Id;
-            InnerBuilding _recruitmentOffice = new InnerBuilding();
-            _recruitmentOffice.ProducedUnitType = UnitType.Pawn;
-            _recruitmentOffice.InnerBuildingType = InnerBuildingType.Quarters;
-            _recruitmentOffice.Name = "Recruitment office";
-            _innerBuildings.Add(_recruitmentOffice);
+            InnerBuilding recruitmentOffice = new InnerBuilding();
+            recruitmentOffice.ProducedUnitType = UnitType.Pawn;
+            recruitmentOffice.InnerBuildingType = InnerBuildingType.Quarters;
+            recruitmentOffice.Name = "Quarters";
+            AddBuilding(recruitmentOffice);
+            InnerBuilding building = new InnerBuilding();
+            building.ProducedUnitType = UnitType.Pawn;
+            building.InnerBuildingType = InnerBuildingType.Forge;
+            building.Name = "Forge";
+            AddBuilding(building);
         }
 
-        public void Initialize(int id, Map map)
+        /*public void Initialize(int id, Map map)
         {
             Initialize(map);
             _castleId = id;
@@ -119,7 +127,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
             if (sector != null)
                 AddView(sector);
-        }
+        }*/
 
         /// <summary>
         /// добавление представления на карту
@@ -168,23 +176,18 @@ namespace AliveChessLibrary.GameObjects.Buildings
             return this.King == king;
         }
 
-      
-        public int NumberOfBuildings()
-        {
-            return InnerBuildings.Count;
-        }
 #warning Создание юнита
         //TODO: Переделать по-нормальному
         // Создание юнита и отправка в армию
         public void CreateUnitAndAddInArmy(int count, UnitType type)
         {
-            for (int i = 0; i < InnerBuildings.Count; i++)
+            /*for (int i = 0; i < InnerBuildings.Count; i++)
             {
                 if (InnerBuildings[i].ProducedUnitType == type)
                 {
                     AddInArmy(InnerBuildings[i].CreateUnit(count, type));
                 }
-            }
+            }*/
         }
 
         //Добавление в армию замка
@@ -204,32 +207,18 @@ namespace AliveChessLibrary.GameObjects.Buildings
             if (!t) FigureStore.Units.Add(un);
         }
 
-        /*public bool test_res(int[] f)
-        {
-            if (f[0] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Coal))
-                return false;
-            if (f[1] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Gold))
-                return false;
-            if (f[2] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Iron))
-                return false;
-            if (f[3] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Stone))
-                return false;
-            if (f[4] > Vicegerent.Castle.ResourceStore.GetResourceCountInRepository(Resources.ResourceTypes.Wood))
-                return false;
-            return true;
-        }*/
-
+        //TODO: Избавиться от этого бреда
         //передать армию замка королю
         public void GetArmyToKing()
         {
             bool t = false;
-            for (int j = 0; j < FigureStore.Units.Count; j++)
+            foreach (Unit t1 in FigureStore.Units)
             {
-                for (int i = 0; i < King.Units.Count; i++)
+                foreach (Unit t2 in King.Units)
                 {
-                    if (FigureStore.Units[j].UnitType == King.Units[i].UnitType)
+                    if (t1.UnitType == t2.UnitType)
                     {
-                        King.Units[i].Quantity += FigureStore.Units[j].Quantity;
+                        t2.Quantity += t1.Quantity;
                         t = true;
                         break;
 
@@ -237,25 +226,34 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
                 if (!t)
                 {
-                    King.Units.Add(FigureStore.Units[j]);
+                    King.Units.Add(t1);
                     t = false;
                 }
             }
             FigureStore.Units.Clear();
         }
-       
-        //TODO: Переделать по-нормальному (получение здания по типу или по id)
-        public InnerBuilding GetBuilding(int i)
+
+        public InnerBuilding GetBuilding(InnerBuildingType type)
         {
-            return InnerBuildings[i];
+            return InnerBuildings.FirstOrDefault(innerBuilding => innerBuilding.InnerBuildingType == type);
         }
 
-        //TODO: Переделать по-нормальному, добавлять уже готовое здание
-        public void AddBuilding(InnerBuildingType type)
+        public void AddBuilding(InnerBuilding building)
         {
-            //_innerBuildings.Add(Fabric.Build(pair.Guid, pair.Id, type, type.ToString(), _gameData));
+            if (!HasBuilding(building.InnerBuildingType))
+            {
+                building.Castle = this;
+                _innerBuildings.Add(building);
+            }
+
         }
 
+        public bool HasBuilding(InnerBuildingType type)
+        {
+            return GetBuilding(type) != null;
+        }
+
+        //TODO: Реализовать
         /// <summary>
         /// Создание начальной армии 
         /// </summary>
@@ -287,7 +285,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             //AddUnit(p, _figureStore.Entity.Units);
         }
 
-//TODO: Нигде не используется, переписать этот бред
+        //TODO: Нигде не используется, переписать этот бред
         /// <summary>
         ///добавление юнита 
         /// </summary>
@@ -409,9 +407,9 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// </summary>
         public IPlayer Player
         {
-            get 
+            get
             {
-                return King != null ? King.Player : null;                   
+                return King != null ? King.Player : null;
             }
         }
 
@@ -696,7 +694,29 @@ namespace AliveChessLibrary.GameObjects.Buildings
             }
             set
             {
-                this._innerBuildings.Assign(value);
+                this._innerBuildings = value;
+            }
+        }
+
+        public IBuildingFactory BuildingFactory
+        {
+            get { return _buildingFactory; }
+            set
+            {
+                _buildingFactory = value;
+                if (value != null)
+                    value.Castle = this;
+            }
+        }
+
+        public IUnitFactory UnitFactory
+        {
+            get { return _unitFactory; }
+            set
+            {
+                _unitFactory = value;
+                if (value != null)
+                    value.Castle = this;
             }
         }
 #else

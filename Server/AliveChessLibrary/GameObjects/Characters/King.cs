@@ -522,6 +522,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         public virtual void AddSteps(Queue<FPosition> steps)
         {
             _timeLastMove = DateTime.Now;
+            _currentStep = null;
             this._isMove = true;
             lock (_stepsSync)
                 this._steps = steps;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
@@ -36,19 +37,14 @@ namespace AliveChess.GameLayer.LogicLayer
 
         public void SendGetListBuildingsInCastleRequest()
         {
-            GetListBuildingsInCastleRequest request = new GetListBuildingsInCastleRequest();
+            GetBuildingsRequest request = new GetBuildingsRequest();
             _gameCore.Network.Send(request);
         }
 
-        public void ReceiveGetListBuildingsInCastleResponce(GetListBuildingsInCastleResponse response)
+        public void ReceiveGetListBuildingsInCastleResponce(GetBuildingsResponse response)
         {
-            IList<InnerBuilding> buildings = (response.List);
-            _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetListBuildingsInCastleResult));
-            _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.List);
-            foreach (var innerBuilding in _castle.InnerBuildings)
-            {
-                System.Windows.MessageBox.Show(innerBuilding.InnerBuildingType.ToString());
-            }
+            _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
+            _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetBuildingsResult));
         }
     }
 }

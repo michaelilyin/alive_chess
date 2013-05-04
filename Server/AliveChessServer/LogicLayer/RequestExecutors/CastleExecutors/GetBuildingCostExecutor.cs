@@ -6,12 +6,12 @@ using AliveChessLibrary.GameObjects.Buildings;
 
 namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 {
-    public class GetRecBuildingsExecutor : IExecutor
+    public class GetBuildingCostExecutor : IExecutor
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
       
-        public GetRecBuildingsExecutor(GameLogic gameLogic)
+        public GetBuildingCostExecutor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
             this._playerManager = gameLogic.PlayerManager;
@@ -19,13 +19,13 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 
         public void Execute(Message msg)
         {
-            GetRecBuildingsRequest request = (GetRecBuildingsRequest)msg.Command;
+            GetBuildingCostRequest request = (GetBuildingCostRequest)msg.Command;
             //PlayerInfo info = _playerManager.GetPlayerInfoById(msg.Sender.Id);
-            ResBuild rb = new ResBuild();
+            CreationCost rb = new CreationCost();
             //InnerBuilding b = new InnerBuilding() { InnerBuildingType = request.Type };
             //_queryManager.SendGetResBuildings(info, rb);
-            GetRecBuildingsResponse response = new GetRecBuildingsResponse();
-            response.ResBuild = rb;
+            GetBuildingCostResponse response = new GetBuildingCostResponse();
+            response.BuildingCost = rb;
             msg.Sender.Messenger.SendNetworkMessage(response);
         }
 

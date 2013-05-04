@@ -250,6 +250,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                     };
 
             castle.Vicegerent = vicegerent;
+            castle.Initialize(map);
 
             map.AddCastle(castle);
         }

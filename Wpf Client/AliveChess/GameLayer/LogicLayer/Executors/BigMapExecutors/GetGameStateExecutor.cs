@@ -17,7 +17,8 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
             GameCore.Instance.Player.King.X = response.King.;
             GameCore.Instance.Player.King.AttachStartCastle(response.Castle);*/
             GameCore.Instance.Player.King = response.King;
-            GameCore.Instance.Player.King.ResourceStore = new ResourceStore();
+            if(GameCore.Instance.Player.King.ResourceStore == null)
+                GameCore.Instance.Player.King.ResourceStore = new ResourceStore();
             EntitySet<Resource> esr = CustomConverter.ListToEntitySet(response.Resources);
             GameCore.Instance.Player.King.ResourceStore.Resources = esr;
 

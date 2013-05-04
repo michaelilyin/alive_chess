@@ -8,13 +8,12 @@ using AliveChessServer.NetLayer;
 
 namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 {
-    public class GetInnerBuildingsExecutor : IExecutor
+    public class CreateBuildingExecutor : IExecutor
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
-        private Player _queryManager;
-      
-        public GetInnerBuildingsExecutor(GameLogic gameLogic)
+       
+        public CreateBuildingExecutor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
             this._playerManager = gameLogic.PlayerManager;
@@ -22,19 +21,22 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 
         public void Execute(Message cmd)
         {
-            BuildingInCastleRequest request = (BuildingInCastleRequest)cmd.Command;
-            this._queryManager = cmd.Sender;
+            CreateBuildingRequest request = (CreateBuildingRequest)cmd.Command;
+            Player player = cmd.Sender;
             King king = cmd.Sender.King;
-            king.CurrentCastle.AddBuilding(request.Type);
-            int l = king.CurrentCastle.NumberOfBuildings();
-            List<InnerBuilding> s = new List<InnerBuilding>();
-            for (int i = 0; i < l; i++)
+#warning Переделать
+            InnerBuilding building = new InnerBuilding();
+            building.InnerBuildingType = request.Type;
+            king.CurrentCastle.AddBuilding(building);
+
+            var response = new CreateBuildingResponse();
+            response.Buildings = new List<InnerBuilding>();
+            foreach (var b in king.CurrentCastle.InnerBuildings)
             {
-                s.Add(king.CurrentCastle.GetBuilding(i));
+                response.Buildings.Add(b);
             }
-            var response = new BuildingInCastleResponse();
-            response.Buildings_list = s;
-            _queryManager.Messenger.SendNetworkMessage(response);
+            player.Messenger.SendNetworkMessage(response);
+
         }
     }
 }

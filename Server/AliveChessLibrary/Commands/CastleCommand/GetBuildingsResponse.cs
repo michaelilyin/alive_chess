@@ -5,20 +5,20 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class GetListBuildingsInCastleResponse : ICommand
+    public class GetBuildingsResponse : ICommand
     {
         [ProtoMember(1)]
-        private List<InnerBuilding> list;
+        private List<InnerBuilding> _buildings;
         
         public Command Id
         {
-            get { return Command.GetListBuildingsInCastleResponse; }
+            get { return Command.GetBuildingsResponse; }
         }
 
-        public List<InnerBuilding> List
+        public List<InnerBuilding> Buildings
         {
-            get { return list; }
-            set { list = value; }
+            get { return _buildings; }
+            set { _buildings = value; }
         }
     }
 }

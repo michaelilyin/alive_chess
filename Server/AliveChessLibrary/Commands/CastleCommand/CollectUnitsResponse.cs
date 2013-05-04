@@ -5,7 +5,7 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class GetArmyCastleToKingResponse : ICommand
+    public class CollectUnitsResponse : ICommand
     {
         [ProtoMember(1)]
         private List<Unit> arm;
@@ -17,7 +17,7 @@ namespace AliveChessLibrary.Commands.CastleCommand
         }
         public Command Id
         {
-            get { return Command.GetArmyCastleToKingResponse;}
+            get { return Command.CollectUnitsResponce;}
         }
     }
 }

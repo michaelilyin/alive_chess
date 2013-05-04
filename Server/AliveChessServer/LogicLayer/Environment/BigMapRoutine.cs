@@ -46,7 +46,7 @@ namespace AliveChessServer.LogicLayer.Environment
             if (time.Elapsed > TimeSpan.FromMilliseconds(50))
             {
                 _map.Update(time.Now);
-                time.SavePreviosTimestamp();
+                time.SavePreviousTimestamp();
             }
         }
 

@@ -4,7 +4,7 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class BuildingInCastleRequest : ICommand
+    public class CreateBuildingRequest : ICommand
     {
         [ProtoMember(1)]
         private InnerBuildingType number;
@@ -17,7 +17,7 @@ namespace AliveChessLibrary.Commands.CastleCommand
 
         public Command Id
         {
-            get { return Command.BuildingInCastleRequest; }
+            get { return Command.CreateBuildingRequest; }
            
         }
     }

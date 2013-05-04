@@ -18,14 +18,21 @@ namespace AliveChess.GameLayer.LogicLayer
         private bool _waitingGetGameStateResponse = false;
         private bool _waitingGetObjectsResponse = false;
 
-        private MapScene _mapScene = null;
-
         private GameCore _gameCore;
+
+        private MapScene _mapScene;
+        private CastleScene _castleScene;
 
         public MapScene MapScene
         {
             get { return _mapScene; }
             set { _mapScene = value; }
+        }
+
+        public CastleScene CastleScene
+        {
+            get { return _castleScene; }
+            set { _castleScene = value; }
         }
 
         public BigMapCommandController(GameCore gameCore)
@@ -98,6 +105,11 @@ namespace AliveChess.GameLayer.LogicLayer
                 _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetGameStateResult));
                 timerUpdateGameState.Start();
             }
+            if (_castleScene != null)
+            {
+                _castleScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_castleScene.ShowGetGameStateResult));
+                timerUpdateGameState.Start();
+            }
         }
 
         public void SendGetObjectsRequest()
@@ -124,8 +136,9 @@ namespace AliveChess.GameLayer.LogicLayer
 
         public void ReceiveComeInCastleResponse(ComeInCastleResponse response)
         {
-            timerUpdateGameState.Stop();
+            //timerUpdateGameState.Stop();
             timerGetObjects.Stop();
+            GameCore.Instance.CastleCommandController.Castle = GameCore.Instance.World.Map.SearchCastleById(response.CastleId);
             if (_mapScene != null)
                 _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowComeInCastleResult));
             _mapScene = null;

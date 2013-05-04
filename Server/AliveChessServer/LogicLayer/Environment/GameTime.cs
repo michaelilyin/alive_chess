@@ -12,7 +12,7 @@ namespace AliveChessServer.LogicLayer.Environment
             this.Now = DateTime.Now;
         }
 
-        public void SavePreviosTimestamp()
+        public void SavePreviousTimestamp()
         {
             this.Prev = DateTime.Now;
         }

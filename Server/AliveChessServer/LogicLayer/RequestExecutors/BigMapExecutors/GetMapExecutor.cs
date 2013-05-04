@@ -14,7 +14,6 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
 
             Player player = msg.Sender;
             Map map = player.Level.Map;
-
             var mines = map.Mines.ToList();
             var castles = map.Castles.ToList();
             var points = map.BasePoints.ToList();
