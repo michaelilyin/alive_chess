@@ -88,6 +88,7 @@ namespace AliveChess.GameLayer.LogicLayer
         private void CreateCastleExecutors()
         {
             _executors.Add(Command.GetBuildingsResponse, new GetBuildingsExecutor());
+            _executors.Add(Command.CreateBuildingResponse, new CreateBuildingExecutor());
         }
 
         private void CreateErrorExecutors()

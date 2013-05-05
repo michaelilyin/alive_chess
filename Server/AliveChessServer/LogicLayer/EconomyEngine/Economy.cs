@@ -9,29 +9,27 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 {
     public class Economy
     {
-        private Dictionary<InnerBuildingType, CreationCost> _buildingCosts = new Dictionary<InnerBuildingType, CreationCost>();
-        private Dictionary<UnitType, CreationCost> _unitCosts = new Dictionary<UnitType, CreationCost>();
-        private Dictionary<InnerBuildingType, List<InnerBuildingType>> _requiredForBuilding = new Dictionary<InnerBuildingType, List<InnerBuildingType>>();
-        private Dictionary<UnitType, List<InnerBuildingType>> _requiredForUnit = new Dictionary<UnitType, List<InnerBuildingType>>();
+        private Dictionary<InnerBuildingType, CreationRequirements> _buildingRequirements = new Dictionary<InnerBuildingType, CreationRequirements>();
+        private Dictionary<UnitType, CreationRequirements> _unitRequirements = new Dictionary<UnitType, CreationRequirements>();
 
-        public CreationCost GetBuildingCost(InnerBuildingType type)
+        public CreationRequirements GetCreationRequirements(InnerBuildingType type)
         {
-            return _buildingCosts[type];
+            return _buildingRequirements[type];
         }
 
-        public CreationCost GetUnitCost(UnitType type)
+        public CreationRequirements GetCreationRequirements(UnitType type)
         {
-            return _unitCosts[type];
+            return _unitRequirements[type];
         }
 
-        public List<InnerBuildingType> GetRequiredForBuilding(InnerBuildingType type)
+        public void SetCreationRequirements(InnerBuildingType type, CreationRequirements requirements)
         {
-            return _requiredForBuilding[type];
+            _buildingRequirements[type] = requirements;
         }
 
-        public List<InnerBuildingType> GetRequiredForUnit(UnitType type)
+        public void SetCreationRequirements(UnitType type, CreationRequirements requirements)
         {
-            return _requiredForUnit[type];
+            _unitRequirements[type] = requirements;
         }
     }
 }

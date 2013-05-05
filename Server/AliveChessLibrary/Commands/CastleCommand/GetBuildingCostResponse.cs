@@ -12,14 +12,14 @@ namespace AliveChessLibrary.Commands.CastleCommand
         //[ProtoMember(2)]
         private ResourceTypes _type;
         [ProtoMember(1)]
-        private CreationCost _buidningCost;
+        private CreationRequirements _buidningCost;
 
         public Command Id
         {
             get { return Command.GetBuildingCostResponse; }
         }
 
-        public CreationCost BuildingCost
+        public CreationRequirements BuildingCost
         {
             get { return _buidningCost; }
             set { _buidningCost = value; }

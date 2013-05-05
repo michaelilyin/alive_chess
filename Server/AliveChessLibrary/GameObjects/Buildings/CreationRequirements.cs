@@ -5,13 +5,16 @@ using ProtoBuf;
 namespace AliveChessLibrary.GameObjects.Buildings
 {
     [ProtoContract]
-    public class CreationCost
+    public class CreationRequirements
     {
         [ProtoMember(1)]
-        private Dictionary<ResourceTypes, int> _resources; // ресурсы
+        private Dictionary<ResourceTypes, int> _resources = new Dictionary<ResourceTypes, int>(); // ресурсы
 
         [ProtoMember(2)]
         private double _time = 1; // время в секундах
+
+        [ProtoMember(3)]
+        private SortedSet<InnerBuildingType> _requiredBuildings = new SortedSet<InnerBuildingType>(); // необходимые для создания постройки
 
         public Dictionary<ResourceTypes, int> Resources
         {
@@ -23,6 +26,12 @@ namespace AliveChessLibrary.GameObjects.Buildings
         {
             get { return _time; }
             set { _time = value; }
+        }
+
+        public SortedSet<InnerBuildingType> RequiredBuildings
+        {
+            get { return _requiredBuildings; }
+            set { _requiredBuildings = value; }
         }
     }
 }

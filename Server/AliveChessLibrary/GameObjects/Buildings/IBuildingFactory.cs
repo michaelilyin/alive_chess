@@ -7,7 +7,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 {
     public interface IBuildingFactory
     {
-        CreationCost GetBuildingCost(InnerBuildingType type);
+        CreationRequirements GetCreationRequirements(InnerBuildingType type);
 
         void Build(InnerBuildingType type);
 

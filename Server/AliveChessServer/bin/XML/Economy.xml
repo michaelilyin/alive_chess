@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<economy>
+<unit type="Pawn">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</unit>   
+<unit type="Bishop">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</unit>  
+<unit type="Knight">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</unit> 
+<unit type="Rook">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</unit>  
+<unit type="Queen">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</unit>  
+<building type="Quarters">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+</building> 
+<building type="TrainingGround">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</building> 
+<building type="Stabling">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</building> 
+<building type="Workshop">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</building> 
+<building type="RoyalGuardQuarters">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</building> 
+<building type="Forge">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</building> 
+<building type="Hospital">
+	<resource type="Gold">10</resource>
+	<resource type="Iron">10</resource>
+	<time>5,5</time>
+	<requiredBuilding>Quarters</requiredBuilding>
+</building>   
+</economy> 

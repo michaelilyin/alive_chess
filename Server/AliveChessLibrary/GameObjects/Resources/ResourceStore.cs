@@ -58,16 +58,34 @@ namespace AliveChessLibrary.GameObjects.Resources
             else return false;
         }
 
-        public Resource GetResource(ResourceTypes typeRes)
+        public Resource GetResource(ResourceTypes type)
         {
-            for (int i = 0; i < this.Resources.Count; i++)
+            foreach (var resource in Resources)
             {
-                if (Resources[i].ResourceType == typeRes)
-                {
-                    return this.Resources[i];
-                }
+                if (resource.ResourceType == type)
+                    return resource;
             }
             return null;
+        }
+
+        public bool HaveEnoughResources(Dictionary<ResourceTypes, int> resources)
+        {
+            foreach (var item in resources)
+            {
+                if (GetResourceQuantity(item.Key) < item.Value)
+                    return false;
+            }
+            return true;
+        }
+
+        public void TakeResources(Dictionary<ResourceTypes, int> resources)
+        {
+            foreach (var item in resources)
+            {
+                Resource resource = GetResource(item.Key);
+                if (resource != null)
+                    resource.Quantity -= item.Value;
+            }
         }
 
         //Что-то непонятное, используется один раз в Emipre

@@ -28,5 +28,6 @@
         </ToolBar>
         <Button Grid.Row="1" x:Name="buttonExit" Content="Выход из замка" HorizontalAlignment="Right" VerticalAlignment="Top" Click="buttonExit_Click"/>
         <ListBox x:Name="ListBoxBuildings" HorizontalAlignment="Left" Height="Auto" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnBuild"  Content="Построить конюшни" HorizontalAlignment="Left" Margin="172,25,0,0" Grid.Row="1" VerticalAlignment="Top" Width="128" Click="btnBuild_Click"/>
     </Grid>
 </PresentationLayer:GameScene>

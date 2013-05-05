@@ -16,20 +16,9 @@ namespace AliveChessLibrary.GameObjects.Buildings
     {
         [ProtoMember(1)]
         private int _innerBuildingId;
-        [ProtoMember(7)]
-        private string _name;
         [ProtoMember(2)]
-        private int _resourceCountToBuild;
-        [ProtoMember(3)]
-        private int _resourceCountToProduceUnit;
-        [ProtoMember(4)]
-        private ResourceTypes _resourceTypeToBuild;
-        [ProtoMember(5)]
-        private ResourceTypes _resourceTypeToProduceUnit;
-        [ProtoMember(6)]
         private InnerBuildingType _innerBuildingType;
 
-        private UnitType _unitType;
        
 #if !UNITY_EDITOR
         private int _castleId;
@@ -46,44 +35,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
 #endif
         }
 
-        public Unit CreateUnit(int count, UnitType type)
-        {
-            Unit unit = new Unit();
-            unit.Quantity = count;
-            unit.UnitType = type;
-            return unit;
-        }
-
-        public UnitType ProducedUnitType
-        {
-            get { return _unitType; }
-            set { _unitType = value; }
-        }
-
-        public int ResourceCountToBuild
-        {
-            get { return _resourceCountToBuild; }
-            set { _resourceCountToBuild = value; }
-        }
-
-        public ResourceTypes ResourceTypeToBuild
-        {
-            get { return _resourceTypeToBuild; }
-            set { _resourceTypeToBuild = value; }
-        }
-
-        public int ResourceCountToProduceUnit
-        {
-            get { return _resourceCountToProduceUnit; }
-            set { _resourceCountToProduceUnit = value; }
-        }
-
-        public ResourceTypes ResourceTypeToProduceUnit
-        {
-            get { return _resourceTypeToProduceUnit; }
-            set { _resourceTypeToProduceUnit = value; }
-        }
-
         //[Column(Name = "inner_building_id", Storage = "_innerBuildingId", CanBeNull = false,
         //    DbType = Constants.DB_INT, IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id
@@ -97,23 +48,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 if (this._innerBuildingId != value)
                 {
                     this._innerBuildingId = value;
-                }
-            }
-        }
-
-        //[Column(Name = "inner_building_name", Storage = "_name", CanBeNull = false,
-        //  DbType = "VarChar(20)")]
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-            set
-            {
-                if (this._name != value)
-                {
-                    this._name = value;
                 }
             }
         }

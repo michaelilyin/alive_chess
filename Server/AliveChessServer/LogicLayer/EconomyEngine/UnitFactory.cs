@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AliveChessLibrary.GameObjects.Buildings;
+using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChessServer.LogicLayer.EconomyEngine
 {
@@ -14,6 +15,11 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
         public UnitFactory(Economy economy)
         {
             _economy = economy;
+        }
+
+        public CreationRequirements GetCreationRequirements(UnitType type)
+        {
+            return _economy.GetCreationRequirements(type);
         }
 
         public Castle Castle

@@ -108,10 +108,16 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void ShowGetBuildingsResult()
         {
+            ListBoxBuildings.Items.Clear();
             foreach (var building in _castle.InnerBuildings)
             {
                 ListBoxBuildings.Items.Add(building.InnerBuildingType.ToString());
             }
+        }
+
+        private void btnBuild_Click(object sender, RoutedEventArgs e)
+        {
+            GameCore.Instance.CastleCommandController.SendCreateBuildingRequest(InnerBuildingType.Stabling);
         }
     }
 }

@@ -104,14 +104,10 @@ namespace AliveChessLibrary.GameObjects.Buildings
             _map.Entity = map;
             _mapId = map.Id;
             InnerBuilding recruitmentOffice = new InnerBuilding();
-            recruitmentOffice.ProducedUnitType = UnitType.Pawn;
             recruitmentOffice.InnerBuildingType = InnerBuildingType.Quarters;
-            recruitmentOffice.Name = "Quarters";
             AddBuilding(recruitmentOffice);
             InnerBuilding building = new InnerBuilding();
-            building.ProducedUnitType = UnitType.Pawn;
             building.InnerBuildingType = InnerBuildingType.Forge;
-            building.Name = "Forge";
             AddBuilding(building);
         }
 

@@ -21,7 +21,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
         {
             GetBuildingCostRequest request = (GetBuildingCostRequest)msg.Command;
             //PlayerInfo info = _playerManager.GetPlayerInfoById(msg.Sender.Id);
-            CreationCost rb = new CreationCost();
+            CreationRequirements rb = new CreationRequirements();
             //InnerBuilding b = new InnerBuilding() { InnerBuildingType = request.Type };
             //_queryManager.SendGetResBuildings(info, rb);
             GetBuildingCostResponse response = new GetBuildingCostResponse();

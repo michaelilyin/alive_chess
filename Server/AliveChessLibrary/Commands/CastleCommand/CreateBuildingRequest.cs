@@ -7,12 +7,12 @@ namespace AliveChessLibrary.Commands.CastleCommand
     public class CreateBuildingRequest : ICommand
     {
         [ProtoMember(1)]
-        private InnerBuildingType number;
+        private InnerBuildingType type;
 
-        public InnerBuildingType Type
+        public InnerBuildingType InnerBuildingType
         {
-            get { return number; }
-            set { number = value; }
+            get { return type; }
+            set { type = value; }
         }
 
         public Command Id

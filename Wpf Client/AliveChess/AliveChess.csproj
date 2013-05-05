@@ -79,6 +79,7 @@
     <Compile Include="GameLayer\LogicLayer\BigMapCommandController.cs" />
     <Compile Include="GameLayer\LogicLayer\CastleCommandController.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\LooseMineMessageExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\CreateBuildingExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ErrorMessageExecutor.cs" />
     <Page Include="GameLayer\PresentationLayer\BattleScene.xaml">
       <SubType>Designer</SubType>

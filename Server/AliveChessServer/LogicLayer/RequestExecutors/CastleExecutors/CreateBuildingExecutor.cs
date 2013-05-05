@@ -24,10 +24,8 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             CreateBuildingRequest request = (CreateBuildingRequest)cmd.Command;
             Player player = cmd.Sender;
             King king = cmd.Sender.King;
-#warning Переделать
-            InnerBuilding building = new InnerBuilding();
-            building.InnerBuildingType = request.Type;
-            king.CurrentCastle.AddBuilding(building);
+
+            king.CurrentCastle.BuildingFactory.Build(request.InnerBuildingType);
 
             var response = new CreateBuildingResponse();
             response.Buildings = new List<InnerBuilding>();

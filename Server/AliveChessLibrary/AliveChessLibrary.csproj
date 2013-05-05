@@ -204,7 +204,7 @@
     <Compile Include="Interaction\Negotiate.cs" />
     <Compile Include="Interaction\NegotiateTheme.cs" />
     <Compile Include="GameObjects\Buildings\IInnerBuilding.cs" />
-    <Compile Include="GameObjects\Buildings\CreationCost.cs" />
+    <Compile Include="GameObjects\Buildings\CreationRequirements.cs" />
     <Compile Include="GameObjects\Characters\UnitType.cs" />
     <Compile Include="GameObjects\Characters\Vicegerent.cs" />
     <Compile Include="GameObjects\Landscapes\BasePoint.cs" />

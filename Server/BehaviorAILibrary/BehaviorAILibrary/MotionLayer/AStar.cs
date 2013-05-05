@@ -17,7 +17,7 @@ namespace BehaviorAILibrary.MotionLayer
         private AStarPriorityQueue mOpen;
         private List<AStarNode> mClose;
         private ILocalizable map;
-        private int mSearchLimit = 2000; // максимальное количество вершин которые король может пройти
+        private int mSearchLimit = 20000; // максимальное количество вершин которые король может пройти
         private bool mDiagonal = true;
         private bool mHeavyDiagonals = false;
         private const float DiagonalCost = 2.41f;

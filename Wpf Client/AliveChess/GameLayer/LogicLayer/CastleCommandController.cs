@@ -19,7 +19,8 @@ namespace AliveChess.GameLayer.LogicLayer
         public Castle Castle
         {
             get { return _castle; }
-            set { _castle = value; }
+            set
+            { _castle = value; }
         }
 
         private CastleScene _castleScene;
@@ -42,6 +43,19 @@ namespace AliveChess.GameLayer.LogicLayer
         }
 
         public void ReceiveGetListBuildingsInCastleResponce(GetBuildingsResponse response)
+        {
+            _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
+            _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetBuildingsResult));
+        }
+
+        public void SendCreateBuildingRequest(InnerBuildingType type)
+        {
+            CreateBuildingRequest request = new CreateBuildingRequest();
+            request.InnerBuildingType = type;
+            _gameCore.Network.Send(request);
+        }
+
+        public void ReceiveCreateBuildingResponce(CreateBuildingResponse response)
         {
             _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
             _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetBuildingsResult));

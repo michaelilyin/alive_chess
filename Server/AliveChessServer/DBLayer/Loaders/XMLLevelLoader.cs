@@ -68,7 +68,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                 }
                                 string key = reader.GetAttribute("type");
                                 if (key != null)
-                                    wayCosts.Add(key, (float)value);
+                                    wayCosts.Add(key, (float) value);
                                 break;
                             }
                         case "mapObject":
@@ -79,7 +79,8 @@ namespace AliveChessServer.DBLayer.Loaders
                                     map.Fill();
                                 }
                                 _constructors[reader.GetAttribute("type")].Invoke(map, reader);
-                            } break;
+                            }
+                            break;
                         case "basePoint":
                             {
                                 int x = Convert.ToInt32(reader.GetAttribute("x"));
@@ -107,17 +108,20 @@ namespace AliveChessServer.DBLayer.Loaders
                                 basePoint.WayCost = wayCosts[type];
                                 basePoint.LandscapeType = landscapeType;
                                 map.AddBasePoint(basePoint);
-                            } break;
+                            }
+                            break;
                         case "player":
                             {
                                 string login = reader.GetAttribute("login");
                                 string password = reader.GetAttribute("password");
                                 _players.Add(new Identity(login, password));
-                            } break;
+                            }
+                            break;
                         case "players":
                             {
 #warning Тут пусто
-                            } break;
+                            }
+                            break;
                     }
                 }
             }
@@ -137,7 +141,6 @@ namespace AliveChessServer.DBLayer.Loaders
             string type = reader.GetAttribute("stype");
 
             SingleObjectType objType = SingleObjectType.Tree;
-            float wayCost = 4;
 
             switch (type)
             {
