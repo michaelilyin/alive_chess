@@ -25,18 +25,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         public void Build(InnerBuildingType type)
         {
-            if(_castle.HasBuilding(type))
-                return;
             CreationRequirements requirements = _economy.GetCreationRequirements(type);
-            if(requirements == null)
-                return;
-            if (!_castle.King.ResourceStore.HaveEnoughResources(requirements.Resources))
-                return;
-            foreach (var b in requirements.RequiredBuildings)
-            {
-                if(!_castle.HasBuilding(b))
-                    return;
-            }
             _castle.King.ResourceStore.TakeResources(requirements.Resources);
             InnerBuilding building = new InnerBuilding();
             building.Id = GuidGenerator.Instance.GeneratePair().Id;

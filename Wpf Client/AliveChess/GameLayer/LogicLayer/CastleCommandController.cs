@@ -36,13 +36,13 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore = gameCore;
         }
 
-        public void SendGetListBuildingsInCastleRequest()
+        public void SendGetBuildingsRequest()
         {
             GetBuildingsRequest request = new GetBuildingsRequest();
             _gameCore.Network.Send(request);
         }
 
-        public void ReceiveGetListBuildingsInCastleResponce(GetBuildingsResponse response)
+        public void ReceiveGetBuildingsResponce(GetBuildingsResponse response)
         {
             _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
             _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetBuildingsResult));

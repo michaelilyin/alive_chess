@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AliveChessLibrary.Commands.CastleCommand;
+using AliveChessLibrary.Commands.ErrorCommand;
 using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessServer.LogicLayer.Environment;
@@ -24,6 +26,25 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             CreateBuildingRequest request = (CreateBuildingRequest)cmd.Command;
             Player player = cmd.Sender;
             King king = cmd.Sender.King;
+
+            if (king.CurrentCastle.HasBuilding(request.InnerBuildingType))
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Это здание уже построено."));
+                return;
+            }
+
+            CreationRequirements requirements = king.CurrentCastle.BuildingFactory.GetCreationRequirements(request.InnerBuildingType);
+            if (!king.ResourceStore.HasEnoughResources(requirements.Resources))
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Недостаточно ресурсов."));
+                return;
+            }
+
+            if (requirements.RequiredBuildings.Any(building => !king.CurrentCastle.HasBuilding(building)))
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Нет необходимых построек."));
+                return;
+            }
 
             king.CurrentCastle.BuildingFactory.Build(request.InnerBuildingType);
 

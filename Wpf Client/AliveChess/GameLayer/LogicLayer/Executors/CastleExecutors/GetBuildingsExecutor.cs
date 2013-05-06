@@ -13,7 +13,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.CastleExecutors
         public void Execute(ICommand command)
         {
             GetBuildingsResponse response = (GetBuildingsResponse)command;
-            GameCore.Instance.CastleCommandController.ReceiveGetListBuildingsInCastleResponce(response);
+            GameCore.Instance.CastleCommandController.ReceiveGetBuildingsResponce(response);
         }
 
         #endregion

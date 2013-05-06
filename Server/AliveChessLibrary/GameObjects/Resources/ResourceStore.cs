@@ -68,7 +68,7 @@ namespace AliveChessLibrary.GameObjects.Resources
             return null;
         }
 
-        public bool HaveEnoughResources(Dictionary<ResourceTypes, int> resources)
+        public bool HasEnoughResources(Dictionary<ResourceTypes, int> resources)
         {
             foreach (var item in resources)
             {

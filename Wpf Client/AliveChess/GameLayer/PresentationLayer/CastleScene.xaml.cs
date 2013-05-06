@@ -78,7 +78,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             //catch (Exception) { }
             //GetMapRequest request = new GetMapRequest();
             //GameCore.Instance.Network.Send(request);
-            GameCore.Instance.CastleCommandController.SendGetListBuildingsInCastleRequest();
+            GameCore.Instance.CastleCommandController.SendGetBuildingsRequest();
         }
 
         public void ShowGetGameStateResult()
