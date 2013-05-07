@@ -23,6 +23,8 @@
 	<basePoint type="Snow" x="17"  y="17"></basePoint>	
 	<basePoint type="Snow" x="23"  y="0"></basePoint>
 	<basePoint type="Snow" x="39"  y="7"></basePoint>	
+	<basePoint type="Snow" x="29"  y="35"></basePoint>
+	<basePoint type="Snow" x="30"  y="35"></basePoint>	
 		<mapObject type="Single" stype="Tree" x="2" y="9" />
 		<mapObject type="Single" stype="Tree" x="4" y="14" />
 		<mapObject type="Single" stype="Tree" x="5" y="2" />

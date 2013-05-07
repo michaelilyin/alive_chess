@@ -18,6 +18,38 @@ namespace AliveChess.GameLayer.LogicLayer
         private bool _waitingGetGameStateResponse = false;
         private bool _waitingGetObjectsResponse = false;
 
+        private bool _updatingGameState;
+        private bool _updatingGameObjects;
+
+        private bool _resourceQuantityChanged;
+        private bool _dynamicObjectsChanged;
+        private bool _buildingOwnerChanged;
+        private bool _mapChanged;
+
+        public bool ResourceQuantityChanged
+        {
+            get { return _resourceQuantityChanged; }
+            set { _resourceQuantityChanged = value; }
+        }
+
+        public bool DynamicObjectsChanged
+        {
+            get { return _dynamicObjectsChanged; }
+            set { _dynamicObjectsChanged = value; }
+        }
+
+        public bool BuildingChanged
+        {
+            get { return _buildingOwnerChanged; }
+            set { _buildingOwnerChanged = value; }
+        }
+
+        public bool MapChanged
+        {
+            get { return _mapChanged; }
+            set { _mapChanged = value; }
+        }
+
         private GameCore _gameCore;
 
         private MapScene _mapScene;
@@ -64,6 +96,10 @@ namespace AliveChess.GameLayer.LogicLayer
         {
             SendGetObjectsRequest();
             timerGetObjects.Stop();
+        }
+
+        public void StopGameStateUpdate()
+        {
         }
 
         public void SendGetMapRequest()

@@ -186,7 +186,7 @@ namespace BehaviorAILibrary.MotionLayer
 
                 return path;
             }
-            else throw new AliveChessException("Path not found");
+            else return null;
         }
 
         public bool Dialonals

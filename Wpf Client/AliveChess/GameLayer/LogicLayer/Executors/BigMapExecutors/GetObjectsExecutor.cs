@@ -46,13 +46,15 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
                     }
                 }
             }
+            GameCore.Instance.BigMapCommandController.DynamicObjectsChanged = true;
+            GameCore.Instance.BigMapCommandController.BuildingChanged = true;
 
             /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             mapScene.Dispatcher.Invoke(
                 DispatcherPriority.Normal,
                 new Action<GetObjectsResponse>(mapScene.ShowGetObjectsResult),
                 response);*/
-            GameCore.Instance.BigMapCommandController.ReceiveGetObjectsResponse(response);
+            //GameCore.Instance.BigMapCommandController.ReceiveGetObjectsResponse(response);
         }
 
         #endregion
