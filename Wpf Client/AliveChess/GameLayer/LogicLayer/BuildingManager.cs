@@ -10,10 +10,16 @@ namespace AliveChess.GameLayer.LogicLayer
     {
         private Castle _castle;
         private LinkedList<BuildingQueueItem<InnerBuildingType>> _buildingQueue = new LinkedList<BuildingQueueItem<InnerBuildingType>>();
+        private Dictionary<InnerBuildingType, CreationRequirements> _creationRequirements = new Dictionary<InnerBuildingType, CreationRequirements>();
 
         public CreationRequirements GetCreationRequirements(InnerBuildingType type)
         {
-            throw new NotImplementedException();
+            foreach (var creationRequirements in _creationRequirements)
+            {
+                if (creationRequirements.Key == type)
+                    return creationRequirements.Value;
+            }
+            return null;
         }
 
         public void Update(TimeSpan timeFromLastUpdate)
@@ -33,7 +39,7 @@ namespace AliveChess.GameLayer.LogicLayer
 
         public bool HasUnfinishedBuilding(InnerBuildingType type)
         {
-            throw new NotImplementedException();
+            return BuildingQueue.Any(buildingQueueItem => buildingQueueItem.Type == type);
         }
 
         public Castle Castle
@@ -46,6 +52,12 @@ namespace AliveChess.GameLayer.LogicLayer
         {
             get { return _buildingQueue; }
             set { _buildingQueue = value; }
+        }
+
+        public Dictionary<InnerBuildingType, CreationRequirements> CreationRequirements
+        {
+            get { return _creationRequirements; }
+            set { _creationRequirements = value; }
         }
     }
 }

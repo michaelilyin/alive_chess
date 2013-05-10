@@ -77,6 +77,8 @@
     <Compile Include="Commands\BigMapCommand\TakeResourceMessage.cs" />
     <Compile Include="Commands\BigMapCommand\VerifyPathRequest.cs" />
     <Compile Include="Commands\BigMapCommand\VerifyPathResponse.cs" />
+    <Compile Include="Commands\CastleCommand\GetCreationRequirementsRequest.cs" />
+    <Compile Include="Commands\CastleCommand\GetCreationRequirementsResponse.cs" />
     <Compile Include="Commands\CastleCommand\GetBuildingQueueRequest.cs" />
     <Compile Include="Commands\CastleCommand\GetBuildingQueueResponse.cs" />
     <Compile Include="Commands\CastleCommand\DestroyBuildingRequest.cs" />
@@ -87,8 +89,6 @@
     <Compile Include="Commands\CastleCommand\CollectUnitsResponse.cs" />
     <Compile Include="Commands\CastleCommand\GetBuildingsRequest.cs" />
     <Compile Include="Commands\CastleCommand\GetBuildingsResponse.cs" />
-    <Compile Include="Commands\CastleCommand\GetBuildingCostRequest.cs" />
-    <Compile Include="Commands\CastleCommand\GetBuildingCostResponse.cs" />
     <Compile Include="Commands\CastleCommand\CreateUnitRequest.cs" />
     <Compile Include="Commands\CastleCommand\CreateUnitResponse.cs" />
     <Compile Include="Commands\CastleCommand\GetCastleArmyRequest.cs" />

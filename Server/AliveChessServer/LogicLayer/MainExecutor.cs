@@ -120,7 +120,7 @@ namespace AliveChessServer.LogicLayer
             // выход из замка
             _executors.Add(Command.LeaveCastleRequest, new LeaveCastleExecutor(gameLogic));
             //
-            _executors.Add(Command.GetBuildingCostRequest, new GetBuildingCostExecutor(gameLogic));
+            _executors.Add(Command.GetCreationRequirementsRequest, new GetCreationRequirementsExecutor(gameLogic));
             //
             _executors.Add(Command.CreateBuildingRequest, new CreateBuildingExecutor(gameLogic));
             //

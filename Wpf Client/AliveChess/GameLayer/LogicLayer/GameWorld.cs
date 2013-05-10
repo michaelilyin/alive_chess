@@ -49,6 +49,7 @@ namespace AliveChess.GameLayer.LogicLayer
                     foreach (var castle in response.Castles)
                     {
                         castle.BuildingManager = new BuildingManager();
+                        castle.RecruitingManager = new RecruitingManager();
                         _map.AddCastle(castle);
                     }
                 }

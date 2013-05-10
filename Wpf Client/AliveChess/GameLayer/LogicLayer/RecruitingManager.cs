@@ -5,22 +5,13 @@ using System.Text;
 using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Characters;
 
-namespace AliveChessServer.LogicLayer.EconomyEngine
+namespace AliveChess.GameLayer.LogicLayer
 {
     public class RecruitingManager : IRecruitingManager
     {
         private Castle _castle;
-        private Economy _economy;
-
-        public RecruitingManager(Economy economy)
-        {
-            _economy = economy;
-        }
-
-        public CreationRequirements GetCreationRequirements(UnitType type)
-        {
-            return _economy.GetCreationRequirements(type);
-        }
+        private LinkedList<BuildingQueueItem<InnerBuildingType>> _buildingQueue = new LinkedList<BuildingQueueItem<InnerBuildingType>>();
+        private Dictionary<UnitType, CreationRequirements> _creationRequirements = new Dictionary<UnitType, CreationRequirements>();
 
         public Castle Castle
         {
@@ -30,8 +21,8 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         public Dictionary<UnitType, CreationRequirements> CreationRequirements
         {
-            get { return _economy.RecruitingRequirements; }
-            set { _economy.RecruitingRequirements = value; }
+            get { return _creationRequirements; }
+            set { _creationRequirements = value; }
         }
     }
 }

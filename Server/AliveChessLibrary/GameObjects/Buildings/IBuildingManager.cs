@@ -11,6 +11,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         LinkedList<BuildingQueueItem<InnerBuildingType>> BuildingQueue { get; set; }
 
+        Dictionary<InnerBuildingType, CreationRequirements> CreationRequirements { get; set; }
+
         CreationRequirements GetCreationRequirements(InnerBuildingType type);
 
         void Update(TimeSpan timeFromLastUpdate);

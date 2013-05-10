@@ -151,7 +151,7 @@
     <Compile Include="LogicLayer\RequestExecutors\BattleExecutors\DownloadBattlefildExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\CollectUnitsExequtor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetBuildingsExecutor.cs" />
-    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetBuildingCostExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetCreationRequirementsExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\CreateUnitExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\BattleExecutors\PlayerMoveMessageExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetCastleArmyExecutor.cs" />

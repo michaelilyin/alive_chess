@@ -126,8 +126,8 @@ namespace AliveChessServer.DBLayer.Loaders
                     return InnerBuildingType.Stabling;
                 case "Workshop":
                     return InnerBuildingType.Workshop;
-                case "RoyalGuardQuarters":
-                    return InnerBuildingType.RoyalGuardQuarters;
+                case "Fortress":
+                    return InnerBuildingType.Fortress;
                 case "Forge":
                     return InnerBuildingType.Forge;
                 case "Hospital":

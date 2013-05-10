@@ -26,7 +26,8 @@
 </unit>  
 <unit type="Queen">
 	<resource type="Gold">10</resource>
-	<resource type="Iron">10</resource>
+	<resource type="Iron">5</resource>
+	<resource type="Wood">10</resource>
 	<time>5,5</time>
 	<requiredBuilding>Quarters</requiredBuilding>
 </unit>  
@@ -36,39 +37,46 @@
 	<time>5,5</time>
 </building> 
 <building type="TrainingGround">
-	<resource type="Gold">10</resource>
-	<resource type="Iron">10</resource>
-	<time>5,5</time>
+	<resource type="Gold">20</resource>
+	<resource type="Stone">20</resource>
+	<time>7,5</time>
 	<requiredBuilding>Quarters</requiredBuilding>
 </building> 
 <building type="Stabling">
 	<resource type="Gold">10</resource>
-	<resource type="Iron">10</resource>
-	<time>5,5</time>
+	<resource type="Iron">5</resource>
+	<resource type="Wood">15</resource>
+	<time>7,5</time>
 	<requiredBuilding>Quarters</requiredBuilding>
 </building> 
 <building type="Workshop">
-	<resource type="Gold">10</resource>
-	<resource type="Iron">10</resource>
-	<time>5,5</time>
+	<resource type="Gold">100</resource>
+	<resource type="Iron">20</resource>
+	<resource type="Coal">30</resource>
+	<time>12,5</time>
 	<requiredBuilding>Quarters</requiredBuilding>
+	<requiredBuilding>TrainingGround</requiredBuilding>
 </building> 
-<building type="RoyalGuardQuarters">
-	<resource type="Gold">10</resource>
+<building type="Fortress">
+	<resource type="Gold">80</resource>
 	<resource type="Iron">10</resource>
-	<time>5,5</time>
+	<resource type="Wood">20</resource>
+	<resource type="Stone">100</resource>
+	<time>15,0</time>
 	<requiredBuilding>Quarters</requiredBuilding>
+	<requiredBuilding>TrainingGround</requiredBuilding>
+	<requiredBuilding>Stabling</requiredBuilding>
 </building> 
 <building type="Forge">
 	<resource type="Gold">10</resource>
 	<resource type="Iron">10</resource>
-	<time>5,5</time>
+	<time>7,5</time>
 	<requiredBuilding>Quarters</requiredBuilding>
 </building> 
 <building type="Hospital">
 	<resource type="Gold">10</resource>
 	<resource type="Iron">10</resource>
-	<time>5,5</time>
+	<time>10,5</time>
 	<requiredBuilding>Quarters</requiredBuilding>
 </building>   
 </economy> 

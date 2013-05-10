@@ -35,6 +35,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
                         else
                         {
                             castle.BuildingManager = new BuildingManager();
+                            castle.RecruitingManager = new RecruitingManager();
                             GameCore.Instance.World.Map.AddCastle(castle);
                         }
                     }

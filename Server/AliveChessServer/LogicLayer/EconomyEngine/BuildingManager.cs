@@ -37,6 +37,12 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
             return _economy.GetCreationRequirements(type);
         }
 
+        public Dictionary<InnerBuildingType, CreationRequirements> CreationRequirements
+        {
+            get { return _economy.BuildingRequirements; }
+            set { _economy.BuildingRequirements = value; }
+        }
+
         public void Update(TimeSpan timeFromLastUpdate)
         {
             if (_buildingQueue.Count > 0)

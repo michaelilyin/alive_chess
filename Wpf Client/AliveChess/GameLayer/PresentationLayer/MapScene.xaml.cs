@@ -59,6 +59,7 @@ namespace AliveChess.GameLayer.PresentationLayer
         public MapScene()
         {
             InitializeComponent();
+            this.ShowsNavigationUI = false;
             scrollViewerMap.CanContentScroll = false;
             InitBrushes();
             _bigMapCommandController = GameCore.Instance.BigMapCommandController;

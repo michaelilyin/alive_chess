@@ -3,58 +3,16 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
       xmlns:PresentationLayer="clr-namespace:AliveChess.GameLayer.PresentationLayer" 
       Width="Auto" Height="Auto" Title="Карта" x:Name="SceneMap">
-    <Grid>
+    <Grid Focusable="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
 
             <RowDefinition Height="5000*"/>
         </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0">
-            <Label Name="LabelGold" Content="Золото:"/>
-            <Label Name="LabelGoldQuantity" Content="0"/>
-            <Label Name="LabelWood" Content="Дерево:"/>
-            <Label Name="LabelWoodQuantity" Content="0"/>
-            <Label Name="LabelStone" Content="Камень:"/>
-            <Label Name="LabelStoneQuantity" Content="0"/>
-            <Label Name="LabelIron" Content="Железо:"/>
-            <Label Name="LabelIronQuantity" Content="0"/>
-            <Label Name="LabelCoal" Content="Уголь:"/>
-            <Label Name="LabelCoalQuantity" Content="0"/>
-        </ToolBar>
-
 
         <ScrollViewer Grid.Row="1" x:Name="scrollViewerMap" VerticalScrollBarVisibility ="Auto" HorizontalScrollBarVisibility="Auto" Grid.RowSpan="2" ScrollChanged="scrollViewerMap_ScrollChanged" KeyDown="scrollViewerMap_KeyDown">
             <StackPanel>
-                <!--Border 
-            BorderBrush="#FF496D09" 
-            BorderThickness="3" 
-            
-            HorizontalAlignment="Left" 
-            Name="border1" 
-            VerticalAlignment="Top" 
-             
-            Grid.RowSpan="3" 
-            Grid.ColumnSpan="3" 
-            ForceCursor="True">
-            <Grid  
-                Height="705" 
-                HorizontalAlignment="Left" 
-                Name="grid1" 
-                VerticalAlignment="Top" 
-                Width="1280">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10*" />
-                    <RowDefinition Height="65*" />
-                    <RowDefinition Height="25*" />
-                </Grid.RowDefinitions-->
-
-
                 <Canvas x:Name="canvasDynamicObjects"
                     Height="5000" 
                     HorizontalAlignment="Left"  
@@ -74,13 +32,13 @@
                             Height="5000" 
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top" 
-                            Width="5000" 
+                            Width="Auto" 
                             Grid.ColumnSpan="3" Background="Transparent" 
                             Grid.RowSpan="3">
                             <Canvas x:Name="canvasGround"
                                     Height="5000" 
                                     HorizontalAlignment="Left" 
-                                    VerticalAlignment="Top" 
+                                    VerticalAlignment="Center" 
                                     Width="5000" 
                                     Grid.ColumnSpan="3" Background="AliceBlue" 
                                     Grid.RowSpan="3" MouseLeftButtonDown="canvasLandscape_MouseLeftButtonDown">
@@ -88,22 +46,78 @@
                         </Canvas>
                     </Canvas>
                 </Canvas>
-
-                <!--/Grid>
-        </Border-->
-                <!--Grid 
-            Height="170" 
-            Name="grid2" 
-            Width="1280" 
-            Margin="0,534,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-          
-        </Grid-->
             </StackPanel>
         </ScrollViewer>
+        <DockPanel Grid.Row="0" Canvas.Left="106" Canvas.Top="128" Height="35" SnapsToDevicePixels="True" IsHitTestVisible="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Focusable="True">
+            <DockPanel.Effect>
+                <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
+            </DockPanel.Effect>
+            <DockPanel.Background>
+                <ImageBrush ImageSource="/AliveChess;component/Resources/wood_texture_background-other.jpg"/>
+            </DockPanel.Background>
+            
+            <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True" Orientation="Horizontal" ClipToBounds="True" HorizontalAlignment="Center" VerticalAlignment="Center" Focusable="True">
+                
+                <Image VerticalAlignment="Center" Source="/AliveChess;component/Resources/icons_ressource_gold.png" HorizontalAlignment="Center" IsHitTestVisible="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="21" Height="19" StretchDirection="DownOnly" Focusable="True" ClipToBounds="True" ToolTip="Золото"/>
+
+                <Label x:Name="LabelGoldQuantity" Content="0" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center" Focusable="True" IsHitTestVisible="True" ClipToBounds="True" ToolTip="Золото">
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                    </Label.Effect>
+                </Label>
+                <!--<Label Name="LabelWood" Content="Дерево:" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center">
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                </Label.Effect>
+            </Label>-->
+
+                <Image VerticalAlignment="Center" Source="/AliveChess;component/Resources/icons_ressource_wood.png" HorizontalAlignment="Center" IsHitTestVisible="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="21" Height="19" StretchDirection="DownOnly" ToolTip="Дерево" Focusable="True" ClipToBounds="True"/>
+
+                <Label x:Name="LabelWoodQuantity" Content="0" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center" Focusable="True" IsHitTestVisible="True" ClipToBounds="True" ToolTip="Дерево">
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                    </Label.Effect>
+                </Label>
+                <!--<Label Name="LabelStone" Content="Камень:" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center">
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                </Label.Effect>
+            </Label>-->
+
+                <Image VerticalAlignment="Center" Source="/AliveChess;component/Resources/icons_ressource_stone.png" HorizontalAlignment="Center" IsHitTestVisible="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="21" Height="19" StretchDirection="DownOnly" Focusable="True" ClipToBounds="True" ToolTip="Камень"/>
+
+                <Label x:Name="LabelStoneQuantity" Content="0" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center" Focusable="True" IsHitTestVisible="True" ClipToBounds="True" ToolTip="Камень">
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                    </Label.Effect>
+                </Label>
+                <!--<Label Name="LabelIron" Content="Железо:" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center">
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                </Label.Effect>
+            </Label>-->
+
+                <Image VerticalAlignment="Center" Source="/AliveChess;component/Resources/icons_ressource_iron.png" HorizontalAlignment="Center" IsHitTestVisible="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="21" Height="19" StretchDirection="DownOnly" Focusable="True" ClipToBounds="True" ToolTip="Железо"/>
+
+                <Label x:Name="LabelIronQuantity" Content="0" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center" Focusable="True" IsHitTestVisible="True" ClipToBounds="True" ToolTip="Железо">
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                    </Label.Effect>
+                </Label>
+                <!--<Label Name="LabelCoal" Content="Уголь:" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center">
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                </Label.Effect>
+            </Label>-->
+
+                <Image VerticalAlignment="Center" Source="/AliveChess;component/Resources/icons_ressource_coal.png" HorizontalAlignment="Center" IsHitTestVisible="True" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="21" Height="19" StretchDirection="DownOnly" Focusable="True" ClipToBounds="True" ToolTip="Уголь"/>
+
+                <Label x:Name="LabelCoalQuantity" Content="0" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" VerticalAlignment="Center" Focusable="True" IsHitTestVisible="True" ClipToBounds="True" ToolTip="Уголь">
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                    </Label.Effect>
+                </Label>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </PresentationLayer:GameScene>

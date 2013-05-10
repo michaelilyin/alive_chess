@@ -18,6 +18,7 @@ using AliveChess.GameLayer.LogicLayer;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.Commands.CastleCommand;
 using AliveChessLibrary.GameObjects.Buildings;
+using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Resources;
 
 namespace AliveChess.GameLayer.PresentationLayer
@@ -49,9 +50,10 @@ namespace AliveChess.GameLayer.PresentationLayer
         public CastleScene()
         {
             InitializeComponent();
+            this.ShowsNavigationUI = false;
             _castle = GameCore.Instance.Player.King.CurrentCastle;
             _castleCommandController = GameCore.Instance.CastleCommandController;
-            _castleCommandController.SendGetBuildingsRequest();
+            _castleCommandController.SendGetCreationRequirementsRequest();
             /*Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);*/
             timerUpdate.Tick += new EventHandler(timerUpdate_Tick);
             timerUpdate.Interval = new TimeSpan(0, 0, 0, 0, 20);
@@ -141,16 +143,111 @@ namespace AliveChess.GameLayer.PresentationLayer
             }
         }
 
-        public void UpdateBuildings()
+        private string _getNameByType(InnerBuildingType type)
         {
-            ListBoxBuildings.Items.Clear();
-            lock (GameCore.Instance.Player.King.CurrentCastle.InnerBuildings)
+            switch (type)
             {
-                foreach (var building in _castle.InnerBuildings)
+                case InnerBuildingType.Quarters:
+                    return "Казармы";
+                case InnerBuildingType.TrainingGround:
+                    return "Тренировочная площадка";
+                case InnerBuildingType.Stabling:
+                    return "Конюшня";
+                case InnerBuildingType.Workshop:
+                    return "Мастерская";
+                case InnerBuildingType.Fortress:
+                    return "Крепость";
+                case InnerBuildingType.Forge:
+                    return "Кузница";
+                case InnerBuildingType.Hospital:
+                    return "Больница";
+            }
+            return type.ToString();
+        }
+
+        private string _getNameByType(ResourceTypes type)
+        {
+            switch (type)
+            {
+                case ResourceTypes.Gold:
+                    return "Золото";
+                case ResourceTypes.Stone:
+                    return "Камень";
+                case ResourceTypes.Wood:
+                    return "Дерево";
+                case ResourceTypes.Iron:
+                    return "Железо";
+                case ResourceTypes.Coal:
+                    return "Уголь";
+            }
+            return type.ToString();
+        }
+
+        private string _requirementsToString(CreationRequirements requirements)
+        {
+            string result = "Требуется:";
+            foreach (var item in requirements.Resources)
+            {
+                result += "\n" + _getNameByType(item.Key) + ": " + item.Value.ToString();
+            }
+            foreach (var building in requirements.RequiredBuildings)
+            {
+                result += "\n" + _getNameByType(building);
+            }
+            result += "\n Время постройки: " + requirements.CreationTime.ToString() + " сек.";
+            return result;
+        }
+
+        private void _checkBuilding(InnerBuildingType type, Button btn)
+        {
+            if (_castle.HasBuilding(type))
+            {
+                btn.Content = "Снести";
+                btn.ToolTip = null;
+                btn.IsEnabled = true;
+            }
+            else if (_castle.BuildingManager.HasUnfinishedBuilding(type))
+            {
+                btn.Content = "Отменить постройку";
+                btn.ToolTip = null;
+                btn.IsEnabled = true;
+            }
+            else
+            {
+                btn.Content = "Построить";
+                lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.CreationRequirements)
                 {
-                    ListBoxBuildings.Items.Add(building.InnerBuildingType.ToString());
+                    CreationRequirements requirements = _castle.BuildingManager.GetCreationRequirements(type);
+                    if (requirements == null)
+                        return;
+                    btn.ToolTip = _requirementsToString(requirements);
+                    if (requirements.RequiredBuildings.Any(building => !_castle.HasBuilding(building)))
+                    {
+                        btn.IsEnabled = false;
+                        return;
+                    }
+                    btn.IsEnabled =
+                        GameCore.Instance.Player.King.ResourceStore.HasEnoughResources(requirements.Resources);
                 }
             }
+        }
+
+        public void UpdateBuildings()
+        {
+            lock (GameCore.Instance.Player.King.CurrentCastle.InnerBuildings)
+            {
+                lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue)
+                {
+                    _checkBuilding(InnerBuildingType.Quarters, BtnQuarters);
+                    _checkBuilding(InnerBuildingType.TrainingGround, BtnTrainingGround);
+                    _checkBuilding(InnerBuildingType.Stabling, BtnStabling);
+                    _checkBuilding(InnerBuildingType.Workshop, BtnWorkshop);
+                    _checkBuilding(InnerBuildingType.Fortress, BtnFortress);
+                    _checkBuilding(InnerBuildingType.Forge, BtnForge);
+                    _checkBuilding(InnerBuildingType.Hospital, BtnHospital);
+                }
+            }
+            //StackPanelBuildings.Visibility = ListBoxBuildings.Items.Count > 0 ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void UpdateBuildingQueue()
@@ -163,25 +260,68 @@ namespace AliveChess.GameLayer.PresentationLayer
                     ListBoxBuildingQueue.Items.Add(item.Type.ToString() + " (" + (int)item.TimeToPercent() + "%)");
                 }
             }
+            StackPanelBuildingQueue.Visibility = ListBoxBuildingQueue.Items.Count > 0 ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void UpdateUnits()
         {
         }
 
-        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        private void _buildingBtnClick(InnerBuildingType type)
+        {
+            lock (_castle.InnerBuildings)
+            {
+                lock (_castle.BuildingManager.BuildingQueue)
+                {
+                    if (_castle.HasBuilding(type) ||
+                        _castle.BuildingManager.HasUnfinishedBuilding(type))
+                    {
+                        _castleCommandController.SendDestroyBuildingRequest(type);
+                        return;
+                    }
+                }
+            }
+            _castleCommandController.SendCreateBuildingRequest(type);
+        }
+
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             _castleCommandController.SendLeaveCastleRequest();
         }
 
-        private void btnBuild_Click(object sender, RoutedEventArgs e)
+        private void BtnQuarters_Click(object sender, RoutedEventArgs e)
         {
-            _castleCommandController.SendCreateBuildingRequest(InnerBuildingType.Stabling);
+            _buildingBtnClick(InnerBuildingType.Quarters);
         }
 
-        private void btnDestroy_Click(object sender, RoutedEventArgs e)
+        private void BtnTrainingGround_Click(object sender, RoutedEventArgs e)
         {
-            _castleCommandController.SendDestroyBuildingRequest(InnerBuildingType.Stabling);
+            _buildingBtnClick(InnerBuildingType.TrainingGround);
+        }
+
+        private void BtnStabling_Click(object sender, RoutedEventArgs e)
+        {
+            _buildingBtnClick(InnerBuildingType.Stabling);
+        }
+
+        private void BtnWorkshop_Click(object sender, RoutedEventArgs e)
+        {
+            _buildingBtnClick(InnerBuildingType.Workshop);
+        }
+
+        private void BtnRoyalGuardQuarters_Click(object sender, RoutedEventArgs e)
+        {
+            _buildingBtnClick(InnerBuildingType.Fortress);
+        }
+
+        private void BtnForge_Click(object sender, RoutedEventArgs e)
+        {
+            _buildingBtnClick(InnerBuildingType.Forge);
+        }
+
+        private void BtnHospital_Click(object sender, RoutedEventArgs e)
+        {
+            _buildingBtnClick(InnerBuildingType.Hospital);
         }
     }
 }

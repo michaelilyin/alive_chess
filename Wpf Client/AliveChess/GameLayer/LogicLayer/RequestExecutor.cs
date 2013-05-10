@@ -91,6 +91,7 @@ namespace AliveChess.GameLayer.LogicLayer
             _executors.Add(Command.DestroyBuildingResponse, new DestroyBuildingExecutor());
             _executors.Add(Command.LeaveCastleResponse, new LeaveCastleExecutor());
             _executors.Add(Command.GetBuildingQueueResponse, new GetBuildingQueueExecutor());
+            _executors.Add(Command.GetCreationRequirementsResponse, new GetCreationRequirementsExecutor());
         }
 
         private void CreateErrorExecutors()

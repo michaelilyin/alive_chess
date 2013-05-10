@@ -74,6 +74,12 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore.Network.Send(request);
         }
 
+        public void SendGetCreationRequirementsRequest()
+        {
+            GetCreationRequirementsRequest request = new GetCreationRequirementsRequest();
+            _gameCore.Network.Send(request);
+        }
+
         public void SendGetBuildingQueueRequest()
         {
             GetBuildingQueueRequest request = new GetBuildingQueueRequest();
