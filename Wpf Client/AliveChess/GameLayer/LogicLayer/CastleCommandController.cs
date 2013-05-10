@@ -14,26 +14,58 @@ namespace AliveChess.GameLayer.LogicLayer
     {
         private GameCore _gameCore;
 
-        private Castle _castle;
+        private bool _buildingsModified;
+        private bool _unitsModified;
+        private bool _buildingQueueModified;
+        private bool _kingOnMap;
 
-        public Castle Castle
+        DispatcherTimer timerUpdate = new DispatcherTimer();
+
+        public bool BuildingsModified
         {
-            get { return _castle; }
-            set
-            { _castle = value; }
+            get { return _buildingsModified; }
+            set { _buildingsModified = value; }
         }
 
-        private CastleScene _castleScene;
-
-        public CastleScene CastleScene
+        public bool UnitsModified
         {
-            get { return _castleScene; }
-            set { _castleScene = value; }
+            get { return _unitsModified; }
+            set { _unitsModified = value; }
+        }
+
+        public bool BuildingQueueModified
+        {
+            get { return _buildingQueueModified; }
+            set { _buildingQueueModified = value; }
+        }
+
+        public bool KingOnMap
+        {
+            get { return _kingOnMap; }
+            set { _kingOnMap = value; }
         }
 
         public CastleCommandController(GameCore gameCore)
         {
             _gameCore = gameCore;
+            timerUpdate.Tick += new EventHandler(timerUpdate_Tick);
+            timerUpdate.Interval = new TimeSpan(0, 0, 0, 0, 500);
+        }
+
+        private void timerUpdate_Tick(object sender, EventArgs e)
+        {
+            SendGetBuildingQueueRequest();
+            SendGetBuildingsRequest();
+        }
+
+        public void StartUpdate()
+        {
+            timerUpdate.Start();
+        }
+
+        public void StopUpdate()
+        {
+            timerUpdate.Stop();
         }
 
         public void SendGetBuildingsRequest()
@@ -42,10 +74,10 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore.Network.Send(request);
         }
 
-        public void ReceiveGetBuildingsResponce(GetBuildingsResponse response)
+        public void SendGetBuildingQueueRequest()
         {
-            _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
-            _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetBuildingsResult));
+            GetBuildingQueueRequest request = new GetBuildingQueueRequest();
+            _gameCore.Network.Send(request);
         }
 
         public void SendCreateBuildingRequest(InnerBuildingType type)
@@ -55,10 +87,17 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore.Network.Send(request);
         }
 
-        public void ReceiveCreateBuildingResponce(CreateBuildingResponse response)
+        public void SendDestroyBuildingRequest(InnerBuildingType type)
         {
-            _castle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
-            _castleScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_castleScene.ShowGetBuildingsResult));
+            DestroyBuildingRequest request = new DestroyBuildingRequest();
+            request.InnerBuildingType = type;
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendLeaveCastleRequest()
+        {
+            LeaveCastleRequest request = new LeaveCastleRequest();
+            _gameCore.Network.Send(request);
         }
     }
 }

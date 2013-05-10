@@ -166,7 +166,7 @@ namespace AliveChessServer.DBLayer.Loaders
                             }
                         case "time":
                             double time = Convert.ToDouble(requirementNode.InnerText);
-                            requirements.Time = time;
+                            requirements.CreationTime = time;
                             break;
                         case "requiredBuilding":
                             InnerBuildingType buildingType = _getBuildingType(requirementNode.InnerText);
@@ -189,7 +189,7 @@ namespace AliveChessServer.DBLayer.Loaders
             {
                 AliveChessLibrary.DebugConsole.WriteLine(this, "Required building: " + VARIABLE.ToString());
             }
-            AliveChessLibrary.DebugConsole.WriteLine(this, "Required time: " + requirements.Time);
+            AliveChessLibrary.DebugConsole.WriteLine(this, "Required time: " + requirements.CreationTime);
 #endif
             return requirements;
         }

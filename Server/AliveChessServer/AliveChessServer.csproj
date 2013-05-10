@@ -117,9 +117,9 @@
     <Compile Include="LogicLayer\AI\Animat.cs" />
     <Compile Include="LogicLayer\AI\Evaluator.cs" />
     <Compile Include="LogicLayer\AI\Memory.cs" />
-    <Compile Include="LogicLayer\EconomyEngine\BuildingFactory.cs" />
+    <Compile Include="LogicLayer\EconomyEngine\BuildingManager.cs" />
     <Compile Include="LogicLayer\EconomyEngine\Economy.cs" />
-    <Compile Include="LogicLayer\EconomyEngine\UnitFactory.cs" />
+    <Compile Include="LogicLayer\EconomyEngine\RecruitingManager.cs" />
     <Compile Include="LogicLayer\Environment\FastBattle.cs" />
     <Compile Include="DBLayer\Loaders\XMLLevelLoader.cs" />
     <Compile Include="LogicLayer\AliveChessLogger.cs" />
@@ -144,6 +144,8 @@
     <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetKingExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\GetUnityMapExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\BigMapExecutors\VerifyPathExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\GetBuildingQueueExecutor.cs" />
+    <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\DestroyBuildingExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\Helpers\Helper.cs" />
     <Compile Include="LogicLayer\RequestExecutors\CastleExecutors\CreateBuildingExecutor.cs" />
     <Compile Include="LogicLayer\RequestExecutors\BattleExecutors\DownloadBattlefildExecutor.cs" />

@@ -4,20 +4,22 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class GetBuildingCostRequest : ICommand
+    public class DestroyBuildingRequest : ICommand
     {
         [ProtoMember(1)]
-        private InnerBuildingType _type;
+        private InnerBuildingType type;
 
         public InnerBuildingType InnerBuildingType
         {
-            get { return _type; }
-            set { _type = value; }
+            get { return type; }
+            set { type = value; }
         }
 
         public Command Id
         {
-            get { return Command.GetBuildingCostRequest; }
+            get { return Command.DestroyBuildingRequest; }
+           
         }
     }
+
 }

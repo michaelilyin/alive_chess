@@ -18,54 +18,72 @@ namespace AliveChess.GameLayer.LogicLayer
 
         public void Create(GetMapResponse response)
         {
-#warning Создание карты
             _map = new Map(response.SizeMapX, response.SizeMapY);
 
-            if (response.BasePoints != null)
+            lock (GameCore.Instance.World.Map.BasePoints)
             {
-                foreach (var basePoint in response.BasePoints)
+                if (response.BasePoints != null)
                 {
-                    _map.AddBasePoint(basePoint);
+                    foreach (var basePoint in response.BasePoints)
+                    {
+                        _map.AddBasePoint(basePoint);
+                    }
                 }
             }
 
-            if (response.Borders != null)
+            lock (GameCore.Instance.World.Map.Borders)
             {
-                foreach (var border in response.Borders)
+                if (response.Borders != null)
                 {
-                    _map.AddBorder(border);
+                    foreach (var border in response.Borders)
+                    {
+                        _map.AddBorder(border);
+                    }
                 }
             }
 
-            if (response.Castles != null)
+            lock (GameCore.Instance.World.Map.Castles)
             {
-                foreach (var castle in response.Castles)
+                if (response.Castles != null)
                 {
-                    _map.AddCastle(castle);
+                    foreach (var castle in response.Castles)
+                    {
+                        castle.BuildingManager = new BuildingManager();
+                        _map.AddCastle(castle);
+                    }
                 }
             }
 
-            if (response.Mines != null)
+            lock (GameCore.Instance.World.Map.Mines)
             {
-                foreach (var mine in response.Mines)
+                if (response.Mines != null)
                 {
-                    _map.AddMine(mine);
+                    foreach (var mine in response.Mines)
+                    {
+                        _map.AddMine(mine);
+                    }
                 }
             }
 
-            if (response.SingleObjects != null)
+            lock (GameCore.Instance.World.Map.SingleObjects)
             {
-                foreach (var singleObject in response.SingleObjects)
+                if (response.SingleObjects != null)
                 {
-                    _map.AddSingleObject(singleObject);
+                    foreach (var singleObject in response.SingleObjects)
+                    {
+                        _map.AddSingleObject(singleObject);
+                    }
                 }
             }
 
-            if (response.MultyObjects != null)
+            lock (GameCore.Instance.World.Map.MultyObjects)
             {
-                foreach (var multyObject in response.MultyObjects)
+                if (response.MultyObjects != null)
                 {
-                    _map.AddMultyObject(multyObject);
+                    foreach (var multyObject in response.MultyObjects)
+                    {
+                        _map.AddMultyObject(multyObject);
+                    }
                 }
             }
 

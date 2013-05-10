@@ -33,26 +33,6 @@ namespace AliveChessServer.LogicLayer
             Debug.Assert(gameLogic.PlayerManager != null);
 
             _executors = new Dictionary<Command, IExecutor>();
-
-            // покидание замка
-            _executors.Add(Command.LeaveCastleRequest, new LeaveCastleExecutor(gameLogic));
-            //
-           // _executors.Add(Command.GetResourceRequest, new GetResourceExecutor(gameLogic, queryManager));
-
-            //
-            _executors.Add(Command.GetBuildingCostRequest, new GetBuildingCostExecutor(gameLogic));
-            //
-            _executors.Add(Command.CreateBuildingRequest, new CreateBuildingExecutor(gameLogic));
-            //
-            _executors.Add(Command.CreateUnitRequest, new CreateUnitExecutor(gameLogic));
-            //
-            _executors.Add(Command.CollectUnitsRequest, new CollectUnitsExequtor(gameLogic));
-            //
-            _executors.Add(Command.GetBuildingsRequest, new GetBuildingsExecutor(gameLogic));
-            //
-            _executors.Add(Command.GetCastleArmyRequest, new GetCastleArmyExecutor(gameLogic));
-            //
-            _executors.Add(Command.GetKingArmyRequest, new GetKingArmyExecutor(gameLogic));
             //
             _executors.Add(Command.DownloadBattlefildRequest, new DownloadBattlefildExecutor(gameLogic));
 
@@ -62,6 +42,7 @@ namespace AliveChessServer.LogicLayer
             CreateBigMapExecutors(gameLogic);
             CreateDialogExecutors(gameLogic, transport);
             CreateEmpireExecutors(gameLogic);
+            CreateCastleExecutors(gameLogic);
             CreateStatisticExecutors(gameLogic);
         }
 
@@ -131,6 +112,30 @@ namespace AliveChessServer.LogicLayer
 
             // запросить захват шахты
             _executors.Add(Command.CaptureMineRequest, new CaptureMineExecutor(gameLogic));
+        }
+
+        private void CreateCastleExecutors(GameLogic gameLogic)
+        {
+
+            // выход из замка
+            _executors.Add(Command.LeaveCastleRequest, new LeaveCastleExecutor(gameLogic));
+            //
+            _executors.Add(Command.GetBuildingCostRequest, new GetBuildingCostExecutor(gameLogic));
+            //
+            _executors.Add(Command.CreateBuildingRequest, new CreateBuildingExecutor(gameLogic));
+            //
+            _executors.Add(Command.CreateUnitRequest, new CreateUnitExecutor(gameLogic));
+            //
+            _executors.Add(Command.CollectUnitsRequest, new CollectUnitsExequtor(gameLogic));
+            //
+            _executors.Add(Command.GetBuildingsRequest, new GetBuildingsExecutor(gameLogic));
+            //
+            _executors.Add(Command.GetCastleArmyRequest, new GetCastleArmyExecutor(gameLogic));
+            //
+            _executors.Add(Command.GetKingArmyRequest, new GetKingArmyExecutor(gameLogic));
+            _executors.Add(Command.DestroyBuildingRequest, new DestroyBuildingExecutor(gameLogic));
+            _executors.Add(Command.GetBuildingQueueRequest, new GetBuildingQueueExecutor(gameLogic));
+            
         }
 
         private void CreateEmpireExecutors(GameLogic gameLogic)

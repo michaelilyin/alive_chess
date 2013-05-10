@@ -6,13 +6,13 @@ using AliveChess.GameLayer.PresentationLayer;
 
 namespace AliveChess.GameLayer.LogicLayer.Executors.CastleExecutors
 {
-    class CreateBuildingExecutor : IExecutor
+    class GetBuildingQueueExecutor : IExecutor
     {
         #region IExecutor Members
 
         public void Execute(ICommand command)
         {
-            CreateBuildingResponse response = (CreateBuildingResponse)command;
+            GetBuildingQueueResponse response = (GetBuildingQueueResponse)command;
             lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue)
             {
                 if (response.BuildingQueue != null)

@@ -27,7 +27,11 @@
             <Label Name="LabelCoalQuantity" Content="0"/>
         </ToolBar>
         <Button Grid.Row="1" x:Name="buttonExit" Content="Выход из замка" HorizontalAlignment="Right" VerticalAlignment="Top" Click="buttonExit_Click"/>
-        <ListBox x:Name="ListBoxBuildings" HorizontalAlignment="Left" Height="Auto" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+        <StackPanel Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" >
+            <ListBox x:Name="ListBoxBuildings" HorizontalAlignment="Left" Height="Auto" Width="100"/>
+            <ListBox x:Name="ListBoxBuildingQueue" HorizontalAlignment="Left" Height="Auto" Grid.Row="1" Width="100"/>
+        </StackPanel>
         <Button x:Name="btnBuild"  Content="Построить конюшни" HorizontalAlignment="Left" Margin="172,25,0,0" Grid.Row="1" VerticalAlignment="Top" Width="128" Click="btnBuild_Click"/>
+        <Button x:Name="btnDestroy" Content="Снести конюшни" HorizontalAlignment="Left" Margin="172,50,0,0" Grid.Row="1" VerticalAlignment="Top" Width="128" Click="btnDestroy_Click"/>
     </Grid>
 </PresentationLayer:GameScene>

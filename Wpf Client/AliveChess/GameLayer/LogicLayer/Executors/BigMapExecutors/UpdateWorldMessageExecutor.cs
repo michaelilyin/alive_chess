@@ -1,4 +1,5 @@
-﻿using AliveChess.GameLayer.PresentationLayer;
+﻿using System;
+using AliveChess.GameLayer.PresentationLayer;
 using AliveChessLibrary.Commands;
 using AliveChessLibrary.Commands.BigMapCommand;
 
@@ -10,11 +11,10 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
 
         public void Execute(ICommand command)
         {
-            //throw new NotImplementedException();
-            //HACK: не реализовано
+            throw new NotImplementedException();
+#warning Не реализовано
 
             UpdateWorldMessage response = (UpdateWorldMessage)command;
-#warning Не реализовано
             MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
 
             /*mapScene.Dispatcher.Invoke(

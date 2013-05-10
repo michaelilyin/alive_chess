@@ -8,7 +8,6 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
         public void Execute(ICommand command)
         {
             GetMapResponse response = (GetMapResponse)command;
-#warning Создание карты
             GameCore.Instance.World.Create(response);/*
             MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
 
@@ -16,7 +15,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
                 DispatcherPriority.Normal,
                 new Action<GetMapResponse>(mapScene.ShowGetMapResult),
                 response);*/
-            GameCore.Instance.BigMapCommandController.ReceiveGetMapResponse(response);
+            GameCore.Instance.BigMapCommandController.MapModified = true;
         }
     }    
 }

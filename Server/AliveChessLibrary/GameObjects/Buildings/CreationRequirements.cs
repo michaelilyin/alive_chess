@@ -22,7 +22,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             set { _resources = value; }
         }
 
-        public double Time
+        public double CreationTime
         {
             get { return _time; }
             set { _time = value; }

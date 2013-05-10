@@ -28,7 +28,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.EmpireExecutors
                 foreach (Resource u in request.Resources)
                 {
                     if (player.King.ResourceStore.DeleteResourceFromStore(u.ResourceType, u.Quantity))
-                        receiver.ResourceStore.AddResourceToStore(u);
+                        receiver.ResourceStore.AddResource(u);
                 }
                 if (!receiver.Player.Bot)
                     receiver.Player.Messenger.SendNetworkMessage(new GetHelpResourceResponse(request.Resources));

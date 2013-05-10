@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AliveChess.GameLayer.LogicLayer;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.Commands.CastleCommand;
 using AliveChessLibrary.GameObjects.Buildings;
@@ -33,6 +34,10 @@ namespace AliveChess.GameLayer.PresentationLayer
         DropShadowEffect _playerLighting = new DropShadowEffect();
         DropShadowEffect _selectionLighting = new DropShadowEffect();
 
+        private CastleCommandController _castleCommandController;
+
+        DispatcherTimer timerUpdate = new DispatcherTimer();
+
         private Castle _castle;
 
         public Castle Castle
@@ -44,80 +49,139 @@ namespace AliveChess.GameLayer.PresentationLayer
         public CastleScene()
         {
             InitializeComponent();
-            _castle = GameCore.Instance.CastleCommandController.Castle;
-            GameCore.Instance.CastleCommandController.CastleScene = this;
-            GameCore.Instance.BigMapCommandController.CastleScene = this;
-            Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);
+            _castle = GameCore.Instance.Player.King.CurrentCastle;
+            _castleCommandController = GameCore.Instance.CastleCommandController;
+            _castleCommandController.SendGetBuildingsRequest();
+            /*Dispatcher.Invoke(DispatcherPriority.Normal, new Action<bool>(ConnectCallback), true);*/
+            timerUpdate.Tick += new EventHandler(timerUpdate_Tick);
+            timerUpdate.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            timerUpdate.Start();
+            _castleCommandController.StartUpdate();
+            GameCore.Instance.BigMapCommandController.StartGameStateUpdate();
         }
 
-        private void buttonExit_Click(object sender, RoutedEventArgs e)
-        {
-            BigMapRequest request = new BigMapRequest();
-            GameCore.Instance.Network.Send(request);
-        }
 
-        public void ShowBigMapResult(BigMapResponse response)
+        void timerUpdate_Tick(object sender, EventArgs e)
         {
-            Uri uri = new Uri("/GameLayer/PresentationLayer/MapScene.xaml", UriKind.Relative); 
-           
-            base.MoveTo(uri);
-            if (response.IsAllowed)
+            if (_castleCommandController.KingOnMap)
             {
-                NavigationService.Navigate(uri);
+                ExitCastle();
+                return;
             }
-            GameCore.Instance.CastleCommandController.CastleScene = null;
-            GameCore.Instance.CastleCommandController.Castle = null;
-        }
-
-        public void ConnectCallback(bool isConnected)
-        {
-            //try
-            //{
-            //    NavigationService.RemoveBackEntry();
-            //}
-            //catch (Exception) { }
-            //GetMapRequest request = new GetMapRequest();
-            //GameCore.Instance.Network.Send(request);
-            GameCore.Instance.CastleCommandController.SendGetBuildingsRequest();
-        }
-
-        public void ShowGetGameStateResult()
-        {
-            foreach (var res in GameCore.Instance.Player.King.ResourceStore.Resources)
+            if (GameCore.Instance.BigMapCommandController.ResourcesModified)
             {
-                switch (res.ResourceType)
+                UpdateResources();
+                GameCore.Instance.BigMapCommandController.ResourcesModified = false;
+            }
+            if (_castleCommandController.BuildingsModified)
+            {
+                UpdateBuildings();
+                _castleCommandController.BuildingsModified = false;
+            }
+            if (_castleCommandController.UnitsModified)
+            {
+                UpdateUnits();
+                _castleCommandController.UnitsModified = false;
+            }
+            if (_castleCommandController.BuildingQueueModified)
+            {
+                UpdateBuildingQueue();
+                _castleCommandController.BuildingQueueModified = false;
+            }
+        }
+
+        public void ExitCastle()
+        {
+            timerUpdate.Stop();
+            GameCore.Instance.BigMapCommandController.StopGameStateUpdate();
+            _castleCommandController.StopUpdate();
+            Uri uri = new Uri("/GameLayer/PresentationLayer/MapScene.xaml", UriKind.Relative);
+            base.MoveTo(uri);
+            if ((NavigationService != null))
+                NavigationService.Navigate(uri);
+        }
+
+        //public void ConnectCallback(bool isConnected)
+        //{
+        //    //try
+        //    //{
+        //    //    NavigationService.RemoveBackEntry();
+        //    //}
+        //    //catch (Exception) { }
+        //    //GetMapRequest request = new GetMapRequest();
+        //    //GameCore.Instance.Network.Send(request);
+        //    GameCore.Instance.CastleCommandController.SendGetBuildingsRequest();
+        //}
+
+        public void UpdateResources()
+        {
+            lock (GameCore.Instance.Player.King.ResourceStore)
+            {
+                foreach (var res in GameCore.Instance.Player.King.ResourceStore.Resources)
                 {
-                    case ResourceTypes.Gold:
-                        LabelGoldQuantity.Content = res.Quantity.ToString();
-                        break;
-                    case ResourceTypes.Stone:
-                        LabelStoneQuantity.Content = res.Quantity.ToString();
-                        break;
-                    case ResourceTypes.Wood:
-                        LabelWoodQuantity.Content = res.Quantity.ToString();
-                        break;
-                    case ResourceTypes.Iron:
-                        LabelIronQuantity.Content = res.Quantity.ToString();
-                        break;
-                    case ResourceTypes.Coal:
-                        LabelCoalQuantity.Content = res.Quantity.ToString();
-                        break;
+                    switch (res.ResourceType)
+                    {
+                        case ResourceTypes.Gold:
+                            LabelGoldQuantity.Content = res.Quantity.ToString();
+                            break;
+                        case ResourceTypes.Stone:
+                            LabelStoneQuantity.Content = res.Quantity.ToString();
+                            break;
+                        case ResourceTypes.Wood:
+                            LabelWoodQuantity.Content = res.Quantity.ToString();
+                            break;
+                        case ResourceTypes.Iron:
+                            LabelIronQuantity.Content = res.Quantity.ToString();
+                            break;
+                        case ResourceTypes.Coal:
+                            LabelCoalQuantity.Content = res.Quantity.ToString();
+                            break;
+                    }
                 }
             }
         }
 
-        public void ShowGetBuildingsResult()
+        public void UpdateBuildings()
         {
             ListBoxBuildings.Items.Clear();
-            foreach (var building in _castle.InnerBuildings)
+            lock (GameCore.Instance.Player.King.CurrentCastle.InnerBuildings)
             {
-                ListBoxBuildings.Items.Add(building.InnerBuildingType.ToString());
+                foreach (var building in _castle.InnerBuildings)
+                {
+                    ListBoxBuildings.Items.Add(building.InnerBuildingType.ToString());
+                }
             }
+        }
+
+        public void UpdateBuildingQueue()
+        {
+            ListBoxBuildingQueue.Items.Clear();
+            lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue)
+            {
+                foreach (var item in _castle.BuildingManager.BuildingQueue)
+                {
+                    ListBoxBuildingQueue.Items.Add(item.Type.ToString() + " (" + (int)item.TimeToPercent() + "%)");
+                }
+            }
+        }
+
+        public void UpdateUnits()
+        {
+        }
+
+        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendLeaveCastleRequest();
         }
 
         private void btnBuild_Click(object sender, RoutedEventArgs e)
         {
-            GameCore.Instance.CastleCommandController.SendCreateBuildingRequest(InnerBuildingType.Stabling);
+            _castleCommandController.SendCreateBuildingRequest(InnerBuildingType.Stabling);
+        }
+
+        private void btnDestroy_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendDestroyBuildingRequest(InnerBuildingType.Stabling);
         }
     }
 }

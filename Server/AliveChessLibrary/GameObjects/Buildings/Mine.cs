@@ -36,7 +36,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         [ProtoMember(7)]
         private Resource _gainingResource;
         [ProtoMember(8)]
-        private int _sizeMine;
+        private int _capacity;
         [ProtoMember(9)]
         private int? _kingId;
 
@@ -64,7 +64,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 #endif
         private int _distance = 3;
 
-        private const int DEFAULT_SIZE = 1000;
+        private const int DEFAULT_CAPACITY = 1000;
 
         #endregion
 
@@ -141,7 +141,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             this._gainingResource = new Resource();
             this._gainingResource.ResourceType = typeRes;
             this._miningRate = miningRate;
-            this._sizeMine = DEFAULT_SIZE;
+            this._capacity = DEFAULT_CAPACITY;
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             int size, double miningRate)
         {
             Initialize(map, typeRes, miningRate);
-            this._sizeMine = size;
+            this._capacity = size;
             this._mineId = id;
             this._dateLastMining = DateTime.Now;
             this._active = false; // активировать шахту
@@ -383,7 +383,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private bool MineOverflow()
         {
             // Если размер ресурса превышает максимальный размер шахты
-            if (this._gainingResource.Quantity >= this._sizeMine)
+            if (this._gainingResource.Quantity >= this._capacity)
                 return true;
             else
                 return false;
@@ -515,10 +515,10 @@ namespace AliveChessLibrary.GameObjects.Buildings
             set { _messengerMine = value; }
         }
 
-        public int SizeMine
+        public int Capacity
         {
-            get { return _sizeMine; }
-            set { _sizeMine = value; }
+            get { return _capacity; }
+            set { _capacity = value; }
         }
 
         public Resource GainingResource

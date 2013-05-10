@@ -9,18 +9,35 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
     {
         public void Execute(ICommand command)
         {
-            GetGameStateResponse response = (GetGameStateResponse) command;
-            
+            GetGameStateResponse response = (GetGameStateResponse)command;
+
             //GameCore.Instance.Player.AddKing(response.King);
             /*GameCore.Instance.Player.King.Castles = response.King.Castles;
             GameCore.Instance.Player.King.AttachStartCastle(response.Castle);
             GameCore.Instance.Player.King.X = response.King.;
             GameCore.Instance.Player.King.AttachStartCastle(response.Castle);*/
-            GameCore.Instance.Player.King = response.King;
-            if(GameCore.Instance.Player.King.ResourceStore == null)
+            if (GameCore.Instance.Player.King == null)
+            {
+                GameCore.Instance.Player.King = response.King;
+            }
+            else
+            {
+                lock (GameCore.Instance.Player.King)
+                {
+                    GameCore.Instance.Player.King.X = response.King.X;
+                    GameCore.Instance.Player.King.Y = response.King.Y;
+                    GameCore.Instance.Player.King.Experience = response.King.Experience;
+                    GameCore.Instance.Player.King.MilitaryRank = response.King.MilitaryRank;
+                }
+
+            }
+            if (GameCore.Instance.Player.King.ResourceStore == null)
                 GameCore.Instance.Player.King.ResourceStore = new ResourceStore();
-            EntitySet<Resource> esr = CustomConverter.ListToEntitySet(response.Resources);
-            GameCore.Instance.Player.King.ResourceStore.Resources = esr;
+            lock (GameCore.Instance.Player.King.ResourceStore)
+            {
+                EntitySet<Resource> esr = CustomConverter.ListToEntitySet(response.Resources);
+                GameCore.Instance.Player.King.ResourceStore.Resources = esr;
+            }
 
             /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             if (mapScene != null)
@@ -30,7 +47,8 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
                     new Action<GetGameStateResponse>(mapScene.ShowGetStateResult),
                     response);
             }*/
-            GameCore.Instance.BigMapCommandController.ReceiveGetGameStateResponse(response);
+            AliveChessLibrary.DebugConsole.WriteLine(this, "Received");
+            GameCore.Instance.BigMapCommandController.ResourcesModified = true;
         }
     }
 }

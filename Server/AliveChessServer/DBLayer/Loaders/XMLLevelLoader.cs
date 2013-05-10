@@ -297,7 +297,7 @@ namespace AliveChessServer.DBLayer.Loaders
                            Height = 2,
                            WayCost = wayCosts["Mine"],
                            MineType = objType,
-                           SizeMine = 100,
+                           Capacity = 100,
                        };
 
 #if DEBUG
@@ -368,23 +368,23 @@ namespace AliveChessServer.DBLayer.Loaders
                 Resource rr = new Resource();
                 rr.ResourceType = ResourceTypes.Gold;
                 rr.Quantity = 500;
-                resourceStore.AddResourceToStore(rr);
+                resourceStore.AddResource(rr);
                 rr = new Resource();
                 rr.ResourceType = ResourceTypes.Wood;
-                rr.Quantity = 0;
-                resourceStore.AddResourceToStore(rr);
+                rr.Quantity = 50;
+                resourceStore.AddResource(rr);
                 rr = new Resource();
                 rr.ResourceType = ResourceTypes.Stone;
-                rr.Quantity = 0;
-                resourceStore.AddResourceToStore(rr);
+                rr.Quantity = 50;
+                resourceStore.AddResource(rr);
                 rr = new Resource();
                 rr.ResourceType = ResourceTypes.Coal;
-                rr.Quantity = 0;
-                resourceStore.AddResourceToStore(rr);
+                rr.Quantity = 50;
+                resourceStore.AddResource(rr);
                 rr = new Resource();
                 rr.ResourceType = ResourceTypes.Iron;
-                rr.Quantity = 0;
-                resourceStore.AddResourceToStore(rr);
+                rr.Quantity = 50;
+                resourceStore.AddResource(rr);
 
                 player.AddKing(king);
                 player.Map = player.King.Map = player.Level.Map;

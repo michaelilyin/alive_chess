@@ -64,7 +64,6 @@ namespace AliveChess.GameLayer.LogicLayer
 
         }
 
-#warning Executors
         private void CreateAuthorizeExecutors()
         {
             _executors.Add(Command.AuthorizeResponse, new AuthorizeExecutor());
@@ -89,6 +88,9 @@ namespace AliveChess.GameLayer.LogicLayer
         {
             _executors.Add(Command.GetBuildingsResponse, new GetBuildingsExecutor());
             _executors.Add(Command.CreateBuildingResponse, new CreateBuildingExecutor());
+            _executors.Add(Command.DestroyBuildingResponse, new DestroyBuildingExecutor());
+            _executors.Add(Command.LeaveCastleResponse, new LeaveCastleExecutor());
+            _executors.Add(Command.GetBuildingQueueResponse, new GetBuildingQueueExecutor());
         }
 
         private void CreateErrorExecutors()

@@ -85,7 +85,7 @@ namespace AliveChessServer.LogicLayer.Environment
 #if DEBUG
                 AliveChessLibrary.DebugConsole.WriteLine(this, "Collect resource: " + resource.ResourceType.ToString() + " x = " + resource.X + " y = " + resource.Y + " q = " + resource.Quantity);
 #endif
-                king.ResourceStore.AddResourceToStore(resource);
+                king.ResourceStore.AddResource(resource);
                 resource.Disappear();
                 king.Map.RemoveResource(resource);
                 king.Player.Messenger.SendNetworkMessage(new GetResourceMessage(resource, false));
@@ -138,8 +138,7 @@ namespace AliveChessServer.LogicLayer.Environment
             return objects;
         }
 
-        public List<T> GetGameObjects<T>(IVisibleSpace sector,
-            PointTypes type, Player forPlayer) where T : IMapObject
+        public List<T> GetGameObjects<T>(IVisibleSpace sector, PointTypes type, Player forPlayer) where T : IMapObject
         {
             List<T> objects = new List<T>();
             foreach (MapPoint @object in sector.Walk())

@@ -1,4 +1,5 @@
-﻿using AliveChessLibrary.Commands;
+﻿using System;
+using AliveChessLibrary.Commands;
 using AliveChessLibrary.Commands.BigMapCommand;
 
 namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
@@ -8,14 +9,10 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
         public void Execute(ICommand command)
         {
             MoveKingResponse response = (MoveKingResponse)command;
+            
+            //Не реализовано, нет необходимости, т.к. есть GetObjects
 
-            /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
-
-            mapScene.Dispatcher.Invoke(
-                DispatcherPriority.Normal,
-                new Action<MoveKingResponse>(mapScene.ShowMoveKingResult),
-                response);*/
-            GameCore.Instance.BigMapCommandController.ReceiveMoveKingResponse(response);
+            GameCore.Instance.BigMapCommandController.DynamicObjectsModified = true;
         }
     }
 }

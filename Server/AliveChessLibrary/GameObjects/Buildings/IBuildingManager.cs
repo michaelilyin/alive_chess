@@ -5,14 +5,20 @@ using System.Text;
 
 namespace AliveChessLibrary.GameObjects.Buildings
 {
-    public interface IBuildingFactory
+    public interface IBuildingManager
     {
+        Castle Castle { get; set; }
+
+        LinkedList<BuildingQueueItem<InnerBuildingType>> BuildingQueue { get; set; }
+
         CreationRequirements GetCreationRequirements(InnerBuildingType type);
+
+        void Update(TimeSpan timeFromLastUpdate);
 
         void Build(InnerBuildingType type);
 
         void Destroy(InnerBuildingType type);
 
-        Castle Castle { get; set; }
+        bool HasUnfinishedBuilding(InnerBuildingType type);
     }
 }

@@ -20,12 +20,9 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
         public void Execute(Message msg)
         {
             GetBuildingCostRequest request = (GetBuildingCostRequest)msg.Command;
-            //PlayerInfo info = _playerManager.GetPlayerInfoById(msg.Sender.Id);
-            CreationRequirements rb = new CreationRequirements();
-            //InnerBuilding b = new InnerBuilding() { InnerBuildingType = request.Type };
-            //_queryManager.SendGetResBuildings(info, rb);
-            GetBuildingCostResponse response = new GetBuildingCostResponse();
-            response.BuildingCost = rb;
+            Player player = msg.Sender;
+            CreationRequirements requirements = player.King.CurrentCastle.BuildingManager.GetCreationRequirements(request.InnerBuildingType);
+            GetBuildingCostResponse response = new GetBuildingCostResponse {BuildingCost = requirements};
             msg.Sender.Messenger.SendNetworkMessage(response);
         }
 

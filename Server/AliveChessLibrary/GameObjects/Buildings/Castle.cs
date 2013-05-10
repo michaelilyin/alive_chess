@@ -46,8 +46,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         private int? _mapId;
         private int _figureStoreId;
-        private IBuildingFactory _buildingFactory;
-        private IUnitFactory _unitFactory;
+        private IBuildingManager _buildingManager;
+        private IRecruitingManager _recruitingManager;
 
 #if !UNITY_EDITOR
         private EntityRef<Map> _map; // ссылка на карту
@@ -242,6 +242,18 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 _innerBuildings.Add(building);
             }
 
+        }
+
+        public void DestroyBuilding(InnerBuildingType type)
+        {
+            for (int i = 0; i < InnerBuildings.Count; i++)
+            {
+                if (InnerBuildings[i].InnerBuildingType == type)
+                {
+                    InnerBuildings.RemoveAt(i);
+                    return;
+                }
+            }
         }
 
         public bool HasBuilding(InnerBuildingType type)
@@ -694,23 +706,23 @@ namespace AliveChessLibrary.GameObjects.Buildings
             }
         }
 
-        public IBuildingFactory BuildingFactory
+        public IBuildingManager BuildingManager
         {
-            get { return _buildingFactory; }
+            get { return _buildingManager; }
             set
             {
-                _buildingFactory = value;
+                _buildingManager = value;
                 if (value != null)
                     value.Castle = this;
             }
         }
 
-        public IUnitFactory UnitFactory
+        public IRecruitingManager RecruitingManager
         {
-            get { return _unitFactory; }
+            get { return _recruitingManager; }
             set
             {
-                _unitFactory = value;
+                _recruitingManager = value;
                 if (value != null)
                     value.Castle = this;
             }

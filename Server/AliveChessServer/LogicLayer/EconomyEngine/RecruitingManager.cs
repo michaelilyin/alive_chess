@@ -7,12 +7,12 @@ using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChessServer.LogicLayer.EconomyEngine
 {
-    public class UnitFactory : IUnitFactory
+    public class RecruitingManager : IRecruitingManager
     {
         private Castle _castle;
         private Economy _economy;
 
-        public UnitFactory(Economy economy)
+        public RecruitingManager(Economy economy)
         {
             _economy = economy;
         }

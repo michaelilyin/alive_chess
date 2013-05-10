@@ -33,7 +33,13 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
                 return;
             }
 
-            CreationRequirements requirements = king.CurrentCastle.BuildingFactory.GetCreationRequirements(request.InnerBuildingType);
+            if (king.CurrentCastle.BuildingManager.HasUnfinishedBuilding(request.InnerBuildingType))
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Это здание уже строится."));
+                return;
+            }
+
+            CreationRequirements requirements = king.CurrentCastle.BuildingManager.GetCreationRequirements(request.InnerBuildingType);
             if (!king.ResourceStore.HasEnoughResources(requirements.Resources))
             {
                 player.Messenger.SendNetworkMessage(new ErrorMessage("Недостаточно ресурсов."));
@@ -46,14 +52,10 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
                 return;
             }
 
-            king.CurrentCastle.BuildingFactory.Build(request.InnerBuildingType);
+            king.CurrentCastle.BuildingManager.Build(request.InnerBuildingType);
 
             var response = new CreateBuildingResponse();
-            response.Buildings = new List<InnerBuilding>();
-            foreach (var b in king.CurrentCastle.InnerBuildings)
-            {
-                response.Buildings.Add(b);
-            }
+            response.BuildingQueue = king.CurrentCastle.BuildingManager.BuildingQueue;
             player.Messenger.SendNetworkMessage(response);
 
         }

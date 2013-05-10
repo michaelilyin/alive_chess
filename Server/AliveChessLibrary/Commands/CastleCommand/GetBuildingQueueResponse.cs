@@ -5,14 +5,14 @@ using ProtoBuf;
 namespace AliveChessLibrary.Commands.CastleCommand
 {
     [ProtoContract]
-    public class CreateBuildingResponse : ICommand
+    public class GetBuildingQueueResponse : ICommand
     {
         [ProtoMember(1)]
-        private LinkedList<BuildingQueueItem<InnerBuildingType>> _buildingQueue = new LinkedList<BuildingQueueItem<InnerBuildingType>>();
-
+        private LinkedList<BuildingQueueItem<InnerBuildingType>> _buildingQueue;
+        
         public Command Id
         {
-            get { return Command.CreateBuildingResponse; }
+            get { return Command.GetBuildingQueueResponse; }
         }
 
         public LinkedList<BuildingQueueItem<InnerBuildingType>> BuildingQueue

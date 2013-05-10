@@ -185,8 +185,8 @@ namespace AliveChessServer.LogicLayer.UsersManagement
                     lock (_authorizeQueueSync)
                         _authorizeQueue.Enqueue(storage);
 
-                    king.ChangeMapStateEvent  += level.BigMapRoutine.UpdatePointState;
                     //не нужно, клиент сам запросит объекты
+                    //king.ChangeMapStateEvent  += level.BigMapRoutine.UpdatePointState;
                     //king.UpdateSectorEvent    += level.BigMapRoutine.UpdateSectorState;
                     king.CollectResourceEvent += level.BigMapRoutine.CollectResource;
                     king.CaptureMineEvent += level.BigMapRoutine.CaptureMine;
@@ -275,7 +275,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             //gold.Id = guid.Id;
             gold.Quantity = 100;
             gold.ResourceType = ResourceTypes.Gold;
-            resourceStore.AddResourceToStore(gold);
+            resourceStore.AddResource(gold);
 
             guid = GuidGenerator.Instance.GeneratePair();
             guid = GuidGenerator.Instance.GeneratePair();
@@ -284,7 +284,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             //wood.Id = guid.Id;
             wood.Quantity = 50;
             wood.ResourceType = ResourceTypes.Wood;
-            resourceStore.AddResourceToStore(wood);
+            resourceStore.AddResource(wood);
 
             guid = GuidGenerator.Instance.GeneratePair();
             Resource stone = new Resource();
@@ -292,7 +292,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             //gold.Id = guid.Id;
             stone.Quantity = 10;
             stone.ResourceType = ResourceTypes.Stone;
-            resourceStore.AddResourceToStore(stone);
+            resourceStore.AddResource(stone);
 
             guid = GuidGenerator.Instance.GeneratePair();
             Resource iron = new Resource();
@@ -300,7 +300,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             //wood.Id = guid.Id;
             iron.Quantity = 5;
             iron.ResourceType = ResourceTypes.Iron;
-            resourceStore.AddResourceToStore(iron);
+            resourceStore.AddResource(iron);
 
             guid = GuidGenerator.Instance.GeneratePair();
             Resource coal = new Resource();
@@ -308,7 +308,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             //wood.Id = guid.Id;
             coal.Quantity = 15;
             coal.ResourceType = ResourceTypes.Coal;
-            resourceStore.AddResourceToStore(coal);
+            resourceStore.AddResource(coal);
 
             castle.King.ResourceStore = resourceStore;
         }

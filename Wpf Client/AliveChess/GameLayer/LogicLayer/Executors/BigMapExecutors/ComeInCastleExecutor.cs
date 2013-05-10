@@ -1,5 +1,6 @@
 ﻿using AliveChessLibrary.Commands;
 using AliveChessLibrary.Commands.BigMapCommand;
+using AliveChessLibrary.GameObjects.Buildings;
 
 namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
 {
@@ -10,14 +11,13 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
         public void Execute(ICommand command)
         {
             ComeInCastleResponse response = (ComeInCastleResponse)command;
-            /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
-
-            mapScene.Dispatcher.Invoke(
-                DispatcherPriority.Normal,
-                new Action<ComeInCastleResponse>(mapScene.ShowComeInCastleResult),
-                response);*/
-            GameCore.Instance.CastleCommandController.Castle = GameCore.Instance.World.Map.SearchCastleById(response.CastleId);
-            GameCore.Instance.BigMapCommandController.ReceiveComeInCastleResponse(response);
+            Castle castle = GameCore.Instance.World.Map.SearchCastleById(response.CastleId);
+            if (castle != null)
+            {
+                GameCore.Instance.Player.King.ComeInCastle(castle);
+                GameCore.Instance.BigMapCommandController.KingInCastle = true;
+                GameCore.Instance.CastleCommandController.KingOnMap = false;
+            }
         }
 
         #endregion

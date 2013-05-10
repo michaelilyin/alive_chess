@@ -9,7 +9,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
         {
             CaptureMineResponse response = (CaptureMineResponse) command;
             GameCore.Instance.World.Map.SearchMineById(response.Mine.Id).KingId = response.Mine.KingId;
-            GameCore.Instance.BigMapCommandController.ReceiveCaptureMineResponse(response);
+            GameCore.Instance.BigMapCommandController.BuildingsModified = true;
         }
     }
 }

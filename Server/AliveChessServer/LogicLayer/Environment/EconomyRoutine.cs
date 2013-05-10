@@ -25,8 +25,8 @@ namespace AliveChessServer.LogicLayer.Environment
             _economy = economy;
             foreach (var castle in _level.Map.Castles)
             {
-                castle.BuildingFactory = new BuildingFactory(_economy);
-                castle.UnitFactory = new UnitFactory(_economy);
+                castle.BuildingManager = new BuildingManager(_economy);
+                castle.RecruitingManager = new RecruitingManager(_economy);
             }
         }
 
@@ -34,14 +34,15 @@ namespace AliveChessServer.LogicLayer.Environment
         {
             if (time.Elapsed > TimeSpan.FromMilliseconds(50))
             {
-
+                foreach(var castle in _level.Map.Castles)
+                    castle.BuildingManager.Update(time.Elapsed);
                 time.SavePreviousTimestamp();
             }
         }
         
         public void SendResource(King player, Resource r, bool fromMine)
         {
-            player.ResourceStore.AddResourceToStore(r);
+            player.ResourceStore.AddResource(r);
             //player.Player.Messenger.SendNetworkMessage(new GetResourceMessage(r, fromMine));
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AliveChessLibrary.GameObjects.Buildings
 {
-    public interface IUnitFactory
+    public interface IRecruitingManager
     {
         Castle Castle { get; set; }
     }

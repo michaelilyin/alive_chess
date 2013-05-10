@@ -2,6 +2,7 @@
 
 #if !UNITY_EDITOR
 using System.Data.Linq;
+
 #endif
 
 namespace AliveChessLibrary.GameObjects.Resources
@@ -34,16 +35,32 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         #region Methods
 
-        public void AddResourceToStore(Resource addResource)
+        public void AddResource(Resource resource)
         {
-            Resource tmpRes = GetResource(addResource.ResourceType);
+            Resource tmpRes = GetResource(resource.ResourceType);
             if (tmpRes != null)
             {
-                tmpRes.Quantity += addResource.Quantity;
+                tmpRes.Quantity += resource.Quantity;
             }
             else
             {
-                this.Resources.Add(addResource);
+                this.Resources.Add(resource);
+            }
+        }
+
+        public void AddResource(ResourceTypes type, int quantity)
+        {
+            Resource tmpRes = GetResource(type);
+            if (tmpRes != null)
+            {
+                tmpRes.Quantity += quantity;
+            }
+            else
+            {
+                Resource res = new Resource();
+                res.ResourceType = type;
+                res.Quantity = quantity;
+                this.Resources.Add(res);
             }
         }
 

@@ -52,7 +52,7 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
             ResourceStore store = null;
             lock (_resourceStoreSync)
                 store = _resourceStore.Search(x => !x.IsFull);
-            if (store != null) store.AddResourceToStore(resource);
+            if (store != null) store.AddResource(resource);
             else throw new AliveChessException("All stores are full");
         }
 

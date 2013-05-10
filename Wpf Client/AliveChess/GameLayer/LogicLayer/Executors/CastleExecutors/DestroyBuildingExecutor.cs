@@ -6,13 +6,13 @@ using AliveChess.GameLayer.PresentationLayer;
 
 namespace AliveChess.GameLayer.LogicLayer.Executors.CastleExecutors
 {
-    class GetBuildingsExecutor : IExecutor
+    class DestroyBuildingExecutor : IExecutor
     {
         #region IExecutor Members
 
         public void Execute(ICommand command)
         {
-            GetBuildingsResponse response = (GetBuildingsResponse)command;
+            DestroyBuildingResponse response = (DestroyBuildingResponse)command;
             lock (GameCore.Instance.Player.King.CurrentCastle.InnerBuildings)
             {
                 GameCore.Instance.Player.King.CurrentCastle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);

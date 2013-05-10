@@ -155,7 +155,8 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// </summary>
         public void RemoveView()
         {
-            ViewOnMap.SetOwner(null);
+            if(ViewOnMap != null)
+                ViewOnMap.SetOwner(null);
         }
 
         /// <summary>
@@ -303,13 +304,16 @@ namespace AliveChessLibrary.GameObjects.Characters
         {
             this._state = KingState.Castle;
 
-            (ViewOnMap = Map.GetObject(X, Y)).SetOwner(null);
+            //(ViewOnMap = Map.GetObject(X, Y)).SetOwner(null);
+            RemoveView();
 
             if (ChangeMapStateEvent != null)
                 ChangeMapStateEvent(this, new UpdateWorldEventArgs(Map, _position, UpdateType.KingDisappear));
 
             this._isMove = false;
             this._currentCastle = castle;
+            if(Math.Abs(X - castle.X) < castle.Width && Math.Abs(Y - castle.Y) < castle.Height)
+                castle.KingInside = true;
         }
 
         /// <summary>
@@ -317,15 +321,16 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// </summary>
         public virtual void LeaveCastle()
         {
-            (ViewOnMap = Map.GetObject(X, Y)).SetOwner(this);
+            //(ViewOnMap = Map.GetObject(X, Y)).SetOwner(this);
+            AddView(Map.GetObject(X, Y));
 
             if (ChangeMapStateEvent != null)
                 ChangeMapStateEvent(this, new UpdateWorldEventArgs(Map, _position, UpdateType.KingAppear));
 
-            this._startCastle.KingInside = false;
+            this.CurrentCastle.KingInside = false;
 
             this._state = KingState.BigMap;
-            this._currentCastle = null;
+            //this._currentCastle = null;
         }
 
         /// <summary>
@@ -613,7 +618,7 @@ namespace AliveChessLibrary.GameObjects.Characters
                     FindKing(@object);
                     break;
                 case PointTypes.Resource:
-                    FindResource(@object);
+                    CollectResource(@object);
                     MoveBy(x, y);
                     break;
             }
@@ -670,7 +675,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// король нашел ресурс
         /// </summary>
         /// <param name="resource"></param>
-        protected void FindResource(MapPoint resource)
+        protected void CollectResource(MapPoint resource)
         {
             if (CollectResourceEvent != null)
                 CollectResourceEvent(this, resource);

@@ -12,12 +12,8 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
         public void Execute(AliveChessLibrary.Commands.ICommand command)
         {
             GetResourceMessage message = (GetResourceMessage)command;
-#warning Переделать под контроллер
-            MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
-            mapScene.Dispatcher.Invoke(
-                DispatcherPriority.Normal,
-                new Action<GetResourceMessage>(mapScene.ShowGetResourceMessageResult),
-                message);
+            //Не реализовано, нет необходимости, т.к. есть GetGameState
+            GameCore.Instance.BigMapCommandController.ResourcesModified = true;
         }
 
         #endregion

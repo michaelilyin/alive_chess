@@ -81,6 +81,10 @@
         LeaveUnitsResponce = 91,
         GetUnitCostRequest = 92,
         GetUnitCostResponse = 93,
+        DestroyBuildingRequest = 94,
+        DestroyBuildingResponse = 95,
+        GetBuildingQueueRequest = 96,
+        GetBuildingQueueResponse = 97,
 
         // команды шахматного поединка: диапазон 126 - 145(20)
         BattleMessage              = 127,

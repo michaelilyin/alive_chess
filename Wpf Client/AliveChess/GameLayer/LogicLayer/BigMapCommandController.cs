@@ -15,65 +15,52 @@ namespace AliveChess.GameLayer.LogicLayer
         DispatcherTimer timerUpdateGameState = new DispatcherTimer();
         DispatcherTimer timerGetObjects = new DispatcherTimer();
 
-        private bool _waitingGetGameStateResponse = false;
-        private bool _waitingGetObjectsResponse = false;
+        private bool _resourcesModified;
+        private bool _dynamicObjectsModified;
+        private bool _buildingOwnerModified;
+        private bool _mapModified;
+        private bool _kingInCastle;
 
-        private bool _updatingGameState;
-        private bool _updatingGameObjects;
-
-        private bool _resourceQuantityChanged;
-        private bool _dynamicObjectsChanged;
-        private bool _buildingOwnerChanged;
-        private bool _mapChanged;
-
-        public bool ResourceQuantityChanged
+        public bool ResourcesModified
         {
-            get { return _resourceQuantityChanged; }
-            set { _resourceQuantityChanged = value; }
+            get { return _resourcesModified; }
+            set { _resourcesModified = value; }
         }
 
-        public bool DynamicObjectsChanged
+        public bool DynamicObjectsModified
         {
-            get { return _dynamicObjectsChanged; }
-            set { _dynamicObjectsChanged = value; }
+            get { return _dynamicObjectsModified; }
+            set { _dynamicObjectsModified = value; }
         }
 
-        public bool BuildingChanged
+        public bool BuildingsModified
         {
-            get { return _buildingOwnerChanged; }
-            set { _buildingOwnerChanged = value; }
+            get { return _buildingOwnerModified; }
+            set { _buildingOwnerModified = value; }
         }
 
-        public bool MapChanged
+        public bool MapModified
         {
-            get { return _mapChanged; }
-            set { _mapChanged = value; }
+            get { return _mapModified; }
+            set { _mapModified = value; }
+        }
+
+        public bool KingInCastle
+        {
+            get { return _kingInCastle; }
+            set { _kingInCastle = value; }
         }
 
         private GameCore _gameCore;
 
-        private MapScene _mapScene;
-        private CastleScene _castleScene;
-
-        public MapScene MapScene
-        {
-            get { return _mapScene; }
-            set { _mapScene = value; }
-        }
-
-        public CastleScene CastleScene
-        {
-            get { return _castleScene; }
-            set { _castleScene = value; }
-        }
-
         public BigMapCommandController(GameCore gameCore)
         {
+            AliveChessLibrary.DebugConsole.AllocConsole();
             _gameCore = gameCore;
             timerUpdateGameState.Tick += new EventHandler(timerUpdateGameState_Tick);
-            timerUpdateGameState.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            timerUpdateGameState.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timerGetObjects.Tick += new EventHandler(timerGetObjects_Tick);
-            timerGetObjects.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            timerGetObjects.Interval = new TimeSpan(0, 0, 0, 0, 50);
         }
 
         /// <summary>
@@ -83,8 +70,9 @@ namespace AliveChess.GameLayer.LogicLayer
         /// <param name="e"></param>
         void timerUpdateGameState_Tick(object sender, EventArgs e)
         {
+            AliveChessLibrary.DebugConsole.WriteLine(this, DateTime.Now.ToString());
             SendGetGameStateRequest();
-            timerUpdateGameState.Stop();
+            //timerUpdateGameState.Stop();
         }
 
         /// <summary>
@@ -95,11 +83,27 @@ namespace AliveChess.GameLayer.LogicLayer
         void timerGetObjects_Tick(object sender, EventArgs e)
         {
             SendGetObjectsRequest();
-            timerGetObjects.Stop();
+            //timerGetObjects.Stop();
+        }
+
+        public void StartGameStateUpdate()
+        {
+            timerUpdateGameState.Start();
+        }
+
+        public void StartObjectsUpdate()
+        {
+            timerGetObjects.Start();
         }
 
         public void StopGameStateUpdate()
         {
+            timerUpdateGameState.Stop();
+        }
+
+        public void StopObjectsUpdate()
+        {
+            timerGetObjects.Stop();
         }
 
         public void SendGetMapRequest()
@@ -108,12 +112,10 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore.Network.Send(request);
         }
 
-        public void ReceiveGetMapResponse(GetMapResponse responce)
+        public void SendBigMapRequest()
         {
-            if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(_mapScene.ShowGetMapResult));
-            timerUpdateGameState.Start();
-            timerGetObjects.Start();
+            BigMapRequest request = new BigMapRequest();
+            _gameCore.Network.Send(request);
         }
 
         public void SendGetKingRequest()
@@ -121,46 +123,18 @@ namespace AliveChess.GameLayer.LogicLayer
             GetKingRequest request = new GetKingRequest();
             _gameCore.Network.Send(request);
         }
-
-        public void ReceiveGetKingResponse(GetKingResponse response)
-        {
-            if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Background, new Action(_mapScene.ShowGetKingResult));
-        }
-
+        
         public void SendGetGameStateRequest()
         {
             GetGameStateRequest request = new GetGameStateRequest();
             _gameCore.Network.Send(request);
-        }
-
-        public void ReceiveGetGameStateResponse(GetGameStateResponse response)
-        {
-            if (_mapScene != null)
-            {
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetGameStateResult));
-                timerUpdateGameState.Start();
-            }
-            if (_castleScene != null)
-            {
-                _castleScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_castleScene.ShowGetGameStateResult));
-                timerUpdateGameState.Start();
-            }
+            AliveChessLibrary.DebugConsole.WriteLine(this, "sent");
         }
 
         public void SendGetObjectsRequest()
         {
             GetObjectsRequest r = new GetObjectsRequest();
             _gameCore.Network.Send(r);
-        }
-
-        public void ReceiveGetObjectsResponse(GetObjectsResponse response)
-        {
-            if (_mapScene != null)
-            {
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowGetObjectsResult));
-                timerGetObjects.Start();
-            }
         }
 
         public void SendComeInCastleRequest(int id)
@@ -170,36 +144,12 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore.Network.Send(request);
         }
 
-        public void ReceiveComeInCastleResponse(ComeInCastleResponse response)
-        {
-            //timerUpdateGameState.Stop();
-            timerGetObjects.Stop();
-            GameCore.Instance.CastleCommandController.Castle = GameCore.Instance.World.Map.SearchCastleById(response.CastleId);
-            if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Render, new Action(_mapScene.ShowComeInCastleResult));
-            _mapScene = null;
-        }
-
         public void SendMoveKingRequest(Point kingDest)
         {
             MoveKingRequest request = new MoveKingRequest();
             request.X = (int)kingDest.X;
             request.Y = (int)kingDest.Y;
             _gameCore.Network.Send(request);
-        }
-
-        public void ReceiveMoveKingResponse(MoveKingResponse response)
-        {
-            if (_mapScene != null)
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Background, new Action(_mapScene.ShowMoveKingResult));
-        }
-
-        public void ReceiveCaptureMineResponse(CaptureMineResponse response)
-        {
-            if (_mapScene != null)
-            {
-                _mapScene.Dispatcher.Invoke(DispatcherPriority.Background, new Action(_mapScene.ShowCaptureMineResult));
-            }
         }
     }
 }
