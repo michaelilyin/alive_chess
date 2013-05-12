@@ -1,5 +1,7 @@
 ﻿using AliveChessLibrary.Commands;
 using AliveChessLibrary.Commands.BigMapCommand;
+using AliveChessLibrary.GameObjects.Buildings;
+using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
 {
@@ -34,8 +36,8 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
                         }
                         else
                         {
-                            castle.BuildingManager = new BuildingManager();
-                            castle.RecruitingManager = new RecruitingManager();
+                            castle.BuildingManager = new ProductionManager<InnerBuildingType>();
+                            castle.RecruitingManager = new ProductionManager<UnitType>();
                             GameCore.Instance.World.Map.AddCastle(castle);
                         }
                     }

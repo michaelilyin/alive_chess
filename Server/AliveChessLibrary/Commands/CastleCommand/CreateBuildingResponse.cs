@@ -8,7 +8,7 @@ namespace AliveChessLibrary.Commands.CastleCommand
     public class CreateBuildingResponse : ICommand
     {
         [ProtoMember(1)]
-        private LinkedList<BuildingQueueItem<InnerBuildingType>> _buildingQueue = new LinkedList<BuildingQueueItem<InnerBuildingType>>();
+        private LinkedList<BuildingQueueItem<InnerBuildingType>> _buildingQueue;
 
         public Command Id
         {

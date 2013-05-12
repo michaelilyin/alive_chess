@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AliveChessLibrary.GameObjects.Characters;
 using AliveChessServer.LogicLayer.Environment;
 using AliveChessServer.LogicLayer.UsersManagement;
 using AliveChessServer.NetLayer;
@@ -7,12 +8,12 @@ using AliveChessLibrary.GameObjects.Buildings;
 
 namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 {
-    public class GetBuildingQueueExecutor : IExecutor
+    public class GetProductionQueueExecutor : IExecutor
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
 
-        public GetBuildingQueueExecutor(GameLogic gameLogic)
+        public GetProductionQueueExecutor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
             this._playerManager = gameLogic.PlayerManager;
@@ -21,10 +22,11 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
         public void Execute(Message cmd)
         {
             Player player = cmd.Sender;
-            GetBuildingQueueRequest request = (GetBuildingQueueRequest)cmd.Command;
+            //GetProductionQueueRequest request = (GetProductionQueueRequest)cmd.Command;
 
-            GetBuildingQueueResponse response = new GetBuildingQueueResponse();
-            response.BuildingQueue = player.King.CurrentCastle.BuildingManager.BuildingQueue;
+            GetProductionQueueResponse response = new GetProductionQueueResponse();
+            response.BuildingQueue = player.King.CurrentCastle.BuildingManager.GetProductionQueueCopy();
+            response.RecruitingQueue = player.King.CurrentCastle.RecruitingManager.GetProductionQueueCopy();
             player.Messenger.SendNetworkMessage(response);
         }
     }

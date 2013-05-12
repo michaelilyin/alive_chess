@@ -153,15 +153,7 @@ namespace AliveChessServer.LogicLayer.Environment
                 empire.DowngradeEvent += DowngradeEmpireToUnion;
                 empire.TaxEvent += OnTakeResource;
 
-                empire.TaxRate = 3;
-                Store store = new Store();
-                empire.Store = store;
-
-                var figureStore   = new FigureStore();
-                var resourceStore = new ResourceStore();
-
-                store.AddFigureStore(figureStore);
-                store.AddResourceStore(resourceStore);
+                empire.TaxRate = 3;;
 
                 Player player = _playerManager.GetPlayerInfoByKingId(union.BallotBox.Candidate.Id);
                 empire.Leader = GrandPrivileges(player, union);

@@ -110,10 +110,10 @@ namespace AliveChessServer.DBLayer.Loaders
         {
             foreach (Castle castle in castles)
             {
-                FigureStore figureStore = new FigureStore();
+                /*FigureStore figureStore = new FigureStore();
                 this._dqlContext.FigureStores.InsertOnSubmit(figureStore);
                 this._dqlContext.SubmitChanges();
-                castle.FigureStore = figureStore;
+                castle.FigureStore = figureStore;*/
 
                 /*ResourceStore resourceStore = new ResourceStore();
                 this._dqlContext.ResourceStores.InsertOnSubmit(resourceStore);
@@ -201,9 +201,9 @@ namespace AliveChessServer.DBLayer.Loaders
 
         public void DeferredLoadFigureStore(Castle sender)
         {
-            FigureStore figureStore = _dqlContext
+            /*FigureStore figureStore = _dqlContext
                 .FigureStores.First(x => x.Id == sender.FigureStoreId);
-            sender.FigureStore = figureStore;
+            sender.FigureStore = figureStore;*/
         }
 
         public void DeferredLoadResourceStore(Castle sender)

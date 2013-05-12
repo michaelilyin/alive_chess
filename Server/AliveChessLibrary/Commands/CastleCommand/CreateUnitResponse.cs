@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Characters;
 using ProtoBuf;
 
@@ -8,17 +9,17 @@ namespace AliveChessLibrary.Commands.CastleCommand
     public class CreateUnitResponse : ICommand
     {
         [ProtoMember(1)]
-        private List<Unit> _units;
+        private LinkedList<BuildingQueueItem<UnitType>> _productionQueue;
+
+        public LinkedList<BuildingQueueItem<UnitType>> ProductionQueue
+        {
+            get { return _productionQueue; }
+            set { _productionQueue = value; }
+        }
 
         public Command Id
         {
             get { return Command.CreateUnitResponse; }
-        }
-
-        public List<Unit> Units
-        {
-            get { return _units; }
-            set { _units = value; }
         }
     }
 }

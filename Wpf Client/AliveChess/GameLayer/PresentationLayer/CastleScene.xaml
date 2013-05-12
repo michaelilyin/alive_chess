@@ -6,138 +6,317 @@
       xmlns:PresentationLayer="clr-namespace:AliveChess.GameLayer.PresentationLayer"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
-	Title="CastleScene" x:Name="SceneCastle">
-    <Grid Margin="0,0,0,0">
-        <Grid.Background>
-            <ImageBrush ImageSource="/AliveChess;component/Resources/grass.png" TileMode="Tile"/>
-        </Grid.Background>
+	Title="CastleScene" x:Name="SceneCastle" ScrollViewer.VerticalScrollBarVisibility="Disabled" ClipToBounds="True">
+    <Page.Resources>
+        <Style x:Key="SmallFontStyle">
+            <Setter Property="Control.FontFamily" Value="Shruti" />
+            <Setter Property="Control.FontSize" Value="12" />
+            <Setter Property="Control.Foreground" Value="#FFDED6B9" />
+            <Setter Property="Control.Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Control.UseLayoutRounding" Value="True"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+            <Setter Property="Control.Padding" Value="0"/>
+        </Style>
+
+        <Style x:Key="QueueFontStyle">
+            <Setter Property="Control.FontFamily" Value="Shruti" />
+            <Setter Property="Control.FontSize" Value="12" />
+            <Setter Property="Control.Foreground" Value="#FF3E2309" />
+            <Setter Property="Control.Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="0" RenderingBias="Quality"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Control.UseLayoutRounding" Value="True"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+            <Setter Property="Control.Padding" Value="0"/>
+        </Style>
+
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Border Name="Border" BorderBrush="{x:Null}" BorderThickness="0" CornerRadius="7" Padding="7,3" ScrollViewer.VerticalScrollBarVisibility="Disabled" FlowDirection="LeftToRight" Margin="1">
+                <Border.Effect>
+                    <DropShadowEffect RenderingBias="Quality" Direction="240" ShadowDepth="2" BlurRadius="1" Opacity="0.8"/>
+                </Border.Effect>
+                <Border.Background>
+                    <ImageBrush ImageSource="/AliveChess;component/Resources/btn.png"/>
+                </Border.Background>
+                <ContentPresenter RecognizesAccessKey="True"></ContentPresenter>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Border" Property="Background" >
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/AliveChess;component/Resources/btn_mouseover.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Border" Property="Background" >
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/AliveChess;component/Resources/btn_pressed.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Border" Property="TextBlock.Foreground" Value="Gray" />
+                    <Setter TargetName="Border" Property="Background" >
+                        <Setter.Value>
+                            <SolidColorBrush Color="#FFD0D1C0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="UnitGridItemsStyle"
+           TargetType="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid UseLayoutRounding="True" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Control.Template" Value="{StaticResource ButtonTemplate}"></Setter>
+        </Style>
+    </Page.Resources>
+
+
+    <Grid ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True" Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" SnapsToDevicePixels="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Castle view-->
+        <ScrollViewer  Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer.Background>
+                <ImageBrush ImageSource="/AliveChess;component/Resources/castle_bg.png" Stretch="UniformToFill"/>
+            </ScrollViewer.Background>
+        </ScrollViewer>
+
+        <!--Building manager-->
+        <Grid Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <WrapPanel  Name="StackPanelBuildings" Margin="0,0,0,0" Grid.Row="0" Width="Auto" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <WrapPanel.Background>
-                    <ImageBrush ImageSource="/AliveChess;component/Resources/wood_texture_background-other.jpg"/>
-                </WrapPanel.Background>
-                <WrapPanel.Effect>
+            <Grid.Background>
+                <ImageBrush ImageSource="/AliveChess;component/Resources/wood_texture_background-other.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <!--Buildings-->
+            <ScrollViewer  Grid.Row="0" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Margin="0,0,0,10">
+                <WrapPanel  x:Name="StackPanelBuildings" ScrollViewer.CanContentScroll="True" UseLayoutRounding="True" Width="256">
+                    <WrapPanel.Effect>
+                        <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
+                    </WrapPanel.Effect>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Казармы" Style="{StaticResource SmallFontStyle}"/>
+                        <Button x:Name="BtnQuarters" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить" HorizontalAlignment="Center" Click="BtnQuarters_Click"/>
+                        <Image Source="/AliveChess;component/Resources/building_cityguard_house_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Тренир. площадка"  Style="{StaticResource SmallFontStyle}"/>
+                        <Button x:Name="BtnTrainingGround" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить" HorizontalAlignment="Center" Click="BtnTrainingGround_Click"/>
+                        <Image Source="/AliveChess;component/Resources/building_casern_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Конюшня"  Style="{StaticResource SmallFontStyle}"/>
+                        <Button  x:Name="BtnStabling" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  HorizontalAlignment="Center" Click="BtnStabling_Click"/>
+                        <Image Source="/AliveChess;component/Resources/stabling.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Мастерская" Style="{StaticResource SmallFontStyle}"/>
+                        <Button x:Name="BtnWorkshop" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить" HorizontalAlignment="Center" Click="BtnWorkshop_Click"/>
+                        <Image Source="/AliveChess;component/Resources/building_weapon_factory_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Крепость" Style="{StaticResource SmallFontStyle}"/>
+                        <Button x:Name="BtnFortress" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить" HorizontalAlignment="Center" Click="BtnFortress_Click"/>
+                        <Image Source="/AliveChess;component/Resources/building_stronghold_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Кузница" Style="{StaticResource SmallFontStyle}"/>
+                        <Button x:Name="BtnForge" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить" HorizontalAlignment="Center" Click="BtnForge_Click"/>
+                        <Image Source="/AliveChess;component/Resources/building_iron_furnace_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                    <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
+                        <Label  DockPanel.Dock ="Top" Content="Больница" Style="{StaticResource SmallFontStyle}"/>
+                        <Button x:Name="BtnHospital" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить" HorizontalAlignment="Center" Click="BtnHospital_Click"/>
+                        <Image Source="/AliveChess;component/Resources/building_temple_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
+                    </DockPanel>
+                </WrapPanel>
+            </ScrollViewer>
+            <!--Building queue-->
+            <StackPanel   Grid.Row="1" x:Name="StackPanelBuildingQueue" Height="Auto" Visibility="Visible" Margin="0" >
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/AliveChess;component/Resources/win_mainoverlay_paper.jpg"/>
+                </StackPanel.Background>
+                <StackPanel.Effect>
                     <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
-                </WrapPanel.Effect>
-                <!--<Label Content="Здания:" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" Focusable="True" IsHitTestVisible="True" ToolTip="Железо" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" HorizontalAlignment="Left">
+                </StackPanel.Effect>
+
+                <Label Content="Очередь строительства" Margin="0,-10,0,0" Style="{StaticResource SmallFontStyle}" HorizontalAlignment="Stretch" Height="28" Padding="0,5,0,0" MaxHeight="250">
+                    <Label.Background>
+                        <ImageBrush ImageSource="/AliveChess;component/Resources/separator_horizontal.png" Stretch="Uniform"/>
+                    </Label.Background>
                     <Label.Effect>
-                        <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
+                        <DropShadowEffect Color="#FF643209" Direction="220" BlurRadius="1" ShadowDepth="1" RenderingBias="Quality"/>
                     </Label.Effect>
-                </Label>-->
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Казармы" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button x:Name="BtnQuarters" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" Click="BtnQuarters_Click" HorizontalAlignment="Center"/>
-                    <Image Source="/AliveChess;component/Resources/building_cityguard_house_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Тр. площадка" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button x:Name="BtnTrainingGround" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" Click="BtnTrainingGround_Click" HorizontalAlignment="Center"/>
-                    <Image Source="/AliveChess;component/Resources/building_casern_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Конюшня" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button  x:Name="BtnStabling" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" Click="BtnStabling_Click" HorizontalAlignment="Center"/>
-                    <Image Source="/AliveChess;component/Resources/stabling.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Мастерская" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button x:Name="BtnWorkshop" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" HorizontalAlignment="Center" Click="BtnWorkshop_Click"/>
-                    <Image Source="/AliveChess;component/Resources/building_weapon_factory_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Крепость" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button x:Name="BtnFortress" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" Click="BtnRoyalGuardQuarters_Click" HorizontalAlignment="Center"/>
-                    <Image Source="/AliveChess;component/Resources/building_stronghold_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Кузница" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button x:Name="BtnForge" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" HorizontalAlignment="Center" Click="BtnForge_Click"/>
-                    <Image Source="/AliveChess;component/Resources/building_iron_furnace_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-                <DockPanel UseLayoutRounding="True" VerticalAlignment="Top" Width="Auto" LastChildFill="True" MinWidth="120" Margin="0,5,0,5">
-                    <Label  DockPanel.Dock ="Top" Content="Больница" FontSize="14" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" UseLayoutRounding="True" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label.Effect>
-                            <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                        </Label.Effect>
-                    </Label>
-                    <Button x:Name="BtnHospital" DockPanel.Dock ="Bottom" ToolTipService.ShowOnDisabled="True" Content="Построить"  VerticalAlignment="Top" HorizontalAlignment="Center" Click="BtnHospital_Click"/>
-                    <Image Source="/AliveChess;component/Resources/building_temple_menu.png" Stretch="Fill" Width="98" Height="98" DockPanel.Dock="Top" Margin="0,-10,0,0" />
-                </DockPanel>
-            </WrapPanel>
+                </Label>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" MaxHeight="180">
+                    <ListBox x:Name="ListBoxBuildingQueue" Style="{StaticResource QueueFontStyle}" BorderBrush="{x:Null}" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalContentAlignment="Top" VerticalAlignment="Top"></ListBox>
+                </ScrollViewer>
+            </StackPanel>
         </Grid>
-        <!--<StackPanel  Name="StackPanelBuildings" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" >
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/AliveChess;component/Resources/wood_texture_background-other.jpg"/>
-            </StackPanel.Background>
-            <StackPanel.Effect>
-                <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
-            </StackPanel.Effect>
-            <Label Content="Здания:" VerticalContentAlignment="Bottom" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" Focusable="True" IsHitTestVisible="True" ToolTip="Железо" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <Label.Effect>
-                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                </Label.Effect>
-            </Label>
-            <ListBox x:Name="ListBoxBuildings" HorizontalAlignment="Left" Height="Auto" Width="100" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderBrush="{x:Null}" Background="{x:Null}">
-                <ListBox.Effect>
-                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                </ListBox.Effect>
-            </ListBox>
-        </StackPanel>-->
-        <StackPanel  Grid.Row="1" Name="StackPanelBuildingQueue" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="Auto" Visibility="Hidden">
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/AliveChess;component/Resources/wood_texture_background-other.jpg"/>
-            </StackPanel.Background>
-            <StackPanel.Effect>
-                <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
-            </StackPanel.Effect>
-            <Label Content="Очередь строительства:" VerticalContentAlignment="Bottom" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" BorderThickness="0" Focusable="True" IsHitTestVisible="True" ToolTip="Железо" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <Label.Effect>
-                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                </Label.Effect>
-            </Label>
-            <ListBox x:Name="ListBoxBuildingQueue" HorizontalAlignment="Left" Height="Auto" Grid.Row="1" Width="Auto" FontSize="18" FontFamily="Monotype Corsiva" Foreground="#FFE2C511" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" UseLayoutRounding="True" Margin="0,0,0,10" SnapsToDevicePixels="True">
-                <ListBox.Effect>
-                    <DropShadowEffect Color="#FF292929" Direction="240" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality"/>
-                </ListBox.Effect>
-            </ListBox>
-        </StackPanel>
-        <DockPanel>
+
+        <!--Recruiting manager-->
+        <Grid Grid.Row="1" Grid.Column="2" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.Background>
+                <ImageBrush ImageSource="/AliveChess;component/Resources/wood_texture_background-other.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+
+            <!--Units-->
+            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" Margin="0,0,0,8">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
+                    <!--Unit-->
+                    <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Лучники"  Style="{StaticResource SmallFontStyle}" />
+                        <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnPawnToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Height="24" VerticalAlignment="Bottom" Click="BtnPawnToKing_Click"/>
+                        <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnPawnToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnPawnToCastle_Click"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
+                        <Label x:Name="LblKingPawnQuantity" Grid.Row="2" Grid.Column="0" Content="0"  Style="{StaticResource SmallFontStyle}"/>
+                        <StackPanel  Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <Button x:Name="BtnCreatePawn" ToolTipService.ShowOnDisabled="True" Content="+" Width="28" Height="28" Click="BtnCreatePawn_Click"/>
+                            <Label x:Name="LblCastlePawnQuantity"  Content="0" Style="{StaticResource SmallFontStyle}" Margin="0,3"/>
+                            <Button x:Name="BtnCancelPawn" ToolTipService.ShowOnDisabled="True" Content=" -" Width="28" Height="28" Click="BtnCancelPawn_Click"/>
+                        </StackPanel>
+                        <Label  Grid.Row="1" Grid.Column="3" Content="Замок"  Style="{StaticResource SmallFontStyle}"/>
+                        <Image Source="/AliveChess;component/Resources/archer.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" DockPanel.Dock="Top" Width="91" />
+                    </ItemsControl>
+                    <!--Unit-->
+                    <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Тяжелая пехота"  Style="{StaticResource SmallFontStyle}" />
+                        <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnBishopToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnBishopToKing_Click"/>
+                        <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnBishopToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnBishopToCastle_Click"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
+                        <Label x:Name="LblKingBishopQuantity" Grid.Row="2" Grid.Column="0" Content="0"  Style="{StaticResource SmallFontStyle}"/>
+                        <StackPanel  Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <Button x:Name="BtnCreateBishop" ToolTipService.ShowOnDisabled="True" Content="+" Width="28" Height="28" Click="BtnCreateBishop_Click"/>
+                            <Label x:Name="LblCastleBishopQuantity"  Content="0" Style="{StaticResource SmallFontStyle}" Margin="0,3"/>
+                            <Button x:Name="BtnCancelBishop" ToolTipService.ShowOnDisabled="True" Content=" -" Width="28" Height="28" Click="BtnCancelBishop_Click"/>
+                        </StackPanel>
+                        <Label  Grid.Row="1" Grid.Column="3" Content="Замок"  Style="{StaticResource SmallFontStyle}"/>
+                        <Image Source="/AliveChess;component/Resources/vanguard.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" DockPanel.Dock="Top" Width="91" />
+                    </ItemsControl>
+                    <!--Unit-->
+                    <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Рыцари"  Style="{StaticResource SmallFontStyle}" />
+                        <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnKnightToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnKnightToKing_Click"/>
+                        <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnKnightToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnKnightToCastle_Click"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
+                        <Label x:Name="LblKingKnightQuantity" Grid.Row="2" Grid.Column="0" Content="0"  Style="{StaticResource SmallFontStyle}"/>
+                        <StackPanel  Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <Button x:Name="BtnCreateKnight" ToolTipService.ShowOnDisabled="True" Content="+" Width="28" Height="28" Click="BtnCreateKnight_Click"/>
+                            <Label x:Name="LblCastleKnightQuantity"  Content="0" Style="{StaticResource SmallFontStyle}" Margin="0,3"/>
+                            <Button x:Name="BtnCancelKnight" ToolTipService.ShowOnDisabled="True" Content=" -" Width="28" Height="28" Click="BtnCancelKnight_Click"/>
+                        </StackPanel>
+                        <Label  Grid.Row="1" Grid.Column="3" Content="Замок"  Style="{StaticResource SmallFontStyle}"/>
+                        <Image Source="/AliveChess;component/Resources/knight_on_horse.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" DockPanel.Dock="Top" Width="91" />
+                    </ItemsControl>
+                    <!--Unit-->
+                    <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Осадные башни"  Style="{StaticResource SmallFontStyle}" />
+                        <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnRookToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnRookToKing_Click"/>
+                        <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnRookToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Height="24" VerticalAlignment="Bottom" Click="BtnRookToCastle_Click"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
+                        <Label x:Name="LblKingRookQuantity" Grid.Row="2" Grid.Column="0" Content="0"  Style="{StaticResource SmallFontStyle}"/>
+                        <StackPanel  Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <Button x:Name="BtnCreateRook" ToolTipService.ShowOnDisabled="True" Content="+" Width="28" Height="28" Click="BtnCreateRook_Click"/>
+                            <Label x:Name="LblCastleRookQuantity"  Content="0" Style="{StaticResource SmallFontStyle}" Margin="0,3"/>
+                            <Button x:Name="BtnCancelRook" ToolTipService.ShowOnDisabled="True" Content=" -" Width="28" Height="28" Click="BtnCancelRook_Click"/>
+                        </StackPanel>
+                        <Label  Grid.Row="1" Grid.Column="3" Content="Замок"  Style="{StaticResource SmallFontStyle}"/>
+                        <Image Source="/AliveChess;component/Resources/siege_tower.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" DockPanel.Dock="Top" Width="91" />
+                    </ItemsControl>
+                    <!--Unit-->
+                    <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Гвардия"  Style="{StaticResource SmallFontStyle}" />
+                        <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnQueenToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnQueenToKing_Click"/>
+                        <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnQueenToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnQueenToCastle_Click"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
+                        <Label x:Name="LblKingQueenQuantity" Grid.Row="2" Grid.Column="0" Content="0"  Style="{StaticResource SmallFontStyle}"/>
+                        <StackPanel  Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <Button x:Name="BtnCreateQueen" ToolTipService.ShowOnDisabled="True" Content="+" Width="28" Height="28" Click="BtnCreateQueen_Click"/>
+                            <Label x:Name="LblCastleQueenQuantity"  Content="0" Style="{StaticResource SmallFontStyle}" Margin="0,3"/>
+                            <Button x:Name="BtnCancelQueen" ToolTipService.ShowOnDisabled="True" Content=" -" Width="28" Height="28" Click="BtnCancelQueen_Click"/>
+                        </StackPanel>
+                        <Label  Grid.Row="1" Grid.Column="3" Content="Замок"  Style="{StaticResource SmallFontStyle}"/>
+                        <Image Source="/AliveChess;component/Resources/knight.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" DockPanel.Dock="Top" Width="91" />
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!--Recruinting queue-->
+            <StackPanel  Grid.Row="1" x:Name="StackPanelRecruitingQueue" Height="Auto" Visibility="Visible" VerticalAlignment="Bottom">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/AliveChess;component/Resources/win_mainoverlay_paper.jpg"/>
+                </StackPanel.Background>
+                <StackPanel.Effect>
+                    <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
+                </StackPanel.Effect>
+                <Label Content="Очередь найма" Margin="0,-10,0,0" Style="{StaticResource SmallFontStyle}" HorizontalAlignment="Stretch" Height="28" Padding="0,5,0,0">
+                    <Label.Background>
+                        <ImageBrush ImageSource="/AliveChess;component/Resources/separator_horizontal.png" Stretch="Uniform"/>
+                    </Label.Background>
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF643209" Direction="220" BlurRadius="1" ShadowDepth="1" RenderingBias="Quality"/>
+                    </Label.Effect>
+                </Label>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" MaxHeight="180">
+                    <ListBox x:Name="ListBoxRecruitingQueue" Style="{StaticResource QueueFontStyle}" Background="{x:Null}" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Top" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+                </ScrollViewer>
+            </StackPanel>
+
+        </Grid>
+
+        <!--Toolbar-->
+        <DockPanel Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="3">
             <DockPanel.Effect>
                 <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
             </DockPanel.Effect>
@@ -192,13 +371,9 @@
                         </Label.Effect>
                     </Label>
                 </StackPanel>
-
-                <Button Grid.Column="2" Focusable="False" Content="Выход из замка" x:Name="BtnExit" Width="Auto" Click="BtnExit_Click" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFE2C511" FontFamily="Monotype Corsiva" FontSize="18" ScrollViewer.VerticalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" TextOptions.TextHintingMode="Fixed" BorderThickness="0" UseLayoutRounding="True" VerticalAlignment="Center">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="1" Direction="240" ShadowDepth="2" RenderingBias="Quality"/>
-                    </Button.Effect>
-                </Button>
+                <Button Grid.Column="2" Focusable="False" Content="Выход из замка" x:Name="BtnExit" Width="Auto" Click="BtnExit_Click" HorizontalAlignment="Right" BorderBrush="{x:Null}" Foreground="#FF191919" FontFamily="Informal Roman" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" TextOptions.TextHintingMode="Fixed" BorderThickness="0" UseLayoutRounding="True" VerticalAlignment="Center" Margin="5,2" Padding="10,5" Template="{StaticResource ButtonTemplate}"/>
             </Grid>
         </DockPanel>
+
     </Grid>
 </PresentationLayer:GameScene>

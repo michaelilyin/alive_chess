@@ -22,7 +22,6 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
         private EntityRef<Union> _union;
         private EntityRef<Level> _level;
         private EntitySet<King> _kings;
-        private EntityRef<Store> _store;
         private EntityRef<Leader> _leader;
 
         //private Tax _tax;
@@ -59,7 +58,6 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
             this._empireId = union.Id;
             this._levelId = union.LevelId;
            
-            this._store = default(EntityRef<Store>);
             this._leader = default(EntityRef<Leader>);
 
             this._kings.Assign(union.Kings);
@@ -129,8 +127,9 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
 
             for (int i = 0; i < _kings.Count; i++)
             {
-                // получаем требуемый ресурс
-                Resource resource = _kings[i].ResourceStore.GetResource(ResourceTypes.Gold);
+                    throw new NotImplementedException();
+                /*// получаем требуемый ресурс
+                Resource resource = _kings[i].ResourceStore._getResource(ResourceTypes.Gold);
                 // берем нужное количество ресурса у короля
                 int count = _taxRate*resource.Quantity/100;
                 if (count > 0)
@@ -138,11 +137,11 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
                     Resource pushedResource = _kings[i].ResourceStore
                         .PushResource(resource.ResourceType, count);
                     // добавляем ресурс в хранилище империи
-                    _store.Entity.AddResource(pushedResource);
+                    //_store.Entity.AddResource(pushedResource);
                     // отправляем сообщение о взимании налога
                     if (TaxEvent != null)
                         TaxEvent(_kings[i], pushedResource);
-                }
+                }*/
             }
         }
 
@@ -346,25 +345,6 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
         {
             get { return _isTakeTax; }
             set { _isTakeTax = value; }
-        }
-
-        public Store Store
-        {
-            get
-            {
-                return this._store.Entity;
-            }
-            set
-            {
-                if (_store.Entity != value)
-                {
-                    if (value != null)
-                    {
-                        _storeId = value.Id;
-                        _store.Entity = value;
-                    }
-                }
-            }
         }
 
         public Leader Leader

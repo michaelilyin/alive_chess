@@ -13,10 +13,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.CastleExecutors
         public void Execute(ICommand command)
         {
             DestroyBuildingResponse response = (DestroyBuildingResponse)command;
-            lock (GameCore.Instance.Player.King.CurrentCastle.InnerBuildings)
-            {
-                GameCore.Instance.Player.King.CurrentCastle.InnerBuildings = CustomConverter.ListToEntitySet(response.Buildings);
-            }
+            GameCore.Instance.Player.King.CurrentCastle.SetBuildings(response.Buildings);
             GameCore.Instance.CastleCommandController.BuildingsModified = true;
         }
 

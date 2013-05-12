@@ -1,4 +1,5 @@
-﻿using AliveChessLibrary.Commands.EmpireCommand;
+﻿using System;
+using AliveChessLibrary.Commands.EmpireCommand;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Resources;
 using AliveChessServer.LogicLayer.Environment;
@@ -25,13 +26,14 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.EmpireExecutors
             King receiver = player.Level.Map.SearchKingById(request.ReceiverId);
             if (receiver != null)
             {
-                foreach (Resource u in request.Resources)
+                /*foreach (Resource u in request.Resources)
                 {
                     if (player.King.ResourceStore.DeleteResourceFromStore(u.ResourceType, u.Quantity))
                         receiver.ResourceStore.AddResource(u);
                 }
                 if (!receiver.Player.Bot)
-                    receiver.Player.Messenger.SendNetworkMessage(new GetHelpResourceResponse(request.Resources));
+                    receiver.Player.Messenger.SendNetworkMessage(new GetHelpResourceResponse(request.Resources));*/
+                throw new NotImplementedException();
             }
         }
     }

@@ -52,7 +52,6 @@ namespace AliveChess.NetworkLayer
         public static ICommand Decode(BytePackage package)
         {
             MemoryStream stream = new MemoryStream(package.CommandBody);
-
             MethodInfo mg = _method.MakeGenericMethod(_assembly.GetType(
                 String.Concat("AliveChessLibrary.Commands.", package.CommandType,
                               ".", package.CommandName)));

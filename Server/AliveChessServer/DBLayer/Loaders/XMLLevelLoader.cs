@@ -234,18 +234,6 @@ namespace AliveChessServer.DBLayer.Loaders
                                 WayCost = wayCosts["Castle"]
                             };
 
-            FigureStore figures = new FigureStore { Id = ID };
-            castle.FigureStore = figures;
-            Unit uu = new Unit();
-            uu.UnitType = UnitType.Knight;
-            uu.Quantity = 1;
-            figures.AddFigureToRepository(uu);
-
-            /*ResourceStore resourceStore = new ResourceStore { Id = ID };
-            castle.ResourceStore = resourceStore;*/
-
-            castle.CreateInitialArmy();
-
             Vicegerent vicegerent = new Vicegerent
                                     {
                                         Id = ID,
@@ -254,6 +242,8 @@ namespace AliveChessServer.DBLayer.Loaders
 
             castle.Vicegerent = vicegerent;
             castle.Initialize(map);
+
+            castle.CreateInitialArmy();
 
             map.AddCastle(castle);
         }
@@ -364,7 +354,7 @@ namespace AliveChessServer.DBLayer.Loaders
                                MilitaryRank = 0,
                                ResourceStore = resourceStore
                            };
-
+                king.CreateInitialArmy();
                 Resource rr = new Resource();
                 rr.ResourceType = ResourceTypes.Gold;
                 rr.Quantity = 500;

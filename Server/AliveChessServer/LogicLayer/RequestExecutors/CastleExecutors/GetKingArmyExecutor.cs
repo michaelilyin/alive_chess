@@ -21,11 +21,12 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 
         public void Execute(Message msg)
         {
-            GetKingArmyRequest request = (GetKingArmyRequest)msg.Command;
-           // PlayerInfo info = _playerManager.GetPlayerInfoById(msg.Sender.Id);
-            List<Unit> arm = msg.Sender.King.Units.ToList();
-            //_queryManager.SendGetArmyToKing(info, arm);
-            msg.Sender.Messenger.SendNetworkMessage(new GetKingArmyResponse() { Units = arm });
+            //GetKingArmyRequest request = (GetKingArmyRequest)msg.Command;
+            Player player = msg.Sender;
+
+            GetKingArmyResponse response = new GetKingArmyResponse();
+            response.Units = player.King.Army.GetUnitListCopy();
+            player.Messenger.SendNetworkMessage(response);
         }
     }
 }

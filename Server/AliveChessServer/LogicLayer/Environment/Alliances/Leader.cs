@@ -217,18 +217,6 @@ namespace AliveChessServer.LogicLayer.Environment.Alliances
             set { _king.Mines.Assign(value); }
         }
 
-        public override EntitySet<Unit> Units
-        {
-            get { return _king.Units; }
-            set { _king.Units.Assign(value); }
-        }
-
-        /*public override EntitySet<Resource> Resources
-        {
-            get { return _king.Resources; }
-            set { _king.Resources.Assign(value); }
-        }*/
-
         public override ResourceStore ResourceStore
         {
             get

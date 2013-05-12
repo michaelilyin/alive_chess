@@ -33,11 +33,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
             }
             if (GameCore.Instance.Player.King.ResourceStore == null)
                 GameCore.Instance.Player.King.ResourceStore = new ResourceStore();
-            lock (GameCore.Instance.Player.King.ResourceStore)
-            {
-                EntitySet<Resource> esr = CustomConverter.ListToEntitySet(response.Resources);
-                GameCore.Instance.Player.King.ResourceStore.Resources = esr;
-            }
+            GameCore.Instance.Player.King.ResourceStore.SetResources(response.Resources);
 
             /*MapScene mapScene = (MapScene)GameCore.Instance.WindowContext.Find("SceneMap", false);
             if (mapScene != null)

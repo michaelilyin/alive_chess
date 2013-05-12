@@ -28,7 +28,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
             GetGameStateResponse response =
                 new GetGameStateResponse(
                     msg.Sender.King, msg.Sender.King.StartCastle,
-                    msg.Sender.King.ResourceStore.Resources.ToList());
+                    msg.Sender.King.ResourceStore.GetResourceListCopy());
 
             msg.Sender.Messenger.SendNetworkMessage(response);
         }

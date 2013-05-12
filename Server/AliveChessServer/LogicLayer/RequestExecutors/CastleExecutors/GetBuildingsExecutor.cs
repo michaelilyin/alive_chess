@@ -24,11 +24,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             GetBuildingsRequest request = (GetBuildingsRequest)cmd.Command;
 
             GetBuildingsResponse response = new GetBuildingsResponse();
-            response.Buildings = new List<InnerBuilding>();
-            foreach (var building in player.King.CurrentCastle.InnerBuildings)
-            {
-                response.Buildings.Add(building);
-            }
+            response.Buildings = player.King.CurrentCastle.GetInnerBuildingListCopy();
             player.Messenger.SendNetworkMessage(response);
         }
     }

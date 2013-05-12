@@ -1,4 +1,6 @@
-﻿using AliveChessServer.LogicLayer.Environment;
+﻿using System.Collections.Generic;
+using AliveChessLibrary.GameObjects.Characters;
+using AliveChessServer.LogicLayer.Environment;
 using AliveChessServer.LogicLayer.UsersManagement;
 using AliveChessServer.NetLayer;
 using AliveChessLibrary.Commands.CastleCommand;
@@ -19,11 +21,19 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 
         public void Execute(Message msg)
         {
-            GetCreationRequirementsRequest request = (GetCreationRequirementsRequest)msg.Command;
+            //GetCreationRequirementsRequest request = (GetCreationRequirementsRequest)msg.Command;
             Player player = msg.Sender;
             GetCreationRequirementsResponse response = new GetCreationRequirementsResponse();
-            response.BuildingRequirements = player.King.CurrentCastle.BuildingManager.CreationRequirements;
-            response.RecruitingRequirements = player.King.CurrentCastle.RecruitingManager.CreationRequirements;
+            response.BuildingRequirements = new Dictionary<InnerBuildingType, CreationRequirements>();
+            foreach (var item in player.King.CurrentCastle.BuildingManager.CreationRequirements)
+            {
+                response.BuildingRequirements.Add(item.Key, item.Value);
+            }
+            response.RecruitingRequirements = new Dictionary<UnitType, CreationRequirements>();
+            foreach (var item in player.King.CurrentCastle.RecruitingManager.CreationRequirements)
+            {
+                response.RecruitingRequirements.Add(item.Key, item.Value);
+            }
             msg.Sender.Messenger.SendNetworkMessage(response);
         }
 

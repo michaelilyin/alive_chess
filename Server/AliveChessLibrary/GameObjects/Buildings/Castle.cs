@@ -36,9 +36,10 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private float _wayCost;
         [ProtoMember(7)]
         private int? _kingId;
+        [ProtoMember(8)]
+        private bool _kingInside;
 
         private int _imageId;
-        private bool _kingInside;
         private VisibleSpace _visibleSpace;
         private bool _isAttached = false;
 
@@ -46,21 +47,21 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         private int? _mapId;
         private int _figureStoreId;
-        private IBuildingManager _buildingManager;
-        private IRecruitingManager _recruitingManager;
+        private IProductionManager<InnerBuildingType> _buildingManager;
+        private IProductionManager<UnitType> _recruitingManager;
+
+        private Army _army;
 
 #if !UNITY_EDITOR
         private EntityRef<Map> _map; // ссылка на карту
         private EntityRef<King> _king; // ссылка на короля
         private EntityRef<Vicegerent> _vicegerent; // наместник
         private EntitySet<InnerBuilding> _innerBuildings; // список внутренних строений
-        private EntityRef<FigureStore> _figureStore;
 #else
         private Map _map; // ссылка на карту
         private King _king; // ссылка на короля
         private Vicegerent _vicegerent; // наместник
         private List<InnerBuilding> _innerBuildings; // список внутренних строений
-        private FigureStore _figureStore;
 #endif
         private int _distance = 5;
 
@@ -70,17 +71,16 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public Castle()
         {
+            _army = new Army();
 #if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
             this._king = default(EntityRef<King>);
             this._vicegerent = default(EntityRef<Vicegerent>);
-            this._figureStore = default(EntityRef<FigureStore>);
             this._innerBuildings = new EntitySet<InnerBuilding>();
 #else
             this.Map = null;
             this.King = null;
             this.Vicegerent = null;
-            this.FigureStore = null;
             this.InnerBuildings = new List<InnerBuilding>();
 #endif
             _visibleSpace = new VisibleSpace(this);
@@ -101,14 +101,12 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public void Initialize(Map map)
         {
+            Army = new Army();
             _map.Entity = map;
             _mapId = map.Id;
-            InnerBuilding recruitmentOffice = new InnerBuilding();
-            recruitmentOffice.InnerBuildingType = InnerBuildingType.Quarters;
-            AddBuilding(recruitmentOffice);
-            InnerBuilding building = new InnerBuilding();
-            building.InnerBuildingType = InnerBuildingType.Forge;
-            AddBuilding(building);
+            InnerBuilding quarters = new InnerBuilding();
+            quarters.InnerBuildingType = InnerBuildingType.Quarters;
+            AddBuilding(quarters);
         }
 
         /*public void Initialize(int id, Map map)
@@ -172,149 +170,85 @@ namespace AliveChessLibrary.GameObjects.Buildings
             return this.King == king;
         }
 
-#warning Создание юнита
-        //TODO: Переделать по-нормальному
-        // Создание юнита и отправка в армию
-        public void CreateUnitAndAddInArmy(int count, UnitType type)
+        private InnerBuilding _getBuilding(InnerBuildingType type)
         {
-            /*for (int i = 0; i < InnerBuildings.Count; i++)
-            {
-                if (InnerBuildings[i].ProducedUnitType == type)
-                {
-                    AddInArmy(InnerBuildings[i].CreateUnit(count, type));
-                }
-            }*/
-        }
-
-        //Добавление в армию замка
-        //TODO: Переделать по-нормальному
-        private void AddInArmy(Unit un)
-        {
-            bool t = false;
-            for (int i = 0; i < FigureStore.Units.Count; i++)
-            {
-                if (FigureStore.Units[i].UnitType == un.UnitType)
-                {
-                    FigureStore.Units[i].Quantity += un.Quantity;
-                    t = true;
-                    break;
-                }
-            }
-            if (!t) FigureStore.Units.Add(un);
-        }
-
-        //TODO: Избавиться от этого бреда
-        //передать армию замка королю
-        public void GetArmyToKing()
-        {
-            bool t = false;
-            foreach (Unit t1 in FigureStore.Units)
-            {
-                foreach (Unit t2 in King.Units)
-                {
-                    if (t1.UnitType == t2.UnitType)
-                    {
-                        t2.Quantity += t1.Quantity;
-                        t = true;
-                        break;
-
-                    }
-                }
-                if (!t)
-                {
-                    King.Units.Add(t1);
-                    t = false;
-                }
-            }
-            FigureStore.Units.Clear();
-        }
-
-        public InnerBuilding GetBuilding(InnerBuildingType type)
-        {
-            return InnerBuildings.FirstOrDefault(innerBuilding => innerBuilding.InnerBuildingType == type);
+            return _innerBuildings.FirstOrDefault(innerBuilding => innerBuilding.InnerBuildingType == type);
         }
 
         public void AddBuilding(InnerBuilding building)
         {
             if (!HasBuilding(building.InnerBuildingType))
             {
-                building.Castle = this;
-                _innerBuildings.Add(building);
+                lock (_innerBuildings)
+                {
+                    building.Castle = this;
+                    _innerBuildings.Add(building);
+                }
             }
 
         }
 
         public void DestroyBuilding(InnerBuildingType type)
         {
-            for (int i = 0; i < InnerBuildings.Count; i++)
+            lock (_innerBuildings)
             {
-                if (InnerBuildings[i].InnerBuildingType == type)
+                for (int i = 0; i < _innerBuildings.Count; i++)
                 {
-                    InnerBuildings.RemoveAt(i);
-                    return;
+                    if (_innerBuildings[i].InnerBuildingType == type)
+                    {
+                        _innerBuildings.RemoveAt(i);
+                        return;
+                    }
                 }
             }
         }
 
         public bool HasBuilding(InnerBuildingType type)
         {
-            return GetBuilding(type) != null;
+            lock (_innerBuildings)
+            {
+                return _getBuilding(type) != null;
+
+            }
         }
 
-        //TODO: Реализовать
+        /// <summary>
+        /// список внутренних зданий
+        /// </summary>
+        public List<InnerBuilding> GetInnerBuildingListCopy()
+        {
+            List<InnerBuilding> result = new List<InnerBuilding>();
+            lock (_innerBuildings)
+            {
+                foreach (var innerBuilding in _innerBuildings)
+                {
+                    result.Add(innerBuilding);
+                }
+            }
+            return result;
+        }
+
+        public void SetBuildings(List<InnerBuilding> buildings)
+        {
+            lock (_innerBuildings)
+            {
+                _innerBuildings.Clear();
+                if(buildings == null)
+                    return;
+                foreach (var innerBuilding in buildings)
+                {
+                    _innerBuildings.Add(innerBuilding);
+                }
+            }
+        }
+
         /// <summary>
         /// Создание начальной армии 
         /// </summary>
         public void CreateInitialArmy()
         {
-            //GuidIDPair pair = generator.Invoke();
-            //int cost = Convert.ToInt32(CostUnit.One);
-            //Unit p = _factory.Create(pair.Guid, pair.Id, 8, UnitType.Pawn);
-            //AddUnit(p, _figureStore.Entity.Units);
-
-            //pair = generator.Invoke();
-            //cost = Convert.ToInt32(CostUnit.One);
-            //p = _factory.Create(pair.Guid, pair.Id, 2, UnitType.Bishop);
-            //AddUnit(p, _figureStore.Entity.Units);
-
-            //pair = generator.Invoke();
-            //cost = Convert.ToInt32(CostUnit.One);
-            //p = _factory.Create(pair.Guid, pair.Id, 2, UnitType.Knight);
-            //AddUnit(p, _figureStore.Entity.Units);
-
-            //pair = generator.Invoke();
-            //cost = Convert.ToInt32(CostUnit.One);
-            //p = _factory.Create(pair.Guid, pair.Id, 1, UnitType.Queen);
-            //AddUnit(p, _figureStore.Entity.Units);
-
-            //pair = generator.Invoke();
-            //cost = Convert.ToInt32(CostUnit.One);
-            //p = _factory.Create(pair.Guid, pair.Id, 2, UnitType.Rook);
-            //AddUnit(p, _figureStore.Entity.Units);
+            Army.AddUnit(UnitType.Pawn, 8);
         }
-
-        //TODO: Нигде не используется, переписать этот бред
-        /// <summary>
-        ///добавление юнита 
-        /// </summary>
-        /// <param name="un"></param>
-        /// <param name="arm"></param>
-        public void AddUnit(Unit un, IList<Unit> arm)
-        {
-            bool ok = true;
-            for (int i = 0; i < FigureStore.Units.Count; i++)
-            {
-                if (un.Id == arm[i].Id)
-                {
-                    arm[i].Quantity++;
-                    ok = false;
-                    break;
-                }
-
-            }
-            if (ok) arm.Add(un);
-        }
-        //Slisarenko
 
         /// <summary>
         /// сравнение по идентификатору
@@ -476,28 +410,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
 #if !UNITY_EDITOR
         /// <summary>
-        /// хранилище фигур
-        /// </summary>
-        public FigureStore FigureStore
-        {
-            get
-            {
-                if (_figureStore.Entity == null && OnDeferredLoadingFigureStore != null)
-                    OnDeferredLoadingFigureStore(this);
-
-                return this._figureStore.Entity;
-            }
-            set
-            {
-                if (_figureStore.Entity != value)
-                {
-                    _figureStore.Entity = value;
-                    _figureStoreId = _figureStore.Entity.Id;
-                }
-            }
-        }
-
-        /// <summary>
         /// ссылка на наместника
         /// </summary>
         public Vicegerent Vicegerent
@@ -524,18 +436,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
             get { return _vicegerent; }
             set { _vicegerent = value; }
         }
-
-        public ResourceStore ResourceStore
-        {
-            get { return _resourceStore; }
-            set { _resourceStore = value; }
-        }
-
-        public FigureStore FigureStore
-        {
-            get { return _figureStore; }
-            set { _figureStore = value; }
-        }
 #endif
 
         /// <summary>
@@ -557,28 +457,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
         }
 
 #if !UNITY_EDITOR
-
-        /// <summary>
-        /// идентификатор хранилища фигур
-        /// </summary>
-        public int FigureStoreId
-        {
-            get
-            {
-                return this._figureStoreId;
-            }
-            set
-            {
-                if (this._figureStoreId != value)
-                {
-                    if (this._figureStore.HasLoadedOrAssignedValue)
-                    {
-                        throw new ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this._figureStoreId = value;
-                }
-            }
-        }
 
         /// <summary>
         /// идентификатор карты
@@ -690,43 +568,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-
-        /// <summary>
-        /// список внутренних зданий
-        /// </summary>
-        public EntitySet<InnerBuilding> InnerBuildings
-        {
-            get
-            {
-                return this._innerBuildings;
-            }
-            set
-            {
-                this._innerBuildings = value;
-            }
-        }
-
-        public IBuildingManager BuildingManager
-        {
-            get { return _buildingManager; }
-            set
-            {
-                _buildingManager = value;
-                if (value != null)
-                    value.Castle = this;
-            }
-        }
-
-        public IRecruitingManager RecruitingManager
-        {
-            get { return _recruitingManager; }
-            set
-            {
-                _recruitingManager = value;
-                if (value != null)
-                    value.Castle = this;
-            }
-        }
 #else
         public King King
         {
@@ -746,6 +587,34 @@ namespace AliveChessLibrary.GameObjects.Buildings
             set { _innerBuildings = value; }
         }
 #endif
+
+        public IProductionManager<InnerBuildingType> BuildingManager
+        {
+            get { return _buildingManager; }
+            set
+            {
+                _buildingManager = value;
+                if (value != null)
+                    value.Castle = this;
+            }
+        }
+
+        public IProductionManager<UnitType> RecruitingManager
+        {
+            get { return _recruitingManager; }
+            set
+            {
+                _recruitingManager = value;
+                if (value != null)
+                    value.Castle = this;
+            }
+        }
+
+        public virtual Army Army
+        {
+            get { return _army; }
+            set { _army = value; }
+        }
         #endregion
 
         public static event LoadingHandler<Castle> OnLoad;

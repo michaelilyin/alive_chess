@@ -7,31 +7,46 @@ using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChessServer.LogicLayer.EconomyEngine
 {
-    public class RecruitingManager : IRecruitingManager
+    public class RecruitingManager : ProductionManager<UnitType>
     {
-        private Castle _castle;
-        private Economy _economy;
-
         public RecruitingManager(Economy economy)
+            : base(economy)
         {
-            _economy = economy;
         }
 
-        public CreationRequirements GetCreationRequirements(UnitType type)
+        public override Dictionary<UnitType, CreationRequirements> CreationRequirements
         {
-            return _economy.GetCreationRequirements(type);
+            get
+            {
+                return _economy.RecruitingRequirements;
+            }
+            set
+            {
+                _economy.RecruitingRequirements = value;
+            }
         }
 
-        public Castle Castle
+        protected override void _finishProduction(UnitType type)
         {
-            get { return _castle; }
-            set { _castle = value; }
+            _castle.Army.AddUnit(type, 1);
         }
 
-        public Dictionary<UnitType, CreationRequirements> CreationRequirements
+        public override void Destroy(UnitType type)
         {
-            get { return _economy.RecruitingRequirements; }
-            set { _economy.RecruitingRequirements = value; }
+            BuildingQueueItem<UnitType> item = _getUnfinishedItem(type);
+            if (item != null)
+            {
+                lock (_productionQueue)
+                {
+                    _productionQueue.Remove(item);
+                }
+                CreationRequirements requirements = _economy.GetCreationRequirements(type);
+                //Возврат части ресурсов
+                foreach (var resItem in requirements.Resources)
+                {
+                    _castle.King.ResourceStore.AddResource(resItem.Key, (int)(resItem.Value * (0.5 * (item.RemainingCreationTime / item.TotalCreationTime + 1))));
+                }
+            }
         }
     }
 }

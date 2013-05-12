@@ -139,10 +139,10 @@ namespace AliveChessServer.DBLayer
             get { return this.GetTable<ResourceStore>(); }
         }
 
-        public System.Data.Linq.Table<FigureStore> FigureStores
+        /*public System.Data.Linq.Table<FigureStore> FigureStores
         {
             get { return this.GetTable<FigureStore>(); }
-        }
+        }*/
 
         public System.Data.Linq.Table<Vicegerent> Vicegerenrs
         {
@@ -154,10 +154,10 @@ namespace AliveChessServer.DBLayer
             get { return this.GetTable<Level>(); }
         }
 
-        public System.Data.Linq.Table<Store> Stores
+        /*public System.Data.Linq.Table<Store> Stores
         {
             get { return this.GetTable<Store>(); }
-        }
+        }*/
 
         public System.Data.Linq.Table<Empire> Empires
         {

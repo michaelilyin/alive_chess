@@ -80,16 +80,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GameLayer\LogicLayer\BigMapCommandController.cs" />
-    <Compile Include="GameLayer\LogicLayer\BuildingManager.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\CollectUnitsExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\LeaveUnitsExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\ProductionManager.cs" />
     <Compile Include="GameLayer\LogicLayer\CastleCommandController.cs" />
-    <Compile Include="GameLayer\LogicLayer\RecruitingManager.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\CancelUnitRecruitingExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\CreateUnitExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\GetKingArmyExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\GetCastleArmyExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\BigMapExecutors\LooseMineMessageExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\GetCreationRequirementsExecutor.cs" />
-    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\GetBuildingQueueExecutor.cs" />
+    <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\GetProductionQueueExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\LeaveCastleExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\DestroyBuildingExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\CastleExecutors\CreateBuildingExecutor.cs" />
     <Compile Include="GameLayer\LogicLayer\Executors\ErrorMessageExecutor.cs" />
+    <Compile Include="Utilities\NameResolver.cs" />
     <Page Include="GameLayer\PresentationLayer\BattleScene.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,9 +223,7 @@
     <Resource Include="Resources\tree.png" />
     <Resource Include="Resources\wood.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\wood_texture_background-other.jpg" />
   </ItemGroup>
@@ -245,6 +249,36 @@
     <Resource Include="Resources\building_stronghold_menu.png" />
     <Resource Include="Resources\building_temple_menu.png" />
     <Resource Include="Resources\building_weapon_factory_menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\win_mainoverlay_paper.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\archer.png" />
+    <Resource Include="Resources\knight.png" />
+    <Resource Include="Resources\siege_tower.png" />
+    <Resource Include="Resources\vanguard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\knight_on_horse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_down.png" />
+    <Resource Include="Resources\icon_left.png" />
+    <Resource Include="Resources\icon_right.png" />
+    <Resource Include="Resources\icon_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\btn_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\btn_mouseover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\castle_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\separator_horizontal.png" />
   </ItemGroup>
   <PropertyGroup>
     <StartArguments />

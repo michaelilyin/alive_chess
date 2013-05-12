@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using AliveChess.GameLayer.PresentationLayer;
 using AliveChessLibrary.Commands.CastleCommand;
 using AliveChessLibrary.GameObjects.Buildings;
+using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChess.GameLayer.LogicLayer
 {
@@ -17,6 +18,7 @@ namespace AliveChess.GameLayer.LogicLayer
         private bool _buildingsModified;
         private bool _unitsModified;
         private bool _buildingQueueModified;
+        private bool _recruitingQueueModified;
         private bool _kingOnMap;
 
         DispatcherTimer timerUpdate = new DispatcherTimer();
@@ -39,6 +41,12 @@ namespace AliveChess.GameLayer.LogicLayer
             set { _buildingQueueModified = value; }
         }
 
+        public bool RecruitingQueueModified
+        {
+            get { return _recruitingQueueModified; }
+            set { _recruitingQueueModified = value; }
+        }
+
         public bool KingOnMap
         {
             get { return _kingOnMap; }
@@ -54,8 +62,10 @@ namespace AliveChess.GameLayer.LogicLayer
 
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
-            SendGetBuildingQueueRequest();
+            SendGetProductionQueueRequest();
             SendGetBuildingsRequest();
+            SendGetCastleArmyRequest();
+            SendGetKingArmyRequest();
         }
 
         public void StartUpdate()
@@ -80,9 +90,9 @@ namespace AliveChess.GameLayer.LogicLayer
             _gameCore.Network.Send(request);
         }
 
-        public void SendGetBuildingQueueRequest()
+        public void SendGetProductionQueueRequest()
         {
-            GetBuildingQueueRequest request = new GetBuildingQueueRequest();
+            GetProductionQueueRequest request = new GetProductionQueueRequest();
             _gameCore.Network.Send(request);
         }
 
@@ -103,6 +113,46 @@ namespace AliveChess.GameLayer.LogicLayer
         public void SendLeaveCastleRequest()
         {
             LeaveCastleRequest request = new LeaveCastleRequest();
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendGetCastleArmyRequest()
+        {
+            GetCastleArmyRequest request = new GetCastleArmyRequest();
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendGetKingArmyRequest()
+        {
+            GetKingArmyRequest request = new GetKingArmyRequest();
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendCreateUnitRequest(UnitType type)
+        {
+            CreateUnitRequest request = new CreateUnitRequest();
+            request.UnitType = type;
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendCancelUnitRecruitingRequest(UnitType type)
+        {
+            CancelUnitRecruitingRequest request = new CancelUnitRecruitingRequest();
+            request.UnitType = type;
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendCollectUnitsRequest(Dictionary<UnitType, int> units)
+        {
+            CollectUnitsRequest request = new CollectUnitsRequest();
+            request.Units = units;
+            _gameCore.Network.Send(request);
+        }
+
+        public void SendLeaveUnitsRequest(Dictionary<UnitType, int> units)
+        {
+            LeaveUnitsRequest request = new LeaveUnitsRequest();
+            request.Units = units;
             _gameCore.Network.Send(request);
         }
     }

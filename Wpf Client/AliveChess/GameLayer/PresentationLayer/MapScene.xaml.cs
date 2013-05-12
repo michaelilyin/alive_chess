@@ -401,8 +401,8 @@ namespace AliveChess.GameLayer.PresentationLayer
                 foreach (var obj in _world.Map.Mines)
                 {
                     _buildingRectangles[obj.X, obj.Y].Fill = _mineBrushes[obj.MineType];
-                    _buildingRectangles[obj.X, obj.Y].Width = obj.Width*_width;
-                    _buildingRectangles[obj.X, obj.Y].Height = obj.Height*_height;
+                    _buildingRectangles[obj.X, obj.Y].Width = obj.Width * _width;
+                    _buildingRectangles[obj.X, obj.Y].Height = obj.Height * _height;
 
                     if (obj.KingId == _player.King.Id)
                         _buildingRectangles[obj.X, obj.Y].Effect = _playerLighting;
@@ -416,8 +416,8 @@ namespace AliveChess.GameLayer.PresentationLayer
                 foreach (var obj in _world.Map.Castles)
                 {
                     _buildingRectangles[obj.X, obj.Y].Fill = _brushCastle;
-                    _buildingRectangles[obj.X, obj.Y].Width = obj.Width*_width;
-                    _buildingRectangles[obj.X, obj.Y].Height = obj.Height*_height;
+                    _buildingRectangles[obj.X, obj.Y].Width = obj.Width * _width;
+                    _buildingRectangles[obj.X, obj.Y].Height = obj.Height * _height;
 
                     if (obj.KingId == _player.King.Id)
                         _buildingRectangles[obj.X, obj.Y].Effect = _playerLighting;
@@ -514,59 +514,56 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void UpdateResources()
         {
-            lock (GameCore.Instance.Player.King.ResourceStore)
+            foreach (var res in _player.King.ResourceStore.GetResourceListCopy())
             {
-                foreach (var res in _player.King.ResourceStore.Resources)
+                switch (res.ResourceType)
                 {
-                    switch (res.ResourceType)
-                    {
-                        case ResourceTypes.Gold:
-                            LabelGoldQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Stone:
-                            LabelStoneQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Wood:
-                            LabelWoodQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Iron:
-                            LabelIronQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Coal:
-                            LabelCoalQuantity.Content = res.Quantity.ToString();
-                            break;
-                    }
+                    case ResourceTypes.Gold:
+                        LabelGoldQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Stone:
+                        LabelStoneQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Wood:
+                        LabelWoodQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Iron:
+                        LabelIronQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Coal:
+                        LabelCoalQuantity.Content = res.Quantity.ToString();
+                        break;
                 }
             }
         }
 
-       /* /// <summary>
-        /// Отображение объектов в зоне видимости
-        /// </summary>
-        public void ShowGetObjectsResult()
-        {
-            DrawBuildings();
-            DrawDynamicObjects();
-            if (_followingKing)
-                KingToFocus();
-        }
+        /* /// <summary>
+         /// Отображение объектов в зоне видимости
+         /// </summary>
+         public void ShowGetObjectsResult()
+         {
+             DrawBuildings();
+             DrawDynamicObjects();
+             if (_followingKing)
+                 KingToFocus();
+         }
 
-        public void ShowCaptureMineResult()
-        {
-            //DrawBuildings();
-        }
+         public void ShowCaptureMineResult()
+         {
+             //DrawBuildings();
+         }
 
-        public void ShowGetKingResult()
-        {
-        }
+         public void ShowGetKingResult()
+         {
+         }
 
-        public void ShowMoveKingResult()
-        {
-        }
+         public void ShowMoveKingResult()
+         {
+         }
 
-        public void ShowGetResourceMessageResult(GetResourceMessage message)
-        {
-        }*/
+         public void ShowGetResourceMessageResult(GetResourceMessage message)
+         {
+         }*/
 
         public void EnterCastle()
         {

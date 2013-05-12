@@ -1,4 +1,5 @@
-﻿using AliveChessServer.LogicLayer.Environment;
+﻿using AliveChessLibrary.Commands.ErrorCommand;
+using AliveChessServer.LogicLayer.Environment;
 using AliveChessServer.LogicLayer.UsersManagement;
 using AliveChessServer.NetLayer;
 using AliveChessLibrary.Commands.CastleCommand;
@@ -12,8 +13,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
-        private Player _queryManager;
-      
+
         public CollectUnitsExequtor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
@@ -21,19 +21,33 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
         }
         public void Execute(Message msg)
         {
-            _queryManager = msg.Sender;
+            Player player = msg.Sender;
+            King king = msg.Sender.King;
             CollectUnitsRequest request = (CollectUnitsRequest)msg.Command;
-            //PlayerInfo info = _playerManager.GetPlayerInfoById(msg.Sender.Id);
-            msg.Sender.King.CurrentCastle.GetArmyToKing();
-            EntitySet<Unit> arm = msg.Sender.King.Units;
-            List<Unit> resp_list = new List<Unit>();
-            foreach(var u in arm)
-            {
-                resp_list.Add(u);
-            }
             CollectUnitsResponse response = new CollectUnitsResponse();
-            response.Arm = resp_list;
-            _queryManager.Messenger.SendNetworkMessage(response);
+            if (!king.CurrentCastle.KingInside)
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Король не в замке."));
+                return;
+            }
+            foreach (var item in request.Units)
+            {
+                if (!king.CurrentCastle.Army.HasUnits(item.Key, item.Value))
+                {
+                    player.Messenger.SendNetworkMessage(new ErrorMessage("Запрошено больше юнитов, чем имеется в замке."));
+                    return;
+                }
+            }
+            foreach (var item in request.Units)
+            {
+                king.CurrentCastle.Army.RemoveUnit(item.Key, item.Value);
+                king.Army.AddUnit(item.Key, item.Value);
+            }
+            response.KingArmy = king.Army.GetUnitListCopy();
+            response.CastleArmy = king.CurrentCastle.Army.GetUnitListCopy();
+            /*response.Units = king.CurrentCastle.Army.GetUnitListCopy();
+            response.Units2 = king.Army.GetUnitListCopy();*/
+            player.Messenger.SendNetworkMessage(response);
         }
     }
 }

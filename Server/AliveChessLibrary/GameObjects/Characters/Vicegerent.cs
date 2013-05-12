@@ -18,7 +18,6 @@ namespace AliveChessLibrary.GameObjects.Characters
         private string _vicegerentName;
         private int _castleId;
 
-        private FigureStore _figureStore;
         private ResourceStore _resourceStore;
      
 #if !UNITY_EDITOR
@@ -60,12 +59,6 @@ namespace AliveChessLibrary.GameObjects.Characters
         private void DetachVicegerent(Castle cas)
         {
             cas.Vicegerent = null;
-        }
-
-        public FigureStore FigureStore
-        {
-            get { return _figureStore; }
-            set { _figureStore = value; }
         }
 
         public ResourceStore ResourceStore

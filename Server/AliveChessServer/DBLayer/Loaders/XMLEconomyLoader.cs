@@ -178,7 +178,7 @@ namespace AliveChessServer.DBLayer.Loaders
             }
 #if DEBUG
             string t = "unknown";
-            if(node.Attributes != null && node.Attributes.GetNamedItem("type") != null);
+            if(node.Attributes != null && node.Attributes.GetNamedItem("type") != null)
                 t = node.Attributes.GetNamedItem("type").Value;
             AliveChessLibrary.DebugConsole.WriteLine(this, "Required for " + node.Name + " \"" + t + "\":");
             foreach (var VARIABLE in requirements.Resources)

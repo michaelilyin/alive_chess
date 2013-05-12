@@ -333,7 +333,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         }
 
         //[Association(Name = "fk_resource_vault", Storage = "_vault", ThisKey = "VaultId", IsForeignKey = true)]
-        public ResourceStore ResourceStore
+        /*public ResourceStore ResourceStore
         {
             get
             {
@@ -361,7 +361,7 @@ namespace AliveChessLibrary.GameObjects.Resources
                     }
                 }
             }
-        }
+        }*/
 
         //[Association(Name = "fk_resource_king", Storage = "_king", ThisKey = "KingId", IsForeignKey = true)]
         /*public King King

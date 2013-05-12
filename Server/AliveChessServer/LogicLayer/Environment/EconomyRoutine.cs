@@ -34,8 +34,11 @@ namespace AliveChessServer.LogicLayer.Environment
         {
             if (time.Elapsed > TimeSpan.FromMilliseconds(50))
             {
-                foreach(var castle in _level.Map.Castles)
+                foreach (var castle in _level.Map.Castles)
+                {
                     castle.BuildingManager.Update(time.Elapsed);
+                    castle.RecruitingManager.Update(time.Elapsed);
+                }
                 time.SavePreviousTimestamp();
             }
         }

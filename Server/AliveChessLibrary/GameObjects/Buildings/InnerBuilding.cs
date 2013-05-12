@@ -107,7 +107,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
                     {
                         var previousCastle = _castle.Entity;
                         _castle.Entity = null;
-                        previousCastle.InnerBuildings.Remove(this);
+                        previousCastle.DestroyBuilding(this.InnerBuildingType);
                     }
                     _castle.Entity = value;
                     if (value != null)

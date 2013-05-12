@@ -7,9 +7,7 @@ namespace AliveChessLibrary.Commands.CastleCommand
     public class CreateUnitRequest : ICommand
     {
         [ProtoMember(1)]
-        private int _figureCount;
-        [ProtoMember(2)]
-        private UnitType _figureType;
+        private UnitType _unitType;
 
         public Command Id
         {
@@ -17,16 +15,10 @@ namespace AliveChessLibrary.Commands.CastleCommand
             
         }
 
-        public int FigureCount
+        public UnitType UnitType
         {
-            get { return _figureCount; }
-            set { _figureCount = value; }
-        }
-
-        public UnitType FigureType
-        {
-            get { return _figureType; }
-            set { _figureType = value; }
+            get { return _unitType; }
+            set { _unitType = value; }
         }
     }
 }

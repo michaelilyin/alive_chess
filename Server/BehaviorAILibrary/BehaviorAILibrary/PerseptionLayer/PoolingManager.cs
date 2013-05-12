@@ -153,7 +153,7 @@ namespace BehaviorAILibrary.PerseptionLayer
 
         private int GetUnitCountTogetherWithKing(King enemy)
         {
-            return enemy.GetUnitCountFAKE();
+            return enemy.Army.GetStrength();
         }
 
         private int GetResourceCountOnHand()

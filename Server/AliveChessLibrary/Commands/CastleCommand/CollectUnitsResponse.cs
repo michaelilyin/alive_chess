@@ -8,13 +8,22 @@ namespace AliveChessLibrary.Commands.CastleCommand
     public class CollectUnitsResponse : ICommand
     {
         [ProtoMember(1)]
-        private List<Unit> arm;
+        private Dictionary<UnitType, int> _castleArmy;
+        [ProtoMember(2)]
+        private Dictionary<UnitType, int> _kingArmy;
 
-        public List<Unit> Arm
+        public Dictionary<UnitType, int> CastleArmy
         {
-            get { return arm; }
-            set { arm = value; }
+            get { return _castleArmy; }
+            set { _castleArmy = value; }
         }
+
+        public Dictionary<UnitType, int> KingArmy
+        {
+            get { return _kingArmy; }
+            set { _kingArmy = value; }
+        }
+
         public Command Id
         {
             get { return Command.CollectUnitsResponce;}

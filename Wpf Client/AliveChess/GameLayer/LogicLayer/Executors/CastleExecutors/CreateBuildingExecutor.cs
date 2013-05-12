@@ -13,17 +13,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.CastleExecutors
         public void Execute(ICommand command)
         {
             CreateBuildingResponse response = (CreateBuildingResponse)command;
-            lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue)
-            {
-                if (response.BuildingQueue != null)
-                {
-                    GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue = response.BuildingQueue;
-                }
-                else
-                {
-                    GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue.Clear();
-                }
-            }
+            GameCore.Instance.Player.King.CurrentCastle.BuildingManager.SetProductionQueue(response.BuildingQueue);
             GameCore.Instance.CastleCommandController.BuildingQueueModified = true;
         }
 

@@ -7,12 +7,13 @@ using AliveChessLibrary.GameObjects.Characters;
 
 namespace AliveChessLibrary.Commands.CastleCommand
 {
+    [ProtoContract]
     public class GetKingArmyResponse : ICommand
     {
         [ProtoMember(1)]
-        private List<Unit> _units;
+        private Dictionary<UnitType, int> _units;
 
-        public List<Unit> Units
+        public Dictionary<UnitType, int> Units
         {
             get { return _units; }
             set { _units = value; }

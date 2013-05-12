@@ -27,7 +27,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             Player player = cmd.Sender;
             King king = cmd.Sender.King;
 
-            if (!king.CurrentCastle.HasBuilding(request.InnerBuildingType) && !king.CurrentCastle.BuildingManager.HasUnfinishedBuilding(request.InnerBuildingType))
+            if (!king.CurrentCastle.HasBuilding(request.InnerBuildingType) && !king.CurrentCastle.BuildingManager.HasInQueue(request.InnerBuildingType))
             {
                 player.Messenger.SendNetworkMessage(new ErrorMessage("Невозможно разрушить здание: оно еще не было построено."));
                 return;
@@ -36,11 +36,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             king.CurrentCastle.BuildingManager.Destroy(request.InnerBuildingType);
 
             var response = new DestroyBuildingResponse();
-            response.Buildings = new List<InnerBuilding>();
-            foreach (var b in king.CurrentCastle.InnerBuildings)
-            {
-                response.Buildings.Add(b);
-            }
+            response.Buildings = king.CurrentCastle.GetInnerBuildingListCopy();
             player.Messenger.SendNetworkMessage(response);
 
         }

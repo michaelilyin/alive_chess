@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AliveChess.GameLayer.LogicLayer;
+using AliveChess.Utilities;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.Commands.CastleCommand;
 using AliveChessLibrary.GameObjects.Buildings;
@@ -90,6 +92,11 @@ namespace AliveChess.GameLayer.PresentationLayer
                 UpdateBuildingQueue();
                 _castleCommandController.BuildingQueueModified = false;
             }
+            if (_castleCommandController.RecruitingQueueModified)
+            {
+                UpdateRecrutingQueue();
+                _castleCommandController.RecruitingQueueModified = false;
+            }
         }
 
         public void ExitCastle()
@@ -117,70 +124,27 @@ namespace AliveChess.GameLayer.PresentationLayer
 
         public void UpdateResources()
         {
-            lock (GameCore.Instance.Player.King.ResourceStore)
+            foreach (var res in GameCore.Instance.Player.King.ResourceStore.GetResourceListCopy())
             {
-                foreach (var res in GameCore.Instance.Player.King.ResourceStore.Resources)
+                switch (res.ResourceType)
                 {
-                    switch (res.ResourceType)
-                    {
-                        case ResourceTypes.Gold:
-                            LabelGoldQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Stone:
-                            LabelStoneQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Wood:
-                            LabelWoodQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Iron:
-                            LabelIronQuantity.Content = res.Quantity.ToString();
-                            break;
-                        case ResourceTypes.Coal:
-                            LabelCoalQuantity.Content = res.Quantity.ToString();
-                            break;
-                    }
+                    case ResourceTypes.Gold:
+                        LabelGoldQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Stone:
+                        LabelStoneQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Wood:
+                        LabelWoodQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Iron:
+                        LabelIronQuantity.Content = res.Quantity.ToString();
+                        break;
+                    case ResourceTypes.Coal:
+                        LabelCoalQuantity.Content = res.Quantity.ToString();
+                        break;
                 }
             }
-        }
-
-        private string _getNameByType(InnerBuildingType type)
-        {
-            switch (type)
-            {
-                case InnerBuildingType.Quarters:
-                    return "Казармы";
-                case InnerBuildingType.TrainingGround:
-                    return "Тренировочная площадка";
-                case InnerBuildingType.Stabling:
-                    return "Конюшня";
-                case InnerBuildingType.Workshop:
-                    return "Мастерская";
-                case InnerBuildingType.Fortress:
-                    return "Крепость";
-                case InnerBuildingType.Forge:
-                    return "Кузница";
-                case InnerBuildingType.Hospital:
-                    return "Больница";
-            }
-            return type.ToString();
-        }
-
-        private string _getNameByType(ResourceTypes type)
-        {
-            switch (type)
-            {
-                case ResourceTypes.Gold:
-                    return "Золото";
-                case ResourceTypes.Stone:
-                    return "Камень";
-                case ResourceTypes.Wood:
-                    return "Дерево";
-                case ResourceTypes.Iron:
-                    return "Железо";
-                case ResourceTypes.Coal:
-                    return "Уголь";
-            }
-            return type.ToString();
         }
 
         private string _requirementsToString(CreationRequirements requirements)
@@ -188,98 +152,148 @@ namespace AliveChess.GameLayer.PresentationLayer
             string result = "Требуется:";
             foreach (var item in requirements.Resources)
             {
-                result += "\n" + _getNameByType(item.Key) + ": " + item.Value.ToString();
+                result += "\n" + NameResolver.Instance.GetNameByType(item.Key) + ": " + item.Value.ToString();
             }
             foreach (var building in requirements.RequiredBuildings)
             {
-                result += "\n" + _getNameByType(building);
+                result += "\n" + NameResolver.Instance.GetNameByType(building);
             }
-            result += "\n Время постройки: " + requirements.CreationTime.ToString() + " сек.";
+            result += "\n Время постройки: " + requirements.CreationTime.ToString(CultureInfo.CurrentCulture) + " сек.";
             return result;
         }
 
-        private void _checkBuilding(InnerBuildingType type, Button btn)
+        private void _setBuildingControl(InnerBuildingType type, Button btn)
         {
             if (_castle.HasBuilding(type))
             {
                 btn.Content = "Снести";
                 btn.ToolTip = null;
                 btn.IsEnabled = true;
+                return;
             }
-            else if (_castle.BuildingManager.HasUnfinishedBuilding(type))
+            if (_castle.BuildingManager.HasInQueue(type))
             {
-                btn.Content = "Отменить постройку";
+                btn.Content = "Отменить";
                 btn.ToolTip = null;
                 btn.IsEnabled = true;
+                return;
+            }
+            btn.Content = "Построить";
+            CreationRequirements requirements = _castle.BuildingManager.GetCreationRequirements(type);
+
+            if (requirements == null)
+                return;
+            btn.ToolTip = _requirementsToString(requirements);
+
+            if (requirements.RequiredBuildings.Any(building => !_castle.HasBuilding(building)))
+            {
+                btn.IsEnabled = false;
+                return;
+            }
+            btn.IsEnabled = GameCore.Instance.Player.King.ResourceStore.HasEnoughResources(requirements.Resources);
+        }
+
+        private void _setUnitControl(UnitType type, Button btnAdd, Button btnCancel, Button btnToKing, Button btnToCastle, Label lblCastleQuantity, Label lblKingQuantity)
+        {
+            lblCastleQuantity.Content = _castle.Army.GetUnitQuantity(type);
+            if (_castle.Army.HasUnits(type))
+            {
+                btnToKing.IsEnabled = true;
+                btnToKing.ToolTip = null;
             }
             else
             {
-                btn.Content = "Построить";
-                lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.CreationRequirements)
+                btnToKing.IsEnabled = false;
+                btnToKing.ToolTip = "В замке нет юнитов этого типа.";
+            }
+            if (GameCore.Instance.Player.King.CurrentCastle.KingInside)
+            {
+                lblKingQuantity.Content = GameCore.Instance.Player.King.Army.GetUnitQuantity(type);
+                if (GameCore.Instance.Player.King.Army.HasUnits(type))
                 {
-                    CreationRequirements requirements = _castle.BuildingManager.GetCreationRequirements(type);
-                    if (requirements == null)
-                        return;
-                    btn.ToolTip = _requirementsToString(requirements);
-                    if (requirements.RequiredBuildings.Any(building => !_castle.HasBuilding(building)))
-                    {
-                        btn.IsEnabled = false;
-                        return;
-                    }
-                    btn.IsEnabled =
-                        GameCore.Instance.Player.King.ResourceStore.HasEnoughResources(requirements.Resources);
+                    btnToCastle.IsEnabled = true;
+                    btnToCastle.ToolTip = null;
+                }
+                else
+                {
+                    btnToCastle.IsEnabled = false;
+                    btnToCastle.ToolTip = "В армии короля нет юнитов этого типа.";
                 }
             }
+            else
+            {
+                btnToCastle.IsEnabled = false;
+                btnToKing.IsEnabled = false;
+                lblKingQuantity.Content = "0";
+                btnToCastle.ToolTip = "Король не в замке.";
+                btnToKing.ToolTip = "Король не в замке.";
+            }
+            if (GameCore.Instance.Player.King.CurrentCastle.RecruitingManager.HasInQueue(type))
+            {
+                btnCancel.IsEnabled = true;
+                btnCancel.ToolTip = "Отменить найм";
+            }
+            else
+            {
+                btnCancel.IsEnabled = false;
+                btnCancel.ToolTip = "Этот юнит не ожидает найма.";
+            }
+
+            CreationRequirements requirements = _castle.RecruitingManager.GetCreationRequirements(type);
+            if (requirements == null)
+                return;
+
+            btnAdd.ToolTip = _requirementsToString(requirements);
+            btnAdd.IsEnabled = GameCore.Instance.Player.King.ResourceStore.HasEnoughResources(requirements.Resources);
         }
 
         public void UpdateBuildings()
         {
-            lock (GameCore.Instance.Player.King.CurrentCastle.InnerBuildings)
-            {
-                lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue)
-                {
-                    _checkBuilding(InnerBuildingType.Quarters, BtnQuarters);
-                    _checkBuilding(InnerBuildingType.TrainingGround, BtnTrainingGround);
-                    _checkBuilding(InnerBuildingType.Stabling, BtnStabling);
-                    _checkBuilding(InnerBuildingType.Workshop, BtnWorkshop);
-                    _checkBuilding(InnerBuildingType.Fortress, BtnFortress);
-                    _checkBuilding(InnerBuildingType.Forge, BtnForge);
-                    _checkBuilding(InnerBuildingType.Hospital, BtnHospital);
-                }
-            }
+            _setBuildingControl(InnerBuildingType.Quarters, BtnQuarters);
+            _setBuildingControl(InnerBuildingType.TrainingGround, BtnTrainingGround);
+            _setBuildingControl(InnerBuildingType.Stabling, BtnStabling);
+            _setBuildingControl(InnerBuildingType.Workshop, BtnWorkshop);
+            _setBuildingControl(InnerBuildingType.Fortress, BtnFortress);
+            _setBuildingControl(InnerBuildingType.Forge, BtnForge);
+            _setBuildingControl(InnerBuildingType.Hospital, BtnHospital);
             //StackPanelBuildings.Visibility = ListBoxBuildings.Items.Count > 0 ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void UpdateBuildingQueue()
         {
             ListBoxBuildingQueue.Items.Clear();
-            lock (GameCore.Instance.Player.King.CurrentCastle.BuildingManager.BuildingQueue)
+            foreach (var item in _castle.BuildingManager.GetProductionQueueCopy())
             {
-                foreach (var item in _castle.BuildingManager.BuildingQueue)
-                {
-                    ListBoxBuildingQueue.Items.Add(item.Type.ToString() + " (" + (int)item.TimeToPercent() + "%)");
-                }
+                ListBoxBuildingQueue.Items.Add(NameResolver.Instance.GetNameByType(item.Type) + " (" + (int)item.TimeToPercent() + "%)");
             }
-            StackPanelBuildingQueue.Visibility = ListBoxBuildingQueue.Items.Count > 0 ? Visibility.Visible : Visibility.Hidden;
+            //StackPanelBuildingQueue.Visibility = ListBoxBuildingQueue.Items.Count > 0 ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void UpdateUnits()
         {
+            _setUnitControl(UnitType.Pawn, BtnCreatePawn, BtnCancelPawn, BtnPawnToKing, BtnPawnToCastle, LblCastlePawnQuantity, LblKingPawnQuantity);
+            _setUnitControl(UnitType.Bishop, BtnCreateBishop, BtnCancelBishop, BtnBishopToKing, BtnBishopToCastle, LblCastleBishopQuantity, LblKingBishopQuantity);
+            _setUnitControl(UnitType.Knight, BtnCreateKnight, BtnCancelKnight, BtnKnightToKing, BtnKnightToCastle, LblCastleKnightQuantity, LblKingKnightQuantity);
+            _setUnitControl(UnitType.Rook, BtnCreateRook, BtnCancelRook, BtnRookToKing, BtnRookToCastle, LblCastleRookQuantity, LblKingRookQuantity);
+            _setUnitControl(UnitType.Queen, BtnCreateQueen, BtnCancelQueen, BtnQueenToKing, BtnQueenToCastle, LblCastleQueenQuantity, LblKingQueenQuantity);
+        }
+
+        public void UpdateRecrutingQueue()
+        {
+            ListBoxRecruitingQueue.Items.Clear();
+            foreach (var item in _castle.RecruitingManager.GetProductionQueueCopy())
+            {
+                ListBoxRecruitingQueue.Items.Add(NameResolver.Instance.GetNameByType(item.Type) + " (" + (int)item.TimeToPercent() + "%)");
+            }
         }
 
         private void _buildingBtnClick(InnerBuildingType type)
         {
-            lock (_castle.InnerBuildings)
+            if (_castle.HasBuilding(type) ||
+                _castle.BuildingManager.HasInQueue(type))
             {
-                lock (_castle.BuildingManager.BuildingQueue)
-                {
-                    if (_castle.HasBuilding(type) ||
-                        _castle.BuildingManager.HasUnfinishedBuilding(type))
-                    {
-                        _castleCommandController.SendDestroyBuildingRequest(type);
-                        return;
-                    }
-                }
+                _castleCommandController.SendDestroyBuildingRequest(type);
+                return;
             }
             _castleCommandController.SendCreateBuildingRequest(type);
         }
@@ -309,7 +323,7 @@ namespace AliveChess.GameLayer.PresentationLayer
             _buildingBtnClick(InnerBuildingType.Workshop);
         }
 
-        private void BtnRoyalGuardQuarters_Click(object sender, RoutedEventArgs e)
+        private void BtnFortress_Click(object sender, RoutedEventArgs e)
         {
             _buildingBtnClick(InnerBuildingType.Fortress);
         }
@@ -322,6 +336,113 @@ namespace AliveChess.GameLayer.PresentationLayer
         private void BtnHospital_Click(object sender, RoutedEventArgs e)
         {
             _buildingBtnClick(InnerBuildingType.Hospital);
+        }
+
+        private void BtnCreatePawn_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCreateUnitRequest(UnitType.Pawn);
+        }
+
+        private void BtnCancelPawn_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCancelUnitRecruitingRequest(UnitType.Pawn);
+        }
+
+        private void BtnCreateBishop_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCreateUnitRequest(UnitType.Bishop);
+        }
+
+        private void BtnCancelBishop_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCancelUnitRecruitingRequest(UnitType.Bishop);
+        }
+
+        private void BtnCreateKnight_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCreateUnitRequest(UnitType.Knight);
+        }
+
+        private void BtnCancelKnight_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCancelUnitRecruitingRequest(UnitType.Knight);
+        }
+
+        private void BtnCreateRook_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCreateUnitRequest(UnitType.Rook);
+        }
+
+        private void BtnCancelRook_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCancelUnitRecruitingRequest(UnitType.Rook);
+        }
+
+        private void BtnCreateQueen_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCreateUnitRequest(UnitType.Queen);
+        }
+
+        private void BtnCancelQueen_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCancelUnitRecruitingRequest(UnitType.Queen);
+        }
+
+        private Dictionary<UnitType, int> _createUnitDictionary(UnitType type)
+        {
+            Dictionary<UnitType, int> result = new Dictionary<UnitType, int>();
+            result[type] = 1;
+            return result;
+        }
+
+        private void BtnPawnToKing_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCollectUnitsRequest(_createUnitDictionary(UnitType.Pawn));
+        }
+
+        private void BtnPawnToCastle_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendLeaveUnitsRequest(_createUnitDictionary(UnitType.Pawn));
+        }
+
+        private void BtnBishopToKing_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCollectUnitsRequest(_createUnitDictionary(UnitType.Bishop));
+        }
+
+        private void BtnBishopToCastle_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendLeaveUnitsRequest(_createUnitDictionary(UnitType.Bishop));
+        }
+
+        private void BtnKnightToKing_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCollectUnitsRequest(_createUnitDictionary(UnitType.Knight));
+        }
+
+        private void BtnKnightToCastle_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendLeaveUnitsRequest(_createUnitDictionary(UnitType.Knight));
+        }
+
+        private void BtnRookToKing_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCollectUnitsRequest(_createUnitDictionary(UnitType.Rook));
+        }
+
+        private void BtnRookToCastle_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendLeaveUnitsRequest(_createUnitDictionary(UnitType.Rook));
+        }
+
+        private void BtnQueenToKing_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendCollectUnitsRequest(_createUnitDictionary(UnitType.Queen));
+        }
+
+        private void BtnQueenToCastle_Click(object sender, RoutedEventArgs e)
+        {
+            _castleCommandController.SendLeaveUnitsRequest(_createUnitDictionary(UnitType.Queen));
         }
     }
 }

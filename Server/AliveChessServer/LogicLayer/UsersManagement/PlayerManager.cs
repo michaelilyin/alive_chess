@@ -248,7 +248,7 @@ namespace AliveChessServer.LogicLayer.UsersManagement
             BotKing botKing = new BotKing(animat, king, animat.Teacher);
             animat.AddBot(botKing);
 
-            king.CreateArmy();
+            king.CreateInitialArmy();
 
             king.AddView(king.Map.GetObject(x, y));
 

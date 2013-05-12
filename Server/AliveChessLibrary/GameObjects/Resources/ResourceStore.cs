@@ -27,7 +27,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         public ResourceStore()
         {
 #if !UNITY_EDITOR
-            this._resources = new EntitySet<Resource>(AttachResource, DetachResource);
+            this._resources = new EntitySet<Resource>();
 #else
             this.Resources = new List<Resource>();
 #endif
@@ -37,36 +37,42 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public void AddResource(Resource resource)
         {
-            Resource tmpRes = GetResource(resource.ResourceType);
-            if (tmpRes != null)
+            lock (_resources)
             {
-                tmpRes.Quantity += resource.Quantity;
-            }
-            else
-            {
-                this.Resources.Add(resource);
+                Resource tmpRes = _getResource(resource.ResourceType);
+                if (tmpRes != null)
+                {
+                    tmpRes.Quantity += resource.Quantity;
+                }
+                else
+                {
+                    _resources.Add(resource);
+                }
             }
         }
 
         public void AddResource(ResourceTypes type, int quantity)
         {
-            Resource tmpRes = GetResource(type);
-            if (tmpRes != null)
+            lock (_resources)
             {
-                tmpRes.Quantity += quantity;
-            }
-            else
-            {
-                Resource res = new Resource();
-                res.ResourceType = type;
-                res.Quantity = quantity;
-                this.Resources.Add(res);
+                Resource tmpRes = _getResource(type);
+                if (tmpRes != null)
+                {
+                    tmpRes.Quantity += quantity;
+                }
+                else
+                {
+                    Resource res = new Resource();
+                    res.ResourceType = type;
+                    res.Quantity = quantity;
+                    _resources.Add(res);
+                }
             }
         }
 
-        public bool DeleteResourceFromStore(ResourceTypes type, int count)
+        private bool _deleteResourceFromStore(ResourceTypes type, int count)
         {
-            Resource r = GetResource(type);
+            Resource r = _getResource(type);
             if (r != null && r.Quantity >= count)
             {
                 r.Quantity -= count;
@@ -75,72 +81,99 @@ namespace AliveChessLibrary.GameObjects.Resources
             else return false;
         }
 
-        public Resource GetResource(ResourceTypes type)
+        private Resource _getResource(ResourceTypes type)
         {
-            foreach (var resource in Resources)
+            lock (_resources)
             {
-                if (resource.ResourceType == type)
-                    return resource;
+                foreach (var resource in _resources)
+                {
+                    if (resource.ResourceType == type)
+                        return resource;
+                }
+                return null;
             }
-            return null;
         }
 
         public bool HasEnoughResources(Dictionary<ResourceTypes, int> resources)
         {
-            foreach (var item in resources)
+            lock (_resources)
             {
-                if (GetResourceQuantity(item.Key) < item.Value)
-                    return false;
+                foreach (var item in resources)
+                {
+                    if (_getResourceQuantity(item.Key) < item.Value)
+                        return false;
+                }
             }
             return true;
+
         }
 
         public void TakeResources(Dictionary<ResourceTypes, int> resources)
         {
-            foreach (var item in resources)
+            lock (_resources)
             {
-                Resource resource = GetResource(item.Key);
-                if (resource != null)
-                    resource.Quantity -= item.Value;
+                foreach (var item in resources)
+                {
+                    Resource resource = _getResource(item.Key);
+                    if (resource != null)
+                        resource.Quantity -= item.Value;
+                }
+            }
+        }
+
+        public void SetResources(List<Resource> resources)
+        {
+            lock (_resources)
+            {
+                _resources.Clear();
+                if(resources == null)
+                    return;
+                foreach (var resource in resources)
+                {
+                    _resources.Add(resource);
+                }
             }
         }
 
         //Что-то непонятное, используется один раз в Emipre
         public Resource PushResource(ResourceTypes type, int quantity)
         {
-            Resource result = null;
-            Resource res = GetResource(type);
-            if (res.Quantity >= quantity)
+            lock (_resources)
             {
-                result = new Resource();
-                result.Id = res.Id;
-                result.Id = res.Id;
-                result.Quantity = quantity;
-                result.ResourceType = type;
-                DeleteResourceFromStore(type, quantity);
-                return result;
-            }
-            else
-            {
-                result = GetResource(type);
-                DeleteResourceFromStore(type, result.Quantity);
-                return result;
+                Resource result = null;
+                Resource res = _getResource(type);
+                if (res.Quantity >= quantity)
+                {
+                    result = new Resource();
+                    result.Id = res.Id;
+                    result.Id = res.Id;
+                    result.Quantity = quantity;
+                    result.ResourceType = type;
+                    _deleteResourceFromStore(type, quantity);
+                    return result;
+                }
+                else
+                {
+                    result = _getResource(type);
+                    _deleteResourceFromStore(type, result.Quantity);
+                    return result;
+                }
             }
         }
 
-        public int GetResourceQuantity(ResourceTypes typeRes)
+        private int _getResourceQuantity(ResourceTypes typeRes)
         {
-            for (int i = 0; i < this.Resources.Count; i++)
+            for (int i = 0; i < this._resources.Count; i++)
             {
-                if (this.Resources[i].ResourceType == typeRes)
+                if (this._resources[i].ResourceType == typeRes)
                 {
-                    return this.Resources[i].Quantity;
+                    return this._resources[i].Quantity;
                 }
             }
             return 0;
         }
 
-        private void AttachResource(Resource entity)
+        /*private void AttachResource(Resource entity)
         {
             entity.ResourceStore = this;
         }
@@ -148,7 +181,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         private void DetachResource(Resource entity)
         {
             entity.ResourceStore = null;
-        }
+        }*/
 
         #endregion
 
@@ -197,7 +230,7 @@ namespace AliveChessLibrary.GameObjects.Resources
                 this._storeId = value;
             }
         }
-
+/*
 #if !UNITY_EDITOR
         //[Association(Name = "fk_resource_vault", Storage = "_resources", OtherKey = "VaultId")]
         public EntitySet<Resource> Resources
@@ -217,6 +250,18 @@ namespace AliveChessLibrary.GameObjects.Resources
             get { return _resources; }
             set { _resources = value; }
         }
-#endif
+#endif*/
+        public List<Resource> GetResourceListCopy()
+        {
+            List<Resource> result = new List<Resource>();
+            lock (_resources)
+            {
+                foreach (var resource in _resources)
+                {
+                    result.Add(resource);
+                }
+            }
+            return result;
+        }
     }
 }

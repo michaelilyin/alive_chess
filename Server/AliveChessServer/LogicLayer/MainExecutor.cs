@@ -127,6 +127,7 @@ namespace AliveChessServer.LogicLayer
             _executors.Add(Command.CreateUnitRequest, new CreateUnitExecutor(gameLogic));
             //
             _executors.Add(Command.CollectUnitsRequest, new CollectUnitsExequtor(gameLogic));
+            _executors.Add(Command.LeaveUnitsRequest, new LeaveUnitsExequtor(gameLogic));
             //
             _executors.Add(Command.GetBuildingsRequest, new GetBuildingsExecutor(gameLogic));
             //
@@ -134,7 +135,8 @@ namespace AliveChessServer.LogicLayer
             //
             _executors.Add(Command.GetKingArmyRequest, new GetKingArmyExecutor(gameLogic));
             _executors.Add(Command.DestroyBuildingRequest, new DestroyBuildingExecutor(gameLogic));
-            _executors.Add(Command.GetBuildingQueueRequest, new GetBuildingQueueExecutor(gameLogic));
+            _executors.Add(Command.GetProductionQueueRequest, new GetProductionQueueExecutor(gameLogic));
+            _executors.Add(Command.CancelUnitRecruitingRequest, new CancelUnitRecruitingExecutor(gameLogic));
             
         }
 

@@ -1,4 +1,5 @@
-﻿using AliveChessLibrary.Commands.EmpireCommand;
+﻿using System;
+using AliveChessLibrary.Commands.EmpireCommand;
 using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Resources;
@@ -32,17 +33,18 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.EmpireExecutors
                 Castle castle = sender.GetCastleById(request.FromCastle);
                 if (castle != null)
                 {
-                    // получаем хранилище фигур указанного замка отправителя
-                    FigureStore store = castle.FigureStore;
+                    throw new NotImplementedException();
+                    /*// получаем хранилище фигур указанного замка отправителя
+                    FigureStore store = castle.UnitStore;
                     foreach (Unit u in request.Units)
                     {
                         // удаляем фигуры из хранилища отправителя
                         // и добавляем их в хранилище начального замка получателя
                         if (store.RemoveFigure(u.UnitType, u.Quantity))
-                            receiver.StartCastle.FigureStore.AddFigureToRepository(u);
+                            receiver.StartCastle.UnitStore.AddFigureToRepository(u);
                     }
                     if (!receiver.Player.Bot)
-                        receiver.Player.Messenger.SendNetworkMessage(new GetHelpFigureResponse(request.Units));
+                        receiver.Player.Messenger.SendNetworkMessage(new GetHelpFigureResponse(request.Units));*/
                 }
             }
         }

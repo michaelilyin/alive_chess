@@ -5,9 +5,10 @@ using AliveChessLibrary.Utility;
 using System.Data.Linq;
 #endif
 
+#warning Устаревший класс, избегать использования, вместо него использовать Army
 namespace AliveChessLibrary.GameObjects.Resources
 {
-    public class FigureStore : IStore
+   /* public class FigureStore : IStore
     {
         private int _vaultId;
         private int? _storeId;
@@ -151,5 +152,5 @@ namespace AliveChessLibrary.GameObjects.Resources
         }
 #endif
 
-    }
+    }*/
 }

@@ -1,4 +1,7 @@
-﻿using AliveChessServer.LogicLayer.Environment;
+﻿using System.Linq;
+using AliveChessLibrary.Commands.ErrorCommand;
+using AliveChessLibrary.GameObjects.Buildings;
+using AliveChessServer.LogicLayer.Environment;
 using AliveChessServer.LogicLayer.UsersManagement;
 using AliveChessServer.NetLayer;
 using AliveChessLibrary.Commands.CastleCommand;
@@ -14,7 +17,6 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
-        private Player _queryManager;
        
         public CreateUnitExecutor(GameLogic gameLogic)
         {
@@ -24,20 +26,23 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
 
         public void Execute(Message cmd)
         {
-            this._queryManager = cmd.Sender;
+            Player player = cmd.Sender;
             CreateUnitRequest request = (CreateUnitRequest)cmd.Command;
-            //PlayerInfo plInfo = _playerManager.GetPlayerInfoById(cmd.Sender.Id);
-            King king = cmd.Sender.King;
-            king.CurrentCastle.CreateUnitAndAddInArmy(request.FigureCount, request.FigureType);
-            EntitySet<Unit> arm = cmd.Sender.King.CurrentCastle.FigureStore.Units;
-            List<Unit> response_list = new List<Unit>();
-            foreach (var u in arm)
+            CreationRequirements requirements = player.King.CurrentCastle.RecruitingManager.GetCreationRequirements(request.UnitType);
+
+            if (requirements.RequiredBuildings.Any(building => !player.King.CurrentCastle.HasBuilding(building)))
             {
-                response_list.Add(u);
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Нет необходимых построек."));
+                return;
             }
+            if (!player.King.ResourceStore.HasEnoughResources(requirements.Resources))
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Недостаточно ресурсов"));
+            }
+            player.King.CurrentCastle.RecruitingManager.Build(request.UnitType);
             var response = new CreateUnitResponse();
-            response.Units = response_list;
-            _queryManager.Messenger.SendNetworkMessage(response);
+            response.ProductionQueue = player.King.CurrentCastle.RecruitingManager.GetProductionQueueCopy();
+            player.Messenger.SendNetworkMessage(response);
 
         }
     }

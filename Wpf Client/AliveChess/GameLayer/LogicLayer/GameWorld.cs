@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using AliveChessLibrary.Commands.BigMapCommand;
 using AliveChessLibrary.GameObjects.Abstract;
+using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Objects;
@@ -48,8 +49,8 @@ namespace AliveChess.GameLayer.LogicLayer
                 {
                     foreach (var castle in response.Castles)
                     {
-                        castle.BuildingManager = new BuildingManager();
-                        castle.RecruitingManager = new RecruitingManager();
+                        castle.BuildingManager = new ProductionManager<InnerBuildingType>();
+                        castle.RecruitingManager = new ProductionManager<UnitType>();
                         _map.AddCastle(castle);
                     }
                 }

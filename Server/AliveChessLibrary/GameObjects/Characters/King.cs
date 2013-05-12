@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Buildings;
@@ -63,19 +64,15 @@ namespace AliveChessLibrary.GameObjects.Characters
 
 #if !UNITY_EDITOR
         private EntityRef<Map> _map;
-
         private readonly EntitySet<Mine> _mines;
-        private readonly EntitySet<Unit> _units;
         private readonly EntitySet<Castle> _castles;
-        private readonly EntitySet<Resource> _resources;
-        private ResourceStore _resourceStore;
 #else
         private Map _map;
         private List<Mine> _mines;
-        private List<Unit> _units;
         private List<Castle> _castles;
-        private List<Resource> _resources;
 #endif
+        private ResourceStore _resourceStore;
+        private Army _army;
         // король вне игры
         private bool _sleep;
         // король в движении
@@ -114,19 +111,16 @@ namespace AliveChessLibrary.GameObjects.Characters
             this._sector = new VisibleSpace(this);
             this._position = new FPosition();
             _timeLastMove = DateTime.Now;
+            _army = new Army();
 
 #if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
             this._mines = new EntitySet<Mine>();
-            this._units = new EntitySet<Unit>();
             this._castles = new EntitySet<Castle>();
-            this._resources = new EntitySet<Resource>();
 #else
             this.Map = null;
             this.Mines = new List<Mine>();
-            this.Units = new List<Unit>();
             this.Castles = new List<Castle>();
-            this.Resources = new List<Resource>();
 #endif
         }
 
@@ -155,28 +149,35 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// </summary>
         public void RemoveView()
         {
-            if(ViewOnMap != null)
+            if (ViewOnMap != null)
                 ViewOnMap.SetOwner(null);
         }
 
-        /// <summary>
+        /*/// <summary>
         /// инициализация
         /// </summary>
         /// <param name="map">карта</param>
         /// <param name="point">позиция</param>
         public virtual void Initialize(Map map, MapPoint point)
         {
+            Army = new Army();
             _map.Entity = map;
             _mapId = map.Id;
             if (point != null)
                 AddView(point);
-        }
+        }*/
 
-        public void CreateArmy()
+        /// <summary>
+        /// Создание начальной армии 
+        /// </summary>
+        public void CreateInitialArmy()
         {
-            //this._castle.CreatStartArmy(generator);
-            //foreach (Unit u in _startCastle.ArmyInsideCastle)
-            //    Units.Add(u);
+            _army = new Army();
+            Army.AddUnit(UnitType.Pawn, 8);
+            Army.AddUnit(UnitType.Bishop, 2);
+            Army.AddUnit(UnitType.Knight, 2);
+            Army.AddUnit(UnitType.Rook, 2);
+            Army.AddUnit(UnitType.Queen, 1);
         }
 
         #endregion
@@ -237,7 +238,6 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// <summary>
         /// перемещение короля
         /// </summary>
-        /// <param name="step"></param>
         public virtual void MoveBy(float x, float y)
         {
             int iX = (int)x;
@@ -312,7 +312,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
             this._isMove = false;
             this._currentCastle = castle;
-            if(Math.Abs(X - castle.X) < castle.Width && Math.Abs(Y - castle.Y) < castle.Height)
+            if (X >= castle.X - 1 && X <= castle.X + castle.Width && Y >= castle.Y - 1 && Y <= castle.Y + castle.Height)
                 castle.KingInside = true;
         }
 
@@ -366,7 +366,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// <summary>
         /// деактивация и удаление шахты
         /// </summary>
-        /// <param name="mineId"></param>
+        /// <param name="mine"></param>
         public virtual void RemoveMine(Mine mine)
         {
             if (mine.Active)
@@ -1067,11 +1067,20 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
             set
             {
-                if (this._kingMilitaryRank != value)
-                {
-                    this._kingMilitaryRank = value;
-                }
+                this._kingMilitaryRank = value;
             }
+        }
+
+        public virtual ResourceStore ResourceStore
+        {
+            get { return _resourceStore; }
+            set { _resourceStore = value; }
+        }
+
+        public virtual Army Army
+        {
+            get { return _army; }
+            set { _army = value; }
         }
 
 #if !UNITY_EDITOR
@@ -1133,42 +1142,6 @@ namespace AliveChessLibrary.GameObjects.Characters
                 this._castles.Assign(value);
             }
         }
-
-        /// <summary>
-        /// список фигур
-        /// </summary>
-        public virtual EntitySet<Unit> Units
-        {
-            get
-            {
-                return this._units;
-            }
-            set
-            {
-                this._units.Assign(value);
-            }
-        }
-
-        /*/// <summary>
-        /// список ресурсов
-        /// </summary>
-        public virtual EntitySet<Resource> Resources
-        {
-            get
-            {
-                return this._resources;
-            }
-            set
-            {
-                this._resources.Assign(value);
-            }
-        }*/
-
-        public virtual ResourceStore ResourceStore
-        {
-            get { return _resourceStore; }
-            set { _resourceStore = value; }
-        }
 #else
         public virtual Map Map
         {
@@ -1182,22 +1155,10 @@ namespace AliveChessLibrary.GameObjects.Characters
             set { _mines = value; }
         }
 
-        public virtual List<Unit> Units
-        {
-            get { return _units; }
-            set { _units = value; }
-        }
-
         public virtual List<Castle> Castles
         {
             get { return _castles; }
             set { _castles = value; }
-        }
-
-        public virtual List<Resource> Resources
-        {
-            get { return _resources; }
-            set { _resources = value; }
         }
 #endif
         #endregion
@@ -1238,11 +1199,6 @@ namespace AliveChessLibrary.GameObjects.Characters
         public event DeferredTargetedLoadingHandler<King> OnDeferredLoadingMapPoint;
 
         #endregion
-
-        public int GetUnitCountFAKE()
-        {
-            return 1;
-        }
 
         public double Power { get; set; }
         public double Wealth { get; set; }

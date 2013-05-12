@@ -14,7 +14,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
     {
         private GameWorld _environment;
         private PlayerManager _playerManager;
-       
+
         public CreateBuildingExecutor(GameLogic gameLogic)
         {
             this._environment = gameLogic.Environment;
@@ -27,22 +27,17 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             Player player = cmd.Sender;
             King king = cmd.Sender.King;
 
+            CreationRequirements requirements = king.CurrentCastle.BuildingManager.GetCreationRequirements(request.InnerBuildingType);
+
             if (king.CurrentCastle.HasBuilding(request.InnerBuildingType))
             {
                 player.Messenger.SendNetworkMessage(new ErrorMessage("Это здание уже построено."));
                 return;
             }
 
-            if (king.CurrentCastle.BuildingManager.HasUnfinishedBuilding(request.InnerBuildingType))
+            if (king.CurrentCastle.BuildingManager.HasInQueue(request.InnerBuildingType))
             {
                 player.Messenger.SendNetworkMessage(new ErrorMessage("Это здание уже строится."));
-                return;
-            }
-
-            CreationRequirements requirements = king.CurrentCastle.BuildingManager.GetCreationRequirements(request.InnerBuildingType);
-            if (!king.ResourceStore.HasEnoughResources(requirements.Resources))
-            {
-                player.Messenger.SendNetworkMessage(new ErrorMessage("Недостаточно ресурсов."));
                 return;
             }
 
@@ -52,10 +47,17 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
                 return;
             }
 
+            if (!king.ResourceStore.HasEnoughResources(requirements.Resources))
+            {
+                player.Messenger.SendNetworkMessage(new ErrorMessage("Недостаточно ресурсов."));
+                return;
+            }
+
             king.CurrentCastle.BuildingManager.Build(request.InnerBuildingType);
 
             var response = new CreateBuildingResponse();
-            response.BuildingQueue = king.CurrentCastle.BuildingManager.BuildingQueue;
+            response.BuildingQueue = king.CurrentCastle.BuildingManager.GetProductionQueueCopy();
+
             player.Messenger.SendNetworkMessage(response);
 
         }
