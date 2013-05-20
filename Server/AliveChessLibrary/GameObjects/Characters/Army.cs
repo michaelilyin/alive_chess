@@ -8,6 +8,7 @@ namespace AliveChessLibrary.GameObjects.Characters
     public class Army
     {
         private Dictionary<UnitType, int> _units = new Dictionary<UnitType, int>();
+        private object _unitsLock = new object();
 
         /// <summary>
         /// список фигур
@@ -15,7 +16,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         public Dictionary<UnitType, int> GetUnitListCopy()
         {
             Dictionary<UnitType, int> result = new Dictionary<UnitType, int>();
-            lock (_units)
+            lock (_unitsLock)
             {
                 foreach (var item in _units)
                 {
@@ -27,7 +28,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public void AddUnit(UnitType type, int quantity)
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 if (_units.ContainsKey(type))
                 {
@@ -42,7 +43,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public void RemoveUnit(UnitType type, int quantity)
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 if (_units.ContainsKey(type))
                 {
@@ -53,7 +54,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public int GetUnitQuantity(UnitType type)
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 if (_units.ContainsKey(type))
                 {
@@ -65,7 +66,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public bool HasUnits(UnitType type, int quantity)
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 if (_units.ContainsKey(type))
                 {
@@ -77,7 +78,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public bool HasUnits(UnitType type)
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 return (_units.ContainsKey(type));
             }
@@ -85,7 +86,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public int GetStrength()
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 return _units.Sum(item => item.Value);
             }
@@ -93,7 +94,7 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         public void SetUnits(Dictionary<UnitType, int> units)
         {
-            lock (_units)
+            lock (_unitsLock)
             {
                 _units = units;
             }

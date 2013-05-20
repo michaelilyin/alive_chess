@@ -18,6 +18,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         private int _size; //текущее количество ресурсов в хранилище, видимо
         private const int CAPACITY = 1000;
+        private object _resourcesLock = new object();
 #if !UNITY_EDITOR
         private EntitySet<Resource> _resources; // масcив хранимых ресурсов
 #else
@@ -37,7 +38,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public void AddResource(Resource resource)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 Resource tmpRes = _getResource(resource.ResourceType);
                 if (tmpRes != null)
@@ -53,7 +54,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public void AddResource(ResourceTypes type, int quantity)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 Resource tmpRes = _getResource(type);
                 if (tmpRes != null)
@@ -83,7 +84,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         private Resource _getResource(ResourceTypes type)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 foreach (var resource in _resources)
                 {
@@ -96,7 +97,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public bool HasEnoughResources(Dictionary<ResourceTypes, int> resources)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 foreach (var item in resources)
                 {
@@ -110,7 +111,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public void TakeResources(Dictionary<ResourceTypes, int> resources)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 foreach (var item in resources)
                 {
@@ -123,7 +124,7 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public void SetResources(List<Resource> resources)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 _resources.Clear();
                 if(resources == null)
@@ -138,7 +139,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         //Что-то непонятное, используется один раз в Emipre
         public Resource PushResource(ResourceTypes type, int quantity)
         {
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 Resource result = null;
                 Resource res = _getResource(type);
@@ -254,7 +255,7 @@ namespace AliveChessLibrary.GameObjects.Resources
         public List<Resource> GetResourceListCopy()
         {
             List<Resource> result = new List<Resource>();
-            lock (_resources)
+            lock (_resourcesLock)
             {
                 foreach (var resource in _resources)
                 {

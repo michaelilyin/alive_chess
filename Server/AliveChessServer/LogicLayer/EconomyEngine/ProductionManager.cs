@@ -14,6 +14,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
         protected Castle _castle;
         protected Economy _economy;
         protected LinkedList<BuildingQueueItem<T>> _productionQueue = new LinkedList<BuildingQueueItem<T>>();
+        protected object _productionQueueLock = new object();
 
         public ProductionManager(Economy economy)
         {
@@ -29,7 +30,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
         public LinkedList<BuildingQueueItem<T>> GetProductionQueueCopy()
         {
             LinkedList<BuildingQueueItem<T>> result = new LinkedList<BuildingQueueItem<T>>();
-            lock (_productionQueue)
+            lock (_productionQueueLock)
             {
                 foreach (var buildingQueueItem in _productionQueue)
                 {
@@ -56,7 +57,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         public void Update(TimeSpan timeFromLastUpdate)
         {
-            lock (_productionQueue)
+            lock (_productionQueueLock)
             {
                 if (_productionQueue.Count > 0)
                 {
@@ -88,7 +89,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
                 if (_castle.King.ResourceStore.HasEnoughResources(requirements.Resources))
                 {
                     _castle.King.ResourceStore.TakeResources(requirements.Resources);
-                    lock (_productionQueue)
+                    lock (_productionQueueLock)
                     {
                         _productionQueue.AddLast(new BuildingQueueItem<T>(type, requirements.CreationTime));
                     }
@@ -100,7 +101,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         public bool HasInQueue(T type)
         {
-            lock (_productionQueue)
+            lock (_productionQueueLock)
             {
                 return _productionQueue.Any(productionQueueItem => productionQueueItem.Type.Equals(type));
             }
@@ -108,7 +109,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         public void SetProductionQueue(LinkedList<BuildingQueueItem<T>> queue)
         {
-            lock (_productionQueue)
+            lock (_productionQueueLock)
             {
                 _productionQueue = queue;
             }
@@ -116,7 +117,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         protected BuildingQueueItem<T> _getUnfinishedItem(T type)
         {
-            lock (_productionQueue)
+            lock (_productionQueueLock)
             {
                 return _productionQueue.LastOrDefault(productionQueueItem => productionQueueItem.Type.Equals(type));
             }

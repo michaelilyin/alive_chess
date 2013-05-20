@@ -33,7 +33,7 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
             BuildingQueueItem<InnerBuildingType> item = _getUnfinishedItem(type);
             if (item != null)
             {
-                lock (_productionQueue)
+                lock (_productionQueueLock)
                 {
                     _productionQueue.Remove(item);
                 }

@@ -115,19 +115,28 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        <Image Grid.Column="0" Grid.RowSpan="2" Source="/AliveChess;component/Resources/border_vertical_right.png" Stretch="Fill" Width="8"></Image>
+        <Image Grid.Column="2" Grid.RowSpan="2" Source="/AliveChess;component/Resources/border_vertical_left.png" Stretch="Fill" Width="8"></Image>
+        <Image Grid.Column="4" Grid.RowSpan="2" Source="/AliveChess;component/Resources/border_vertical_right.png" Stretch="Fill" Width="8"></Image>
+        <Image Grid.Column="6" Grid.RowSpan="2" Source="/AliveChess;component/Resources/border_vertical_left.png" Stretch="Fill" Width="8"></Image>
+        
         <!--Castle view-->
-        <ScrollViewer  Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer  Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <ScrollViewer.Background>
                 <ImageBrush ImageSource="/AliveChess;component/Resources/castle_bg.png" Stretch="UniformToFill"/>
             </ScrollViewer.Background>
         </ScrollViewer>
 
         <!--Building manager-->
-        <Grid Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True">
+        <Grid Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -179,30 +188,32 @@
                 </WrapPanel>
             </ScrollViewer>
             <!--Building queue-->
-            <StackPanel   Grid.Row="1" x:Name="StackPanelBuildingQueue" Height="Auto" Visibility="Visible" Margin="0" >
-                <StackPanel.Background>
-                    <ImageBrush ImageSource="/AliveChess;component/Resources/win_mainoverlay_paper.jpg"/>
-                </StackPanel.Background>
-                <StackPanel.Effect>
+            <DockPanel  Grid.Row="1" x:Name="DockPanelBuildingQueue" Height="Auto" Visibility="Visible" VerticalAlignment="Bottom">
+                <DockPanel.Effect>
                     <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
-                </StackPanel.Effect>
-
-                <Label Content="Очередь строительства" Margin="0,-10,0,0" Style="{StaticResource SmallFontStyle}" HorizontalAlignment="Stretch" Height="28" Padding="0,5,0,0" MaxHeight="250">
-                    <Label.Background>
-                        <ImageBrush ImageSource="/AliveChess;component/Resources/separator_horizontal.png" Stretch="Uniform"/>
-                    </Label.Background>
-                    <Label.Effect>
-                        <DropShadowEffect Color="#FF643209" Direction="220" BlurRadius="1" ShadowDepth="1" RenderingBias="Quality"/>
-                    </Label.Effect>
-                </Label>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" MaxHeight="180">
+                </DockPanel.Effect>
+                <!--<Image Source="/AliveChess;component/Resources/raf-top.png" Width="180"></Image>-->
+                <Image DockPanel.Dock="Bottom" Source="/AliveChess;component/Resources/raf-bottom.png" Width="256"></Image>
+                <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Margin="0,0,0,0" MaxHeight="180" MinHeight="0">
+                    <ScrollViewer.Background>
+                        <ImageBrush ImageSource="/AliveChess;component/Resources/raf-middle.png"/>
+                    </ScrollViewer.Background>
                     <ListBox x:Name="ListBoxBuildingQueue" Style="{StaticResource QueueFontStyle}" BorderBrush="{x:Null}" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalContentAlignment="Top" VerticalAlignment="Top"></ListBox>
                 </ScrollViewer>
-            </StackPanel>
+                <Image DockPanel.Dock="Bottom" Source="/AliveChess;component/Resources/raf-middle.png" Width="Auto" Stretch="Fill" Height="10" Margin="0,-7,0,0"></Image>
+                <Label Content="Очередь строительства" Margin="-5,0,-5,0" Style="{StaticResource SmallFontStyle}" HorizontalAlignment="Stretch" Height="26" Padding="0,5,0,0">
+                    <Label.Background>
+                        <ImageBrush ImageSource="/AliveChess;component/Resources/separator_horizontal.png"/>
+                    </Label.Background>
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF643209" Direction="220" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality" Opacity="0.8"/>
+                    </Label.Effect>
+                </Label>
+            </DockPanel>
         </Grid>
 
         <!--Recruiting manager-->
-        <Grid Grid.Row="1" Grid.Column="2" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True">
+        <Grid Grid.Row="1" Grid.Column="5" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -293,30 +304,33 @@
             </ScrollViewer>
 
             <!--Recruinting queue-->
-            <StackPanel  Grid.Row="1" x:Name="StackPanelRecruitingQueue" Height="Auto" Visibility="Visible" VerticalAlignment="Bottom">
-                <StackPanel.Background>
-                    <ImageBrush ImageSource="/AliveChess;component/Resources/win_mainoverlay_paper.jpg"/>
-                </StackPanel.Background>
-                <StackPanel.Effect>
+            <DockPanel  Grid.Row="1" x:Name="StackPanelRecruitingQueue" Height="Auto" Visibility="Visible" VerticalAlignment="Bottom">
+                <DockPanel.Effect>
                     <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
-                </StackPanel.Effect>
-                <Label Content="Очередь найма" Margin="0,-10,0,0" Style="{StaticResource SmallFontStyle}" HorizontalAlignment="Stretch" Height="28" Padding="0,5,0,0">
-                    <Label.Background>
-                        <ImageBrush ImageSource="/AliveChess;component/Resources/separator_horizontal.png" Stretch="Uniform"/>
-                    </Label.Background>
-                    <Label.Effect>
-                        <DropShadowEffect Color="#FF643209" Direction="220" BlurRadius="1" ShadowDepth="1" RenderingBias="Quality"/>
-                    </Label.Effect>
-                </Label>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" MaxHeight="180">
+                </DockPanel.Effect>
+                <!--<Image Source="/AliveChess;component/Resources/raf-top.png" Width="180"></Image>-->
+                <Image DockPanel.Dock="Bottom" Source="/AliveChess;component/Resources/raf-bottom.png" Width="180" Margin="0,0,0,0"></Image>
+                <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Margin="0,0,0,0" MaxHeight="180" MinHeight="0">
+                    <ScrollViewer.Background>
+                        <ImageBrush ImageSource="/AliveChess;component/Resources/raf-middle.png"/>
+                    </ScrollViewer.Background>
                     <ListBox x:Name="ListBoxRecruitingQueue" Style="{StaticResource QueueFontStyle}" Background="{x:Null}" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Top" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
                 </ScrollViewer>
-            </StackPanel>
+                <Image DockPanel.Dock="Bottom" Source="/AliveChess;component/Resources/raf-middle.png" Width="180" Stretch="Fill" Height="10" Margin="0,-7,0,0"></Image>
+                <Label DockPanel.Dock="Top" Content="Очередь найма" Margin="-5,0,-5,0" Style="{StaticResource SmallFontStyle}" HorizontalAlignment="Stretch" Height="26" Padding="0,5,0,0">
+                    <Label.Background>
+                        <ImageBrush ImageSource="/AliveChess;component/Resources/separator_horizontal.png"/>
+                    </Label.Background>
+                    <Label.Effect>
+                        <DropShadowEffect Color="#FF643209" Direction="220" BlurRadius="1" ShadowDepth="2" RenderingBias="Quality" Opacity="0.8"/>
+                    </Label.Effect>
+                </Label>
+            </DockPanel>
 
         </Grid>
 
         <!--Toolbar-->
-        <DockPanel Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="3">
+        <DockPanel Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="7">
             <DockPanel.Effect>
                 <DropShadowEffect RenderingBias="Quality" Direction="300" ShadowDepth="3" BlurRadius="10" Opacity="0.8"/>
             </DockPanel.Effect>

@@ -45,9 +45,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.CastleExecutors
             }
             response.KingArmy = king.Army.GetUnitListCopy();
             response.CastleArmy = king.CurrentCastle.Army.GetUnitListCopy();
-            /*response.Units = king.CurrentCastle.Army.GetUnitListCopy();
-            response.Units2 = king.Army.GetUnitListCopy();*/
-            player.Messenger.SendNetworkMessage(response);
+            //player.Messenger.SendNetworkMessage(response);
         }
     }
 }

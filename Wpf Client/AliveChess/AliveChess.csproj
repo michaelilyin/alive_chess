@@ -223,7 +223,6 @@
     <Resource Include="Resources\tree.png" />
     <Resource Include="Resources\wood.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\wood_texture_background-other.jpg" />
   </ItemGroup>
@@ -279,6 +278,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\separator_horizontal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\raf-bottom.png" />
+    <Resource Include="Resources\raf-middle.png" />
+    <Resource Include="Resources\raf-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\border_vertical_left.png" />
+    <Resource Include="Resources\border_vertical_right.png" />
   </ItemGroup>
   <PropertyGroup>
     <StartArguments />

@@ -52,6 +52,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         private Army _army;
 
+        private object _innerBuildingsLock = new object();
+
 #if !UNITY_EDITOR
         private EntityRef<Map> _map; // ссылка на карту
         private EntityRef<King> _king; // ссылка на короля
@@ -179,7 +181,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         {
             if (!HasBuilding(building.InnerBuildingType))
             {
-                lock (_innerBuildings)
+                lock (_innerBuildingsLock)
                 {
                     building.Castle = this;
                     _innerBuildings.Add(building);
@@ -190,7 +192,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public void DestroyBuilding(InnerBuildingType type)
         {
-            lock (_innerBuildings)
+            lock (_innerBuildingsLock)
             {
                 for (int i = 0; i < _innerBuildings.Count; i++)
                 {
@@ -205,7 +207,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public bool HasBuilding(InnerBuildingType type)
         {
-            lock (_innerBuildings)
+            lock (_innerBuildingsLock)
             {
                 return _getBuilding(type) != null;
 
@@ -218,7 +220,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
         public List<InnerBuilding> GetInnerBuildingListCopy()
         {
             List<InnerBuilding> result = new List<InnerBuilding>();
-            lock (_innerBuildings)
+            lock (_innerBuildingsLock)
             {
                 foreach (var innerBuilding in _innerBuildings)
                 {
@@ -230,7 +232,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public void SetBuildings(List<InnerBuilding> buildings)
         {
-            lock (_innerBuildings)
+            lock (_innerBuildingsLock)
             {
                 _innerBuildings.Clear();
                 if(buildings == null)
