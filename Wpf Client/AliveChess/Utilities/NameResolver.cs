@@ -73,15 +73,15 @@ namespace AliveChess.Utilities
             switch (type)
             {
                 case UnitType.Pawn:
-                    return "Лучник";
+                    return "Пешка";
                 case UnitType.Bishop:
-                    return "Тяжелый пехотинец";
+                    return "Слон";
                 case UnitType.Knight:
-                    return "Рыцарь";
+                    return "Конь";
                 case UnitType.Rook:
-                    return "Осадная башня";
+                    return "Ладья";
                 case UnitType.Queen:
-                    return "Гвардеец";
+                    return "Ферзь";
             }
             return type.ToString();
         }

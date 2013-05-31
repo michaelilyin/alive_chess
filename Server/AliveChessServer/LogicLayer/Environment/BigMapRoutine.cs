@@ -110,7 +110,7 @@ namespace AliveChessServer.LogicLayer.Environment
                     player.AddMine(mine);
                     player.Player.Messenger.SendNetworkMessage(new CaptureMineResponse(mine));
 
-                    mine.Activation();
+                    mine.Activate();
                 }
             }
         }

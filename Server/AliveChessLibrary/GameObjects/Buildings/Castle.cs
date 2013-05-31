@@ -219,13 +219,10 @@ namespace AliveChessLibrary.GameObjects.Buildings
         /// </summary>
         public List<InnerBuilding> GetInnerBuildingListCopy()
         {
-            List<InnerBuilding> result = new List<InnerBuilding>();
+            var result = new List<InnerBuilding>();
             lock (_innerBuildingsLock)
             {
-                foreach (var innerBuilding in _innerBuildings)
-                {
-                    result.Add(innerBuilding);
-                }
+                result.AddRange(_innerBuildings);
             }
             return result;
         }

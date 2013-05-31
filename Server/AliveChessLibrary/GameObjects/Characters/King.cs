@@ -76,7 +76,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         // король вне игры
         private bool _sleep;
         // король в движении
-        private bool _isMove;
+        private bool _isMoving;
         // король переместился
         private bool _updated;
 
@@ -106,7 +106,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         {
             this.Time = TimeSpan.Zero;
             this._steps = new Queue<FPosition>();
-            this._isMove = false;
+            this._isMoving = false;
             this._state = KingState.BigMap;
             this._sector = new VisibleSpace(this);
             this._position = new FPosition();
@@ -310,7 +310,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             if (ChangeMapStateEvent != null)
                 ChangeMapStateEvent(this, new UpdateWorldEventArgs(Map, _position, UpdateType.KingDisappear));
 
-            this._isMove = false;
+            this._isMoving = false;
             this._currentCastle = castle;
             if (X >= castle.X - 1 && X <= castle.X + castle.Width && Y >= castle.Y - 1 && Y <= castle.Y + castle.Height)
                 castle.KingInside = true;
@@ -344,7 +344,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             Monitor.Exit(_minesSync);
             Player.AddVisibleSector(mine.VisibleSpace);
             mine.SetOwner(this);
-            mine.Activation();
+            mine.Activate();
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace AliveChessLibrary.GameObjects.Characters
             Monitor.Enter(_minesSync);
             foreach (Mine mine in Mines)
             {
-                if (mine.Active) mine.Deactivation();
+                if (mine.Active) mine.Deactivatе();
                 Player.RemoveVisibleSector(mine.VisibleSpace);
                 mine.SetOwner(null);
             }
@@ -370,7 +370,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         public virtual void RemoveMine(Mine mine)
         {
             if (mine.Active)
-                mine.Deactivation();
+                mine.Deactivatе();
 
             Monitor.Enter(_minesSync);
             Mines.Remove(mine);
@@ -464,7 +464,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         public virtual void Update()
         {
             this._updated = false;
-            // король на большой карте
+            // король на глобальной карте
             if (this._state == KingState.BigMap)
             {
                 // если королю нужно идти
@@ -481,19 +481,20 @@ namespace AliveChessLibrary.GameObjects.Characters
                     DateTime now = DateTime.Now;
                     TimeSpan difference = now - _timeLastMove;
                     float wayCost = Map.GetWayCost((int)_currentStep.X, (int)_currentStep.Y);
+                    // если прошло достаточно времени для прохода на нужную клетку
                     if (difference.TotalSeconds >= wayCost)
                     {
                         this._updated = true;
                         lock (_stepsSync)
                         {
-                            _timeLastMove = now.AddSeconds(wayCost - difference.TotalSeconds);
+                            _timeLastMove = now.AddSeconds(wayCost - difference.TotalSeconds); // компенсация задержки
                             DoStep(_currentStep);
                             _currentStep = null;
                         }
 
                         if (_steps.Count == 0)
                         {
-                            this._isMove = false;
+                            this._isMoving = false;
                             // король достиг пункта назначения и 
                             // запрашивает область видимости (только на клиенте)
                             if (UpdateSectorEvent != null)
@@ -528,7 +529,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         {
             _timeLastMove = DateTime.Now;
             _currentStep = null;
-            this._isMove = true;
+            this._isMoving = true;
             lock (_stepsSync)
                 this._steps = steps;
         }
@@ -538,7 +539,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// </summary>
         public virtual void ClearSteps()
         {
-            this._isMove = false;
+            this._isMoving = false;
             lock (_stepsSync)
                 _steps.Clear();
         }
@@ -818,8 +819,8 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// </summary>
         public virtual bool IsMove
         {
-            get { return _isMove; }
-            set { _isMove = value; }
+            get { return _isMoving; }
+            set { _isMoving = value; }
         }
 
         /// <summary>

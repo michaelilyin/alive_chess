@@ -39,7 +39,7 @@ namespace AliveChessServer.LogicLayer.RequestExecutors.BigMapExecutors
                     msg.Sender.King.AddMine(mine);
                     msg.Sender.Messenger.SendNetworkMessage(new CaptureMineResponse(mine));
 
-                    mine.Activation();
+                    mine.Activate();
                 }
             }
             else

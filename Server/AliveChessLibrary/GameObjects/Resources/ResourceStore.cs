@@ -254,13 +254,10 @@ namespace AliveChessLibrary.GameObjects.Resources
 #endif*/
         public List<Resource> GetResourceListCopy()
         {
-            List<Resource> result = new List<Resource>();
+            var result = new List<Resource>();
             lock (_resourcesLock)
             {
-                foreach (var resource in _resources)
-                {
-                    result.Add(resource);
-                }
+                result.AddRange(_resources);
             }
             return result;
         }

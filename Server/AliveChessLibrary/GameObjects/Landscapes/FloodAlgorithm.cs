@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.Utility;
@@ -25,76 +26,41 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             return this._map[x, y];
         }
 
-        private bool IsEmpty(int x, int y)
-        {
-            return this._map[x, y] == null;
-        }
-
-        private bool CompareTypes(int x, int y, PointTypes type)
-        {
-            return this._map[x, y].PointType == type;
-        }
-
-        private void ChangePointType(int x, int y, PointTypes newType)
-        {
-            this._map[x, y].PointType = newType;
-        }
-
         public void Run(BasePoint basePoint)
         {
-            Queue<MapPoint> cells = new Queue<MapPoint>();
-
-            for (int x = 0; x < _map.SizeX; x++)
-            {
-                for (int y = 0; y < _map.SizeY; y++)
-                {
-                    if (IsEmpty(x, y))
-                        _map.SetObject(Map.CreatePoint(x, y, PointTypes.None));
-                }
-            }
+            var cells = new Queue<MapPoint>();
 
             cells.Enqueue(GetPoint(basePoint.X, basePoint.Y));
+
+            int[,] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
 
             while (cells.Count > 0)
             {
                 MapPoint landscape = cells.Dequeue();
 
-                if(landscape.PointType == PointTypes.None || landscape.PointType == PointTypes.Landscape)
-                    landscape.SetOwner(basePoint);
-                landscape.Initialized = true;
-
-                if (landscape.X > 0 && !CompareTypes(landscape.X - 1, landscape.Y,
-                    PointTypes.Landscape) && !GetPoint(landscape.X - 1, landscape.Y).Initialized)
+                for (int i = 0; i < directions.GetLongLength(0); i++) //для всех смежных с landscape клеток
                 {
-                    cells.Enqueue(GetPoint(landscape.X - 1, landscape.Y));
-                    if (CompareTypes(landscape.X - 1, landscape.Y, PointTypes.None))
-                        ChangePointType(landscape.X - 1, landscape.Y, basePoint.ViewOnMap.PointType);
-                }
-                if (landscape.X < _map.SizeX - 1 && !CompareTypes(landscape.X + 1, landscape.Y,
-                    PointTypes.Landscape) && !GetPoint(landscape.X + 1, landscape.Y).Initialized)
-                {
-                    cells.Enqueue(GetPoint(landscape.X + 1, landscape.Y));
-
-                    if (CompareTypes(landscape.X + 1, landscape.Y, PointTypes.None))
-                        ChangePointType(landscape.X + 1, landscape.Y, basePoint.ViewOnMap.PointType);
-                }
-                if (landscape.Y > 0 && !CompareTypes(landscape.X, landscape.Y - 1,
-                    PointTypes.Landscape) && !GetPoint(landscape.X, landscape.Y - 1).Initialized)
-                {
-                    cells.Enqueue(GetPoint(landscape.X, landscape.Y - 1));
-
-                    if (CompareTypes(landscape.X, landscape.Y - 1, PointTypes.None))
-                        ChangePointType(landscape.X, landscape.Y - 1, basePoint.ViewOnMap.PointType);
-                }
-                if (landscape.Y < _map.SizeY - 1 && !CompareTypes(landscape.X, landscape.Y + 1,
-                    PointTypes.Landscape) && !GetPoint(landscape.X, landscape.Y + 1).Initialized)
-                {
-                    cells.Enqueue(GetPoint(landscape.X, landscape.Y + 1));
-
-                    if (CompareTypes(landscape.X, landscape.Y + 1, PointTypes.None))
-                        ChangePointType(landscape.X, landscape.Y + 1, basePoint.ViewOnMap.PointType);
+                    int x = landscape.X + directions[i, 0];
+                    int y = landscape.Y + directions[i, 1];
+                    if (x >= 0 && x < _map.SizeX && y >= 0 && y < _map.SizeY) //если точка не выходит за пределы карты
+                    {
+                        MapPoint point = GetPoint(x, y);
+                        if (!point.Initialized)
+                        {
+                            if (point.PointType != PointTypes.Landscape) //если точка имеет тип ландшафта, она является границей, и заливка не должна идти дальше нее
+                            {
+                                cells.Enqueue(point);
+                            }
+                            if (point.PointType == PointTypes.None) //если точка не имеет типа, ей присваивается тип текущей базовой точки
+                            {
+                                point.SetOwner(basePoint);
+                            }
+                            point.Initialized = true;
+                        }
+                    }
                 }
             }
         }
+
     }
 }

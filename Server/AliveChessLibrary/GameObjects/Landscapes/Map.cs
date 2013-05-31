@@ -36,7 +36,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
 
         private ILevel _level;
         private MapPoint[,] _objects;
-      
+
 #if !UNITY_EDITOR
         private EntitySet<King> _kings;
         private EntitySet<Mine> _mines;
@@ -67,7 +67,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         private readonly object _multySync = new object();
         private readonly object _landscapePoint = new object();
         private readonly object _borderSync = new object();
-      
+
         #endregion
 
         #region Constructors
@@ -97,7 +97,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         }
 
         public Map(int sizeX, int sizeY)
-            :this()
+            : this()
         {
             Initialize(sizeX, sizeY);
         }
@@ -129,18 +129,17 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         /// </summary>
         public void Fill()
         {
-            /*foreach (var basePoint in _basePoints)
-                if (this[basePoint.X, basePoint.Y].Owner == null)
-                    basePoint.AddView(this[basePoint.X, basePoint.Y]);*/
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    if (this[x, y] == null)
+                        SetObject(Map.CreatePoint(x, y, PointTypes.None));
+                }
+            }
             FloodAlgorithm algorithm = new FloodAlgorithm(this);
             foreach (var basePoint in _basePoints)
                 algorithm.Run(basePoint);
-
-            foreach (var point in _basePoints)
-            {
-                if (this[point.X, point.Y].Owner == null || this[point.X, point.Y].Owner == point)
-                    point.AddView(this[point.X, point.Y]);
-            }
         }
 
         /// <summary>
@@ -801,7 +800,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         /// <returns></returns>
         public MapPoint GetObject(float x, float y)
         {
-            return GetObject((int) x, (int) y);
+            return GetObject((int)x, (int)y);
         }
 
         /// <summary>
@@ -1024,7 +1023,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         }
 
 #if !UNITY_EDITOR
-        
+
         public EntitySet<Castle> Castles
         {
             get

@@ -169,7 +169,6 @@
     <Compile Include="GameObjects\Buildings\BuildingQueueItem.cs" />
     <Compile Include="GameObjects\Buildings\IProductionManager.cs" />
     <Compile Include="GameObjects\Buildings\InnerBuildingType.cs" />
-    <Compile Include="GameObjects\Buildings\IRecruitingManager.cs" />
     <Compile Include="GameObjects\Characters\Army.cs" />
     <Compile Include="GameObjects\Characters\IKing.cs" />
     <Compile Include="GameObjects\Characters\IPlayer.cs" />

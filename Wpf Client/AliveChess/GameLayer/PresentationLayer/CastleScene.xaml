@@ -227,7 +227,7 @@
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
                     <!--Unit-->
                     <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
-                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Лучники"  Style="{StaticResource SmallFontStyle}" />
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Пешки"  Style="{StaticResource SmallFontStyle}" />
                         <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnPawnToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Height="24" VerticalAlignment="Bottom" Click="BtnPawnToKing_Click"/>
                         <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnPawnToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnPawnToCastle_Click"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
@@ -242,7 +242,7 @@
                     </ItemsControl>
                     <!--Unit-->
                     <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
-                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Тяжелая пехота"  Style="{StaticResource SmallFontStyle}" />
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Слоны"  Style="{StaticResource SmallFontStyle}" />
                         <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnBishopToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnBishopToKing_Click"/>
                         <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnBishopToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnBishopToCastle_Click"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
@@ -257,7 +257,7 @@
                     </ItemsControl>
                     <!--Unit-->
                     <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
-                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Рыцари"  Style="{StaticResource SmallFontStyle}" />
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Кони"  Style="{StaticResource SmallFontStyle}" />
                         <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnKnightToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnKnightToKing_Click"/>
                         <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnKnightToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnKnightToCastle_Click"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
@@ -272,7 +272,7 @@
                     </ItemsControl>
                     <!--Unit-->
                     <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
-                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Осадные башни"  Style="{StaticResource SmallFontStyle}" />
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Ладьи"  Style="{StaticResource SmallFontStyle}" />
                         <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnRookToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnRookToKing_Click"/>
                         <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnRookToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Height="24" VerticalAlignment="Bottom" Click="BtnRookToCastle_Click"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>
@@ -287,7 +287,7 @@
                     </ItemsControl>
                     <!--Unit-->
                     <ItemsControl Style="{StaticResource UnitGridItemsStyle}">
-                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Гвардия"  Style="{StaticResource SmallFontStyle}" />
+                        <Label  Grid.Row="0" Grid.ColumnSpan="4" Content="Ферзи"  Style="{StaticResource SmallFontStyle}" />
                         <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" x:Name="BtnQueenToKing" ToolTipService.ShowOnDisabled="True" Content="        &lt;" Click="BtnQueenToKing_Click"/>
                         <Button Grid.Row="3" Grid.Column="2"  Grid.ColumnSpan="2" x:Name="BtnQueenToCastle" ToolTipService.ShowOnDisabled="True" Content="          &gt;" Click="BtnQueenToCastle_Click"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Король"  Style="{StaticResource SmallFontStyle}"/>

@@ -15,7 +15,7 @@ namespace AliveChessLibrary.GameObjects.Characters
         /// </summary>
         public Dictionary<UnitType, int> GetUnitListCopy()
         {
-            Dictionary<UnitType, int> result = new Dictionary<UnitType, int>();
+            var result = new Dictionary<UnitType, int>();
             lock (_unitsLock)
             {
                 foreach (var item in _units)

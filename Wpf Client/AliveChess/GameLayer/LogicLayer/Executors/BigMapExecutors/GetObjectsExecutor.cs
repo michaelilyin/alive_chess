@@ -59,7 +59,7 @@ namespace AliveChess.GameLayer.LogicLayer.Executors.BigMapExecutors
                             oldMine.Width = mine.Width;
                             oldMine.Height = mine.Height;
                             oldMine.WayCost = mine.WayCost;
-                            oldMine.GainingResource = mine.GainingResource;
+                            oldMine.MiningResource = mine.MiningResource;
                             oldMine.Capacity = mine.Capacity;
                         }
                         else

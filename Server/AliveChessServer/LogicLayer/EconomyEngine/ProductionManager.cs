@@ -29,12 +29,12 @@ namespace AliveChessServer.LogicLayer.EconomyEngine
 
         public LinkedList<BuildingQueueItem<T>> GetProductionQueueCopy()
         {
-            LinkedList<BuildingQueueItem<T>> result = new LinkedList<BuildingQueueItem<T>>();
+            var result = new LinkedList<BuildingQueueItem<T>>();
             lock (_productionQueueLock)
             {
                 foreach (var buildingQueueItem in _productionQueue)
                 {
-                    BuildingQueueItem<T> item = new BuildingQueueItem<T>();
+                    var item = new BuildingQueueItem<T>();
                     item.RemainingCreationTime = buildingQueueItem.RemainingCreationTime;
                     item.TotalCreationTime = buildingQueueItem.TotalCreationTime;
                     item.Type = buildingQueueItem.Type;

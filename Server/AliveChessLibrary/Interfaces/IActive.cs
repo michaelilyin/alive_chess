@@ -7,8 +7,8 @@ namespace AliveChessLibrary.Interfaces
      */
     public interface IActive
     {
-        void Activation(); // активировать работу объекта
-        void Deactivation(); // деактивировать работу объекта
+        void Activate(); // активировать работу объекта
+        void Deactivatе(); // деактивировать работу объекта
         void DoWork(DateTime tmpDateTime); // заставить объект работать
     }
 }

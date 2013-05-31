@@ -139,7 +139,7 @@ namespace AliveChessServer.LogicLayer.Environment
             foreach (var mine in Map.Mines)
             {
                 mine.GetResourceEvent += _economyRoutine.SendResource;
-                mine.Activation();
+                mine.Activate();
             }
         }
 
