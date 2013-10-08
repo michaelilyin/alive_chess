@@ -1,8 +1,6 @@
 ﻿using AliveChessLibrary.GameObjects.Resources;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Characters
 {
@@ -21,18 +19,10 @@ namespace AliveChessLibrary.GameObjects.Characters
 
         private int? _figureStoreId;
         private int? _kingId;
-#if !UNITY_EDITOR
         private EntityRef<King> _king;
-#else
-        private King _king;
-#endif
         public Unit()
         {
-#if !UNITY_EDITOR
             this._king = default(EntityRef<King>);
-#else
-            this.King = null;
-#endif
         }
 
         public int Id
@@ -62,7 +52,6 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
         }
 
-#if !UNITY_EDITOR
 
         public int? KingId
         {
@@ -82,7 +71,6 @@ namespace AliveChessLibrary.GameObjects.Characters
                 }
             }
         }
-#endif
 
         public UnitType UnitType
         {
@@ -98,8 +86,6 @@ namespace AliveChessLibrary.GameObjects.Characters
                 }
             }
         }
-
-#if !UNITY_EDITOR
 
         public King King
         {
@@ -129,12 +115,5 @@ namespace AliveChessLibrary.GameObjects.Characters
                 }
             }
         }
-#else
-        public King King
-        {
-            get { return _king; }
-            set { _king = value; }
-        }
-#endif
     }
 }

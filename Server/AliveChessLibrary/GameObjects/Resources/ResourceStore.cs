@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 
-#if !UNITY_EDITOR
 using System.Data.Linq;
-
-#endif
 
 namespace AliveChessLibrary.GameObjects.Resources
 {
@@ -19,19 +16,11 @@ namespace AliveChessLibrary.GameObjects.Resources
         private int _size; //текущее количество ресурсов в хранилище, видимо
         private const int CAPACITY = 1000;
         private object _resourcesLock = new object();
-#if !UNITY_EDITOR
         private EntitySet<Resource> _resources; // масcив хранимых ресурсов
-#else
-        private List<Resource> _resources;
-#endif
 
         public ResourceStore()
-        {
-#if !UNITY_EDITOR
+        {   
             this._resources = new EntitySet<Resource>();
-#else
-            this.Resources = new List<Resource>();
-#endif
         }
 
         #region Methods

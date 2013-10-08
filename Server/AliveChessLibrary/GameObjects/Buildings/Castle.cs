@@ -8,9 +8,7 @@ using AliveChessLibrary.GameObjects.Resources;
 using AliveChessLibrary.Interfaces;
 using AliveChessLibrary.Utility;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Buildings
 {
@@ -54,17 +52,10 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         private object _innerBuildingsLock = new object();
 
-#if !UNITY_EDITOR
         private EntityRef<Map> _map; // ссылка на карту
         private EntityRef<King> _king; // ссылка на короля
         private EntityRef<Vicegerent> _vicegerent; // наместник
         private EntitySet<InnerBuilding> _innerBuildings; // список внутренних строений
-#else
-        private Map _map; // ссылка на карту
-        private King _king; // ссылка на короля
-        private Vicegerent _vicegerent; // наместник
-        private List<InnerBuilding> _innerBuildings; // список внутренних строений
-#endif
         private int _distance = 5;
 
         #endregion
@@ -74,17 +65,10 @@ namespace AliveChessLibrary.GameObjects.Buildings
         public Castle()
         {
             _army = new Army();
-#if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
             this._king = default(EntityRef<King>);
             this._vicegerent = default(EntityRef<Vicegerent>);
             this._innerBuildings = new EntitySet<InnerBuilding>();
-#else
-            this.Map = null;
-            this.King = null;
-            this.Vicegerent = null;
-            this.InnerBuildings = new List<InnerBuilding>();
-#endif
             _visibleSpace = new VisibleSpace(this);
 
             if (OnLoad != null)
@@ -407,7 +391,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
             set { _isAttached = value; }
         }
 
-#if !UNITY_EDITOR
         /// <summary>
         /// ссылка на наместника
         /// </summary>
@@ -429,13 +412,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#else
-        public Vicegerent Vicegerent
-        {
-            get { return _vicegerent; }
-            set { _vicegerent = value; }
-        }
-#endif
 
         /// <summary>
         /// идентификатор замка
@@ -455,7 +431,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
             }
         }
 
-#if !UNITY_EDITOR
 
         /// <summary>
         /// идентификатор карты
@@ -500,8 +475,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#endif
-#if !UNITY_EDITOR
 
         /// <summary>
         /// владелец замка
@@ -567,25 +540,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#else
-        public King King
-        {
-            get { return _king; }
-            set { _king = value; }
-        }
-
-        public Map Map
-        {
-            get { return _map; }
-            set { _map = value; }
-        }
-
-        public List<InnerBuilding> InnerBuildings
-        {
-            get { return _innerBuildings; }
-            set { _innerBuildings = value; }
-        }
-#endif
 
         public IProductionManager<InnerBuildingType> BuildingManager
         {

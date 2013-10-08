@@ -1,9 +1,7 @@
 ﻿using AliveChessLibrary.GameObjects.Buildings;
 using AliveChessLibrary.GameObjects.Resources;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Characters
 {
@@ -19,20 +17,12 @@ namespace AliveChessLibrary.GameObjects.Characters
         private int _castleId;
 
         private ResourceStore _resourceStore;
-     
-#if !UNITY_EDITOR
+
         private EntityRef<Castle> _castle;
-#else
-        private Castle _castle;
-#endif
 
         public Vicegerent()
         {
-#if !UNITY_EDITOR
             _castle = new EntityRef<Castle>();
-#else
-            Castle = null;
-#endif
         }
 
         public void getArmyCastlToVicegerent()
@@ -67,7 +57,6 @@ namespace AliveChessLibrary.GameObjects.Characters
             set { _resourceStore = value; }
         }
 
-#if !UNITY_EDITOR
         public Castle Castle
         {
             get
@@ -87,13 +76,6 @@ namespace AliveChessLibrary.GameObjects.Characters
                 }
             }
         }
-#else
-        public Castle Castle
-        {
-            get { return _castle; }
-            set { _castle = value; }
-        }
-#endif
 
         public int Id
         {

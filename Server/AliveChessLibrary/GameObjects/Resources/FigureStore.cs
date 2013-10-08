@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.Utility;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 #warning Устаревший класс, избегать использования, вместо него использовать Army
 namespace AliveChessLibrary.GameObjects.Resources

@@ -3,9 +3,7 @@ using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.Interfaces;
 using AliveChessLibrary.Utility;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Landscapes
 {
@@ -24,11 +22,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         private int _imageId;
         private int _mapId;
       
-#if !UNITY_EDITOR
         private EntityRef<Map> _map;
-#else
-        private Map _map;
-#endif
         private MapPoint _viewOnMap;
 
         /// <summary>
@@ -164,7 +158,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         //    }
         //}
 
-#if !UNITY_EDITOR
         /// <summary>
         /// идентификатор карты (внешний ключ)
         /// </summary>
@@ -187,8 +180,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
                 }
             }
         }
-#endif
-#if !UNITY_EDITOR
         /// <summary>
         /// ссылка на карту
         /// </summary>
@@ -222,13 +213,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             }
         }
 
-#else
-        public Map Map
-        {
-            get { return _map; }
-            set { _map = value; }
-        }
-#endif
         public event DeferredTargetedLoadingHandler<Border> OnDeferredLoadingMapPoint;
     }
 }

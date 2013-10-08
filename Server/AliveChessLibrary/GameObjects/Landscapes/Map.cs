@@ -11,9 +11,7 @@ using AliveChessLibrary.GameObjects.Resources;
 using AliveChessLibrary.Interfaces;
 using AliveChessLibrary.Utility;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Landscapes
 {
@@ -37,7 +35,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         private ILevel _level;
         private MapPoint[,] _objects;
 
-#if !UNITY_EDITOR
         private EntitySet<King> _kings;
         private EntitySet<Mine> _mines;
         private EntitySet<Castle> _castles;
@@ -46,16 +43,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         private EntitySet<MultyObject> _multyObjects;
         private EntitySet<BasePoint> _basePoints;
         private EntitySet<Border> _borders;
-#else
-        private List<King> _kings;
-        private List<Mine> _mines;
-        private List<Castle> _castles;
-        private List<Resource> _resources;
-        private List<SingleObject> _singleObjects;
-        private List<MultyObject> _multyObjects;
-        private List<BasePoint> _basePoints;
-        private List<Border> _borders;
-#endif
+
         private Dictionary<int, IObserver> _observers;
 
         private readonly object _kingsSync = new object();
@@ -74,7 +62,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
 
         public Map()
         {
-#if !UNITY_EDITOR
             this._kings = new EntitySet<King>(AttachKing, DetachKing);
             this._mines = new EntitySet<Mine>(AttachMine, DetachMine);
             this._castles = new EntitySet<Castle>(AttachCastle, DetachCastle);
@@ -83,16 +70,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             this._multyObjects = new EntitySet<MultyObject>(AttachMultyObject, DetachMultyObject);
             this._basePoints = new EntitySet<BasePoint>(AttachLandscapePoint, DetachLandscapePoint);
             this._borders = new EntitySet<Border>(AttachBorder, DetachBorder);
-#else
-            this.Kings = new List<King>();
-            this.Mines = new List<Mine>();
-            this.Castles = new List<Castle>();
-            this.Resources = new List<Resource>();
-            this.SingleObjects = new List<SingleObject>();
-            this.MultyObjects = new List<MultyObject>();
-            this.BasePoints = new List<BasePoint>();
-            this.Borders = new List<Border>();
-#endif
+
             this._observers = new Dictionary<int, IObserver>();
         }
 
@@ -1022,7 +1000,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             }
         }
 
-#if !UNITY_EDITOR
 
         public EntitySet<Castle> Castles
         {
@@ -1142,55 +1119,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
                 this._borders.Assign(value);
             }
         }
-#else
-        public List<King> Kings
-        {
-            get { return _kings; }
-            set { _kings = value; }
-        }
-
-        public List<Mine> Mines
-        {
-            get { return _mines; }
-            set { _mines = value; }
-        }
-
-        public List<Castle> Castles
-        {
-            get { return _castles; }
-            set { _castles = value; }
-        }
-
-        public List<Resource> Resources
-        {
-            get { return _resources; }
-            set { _resources = value; }
-        }
-
-        public List<SingleObject> SingleObjects
-        {
-            get { return _singleObjects; }
-            set { _singleObjects = value; }
-        }
-
-        public List<MultyObject> MultyObjects
-        {
-            get { return _multyObjects; }
-            set { _multyObjects = value; }
-        }
-
-        public List<BasePoint> BasePoints
-        {
-            get { return _basePoints; }
-            set { _basePoints = value; }
-        }
-
-        public List<Border> Borders
-        {
-            get { return _borders; }
-            set { _borders = value; }
-        }
-#endif
         #endregion
     }
 }

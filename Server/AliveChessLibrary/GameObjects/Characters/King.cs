@@ -11,11 +11,8 @@ using AliveChessLibrary.Interfaces;
 using AliveChessLibrary.Mathematic.GeometryUtils;
 using AliveChessLibrary.Statistics;
 using AliveChessLibrary.Utility;
-using AliveChessLibrary.Interfaces;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Characters
 {
@@ -62,15 +59,9 @@ namespace AliveChessLibrary.GameObjects.Characters
         private IPlayer _player;
         private IEvaluator _evaluator;
 
-#if !UNITY_EDITOR
         private EntityRef<Map> _map;
         private readonly EntitySet<Mine> _mines;
         private readonly EntitySet<Castle> _castles;
-#else
-        private Map _map;
-        private List<Mine> _mines;
-        private List<Castle> _castles;
-#endif
         private ResourceStore _resourceStore;
         private Army _army;
         // король вне игры
@@ -113,15 +104,9 @@ namespace AliveChessLibrary.GameObjects.Characters
             _timeLastMove = DateTime.Now;
             _army = new Army();
 
-#if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
             this._mines = new EntitySet<Mine>();
             this._castles = new EntitySet<Castle>();
-#else
-            this.Map = null;
-            this.Mines = new List<Mine>();
-            this.Castles = new List<Castle>();
-#endif
         }
 
         public King(string name)
@@ -960,7 +945,6 @@ namespace AliveChessLibrary.GameObjects.Characters
             }
         }
 
-#if !UNITY_EDITOR
 
         /// <summary>
         /// идентификатор карты
@@ -983,7 +967,6 @@ namespace AliveChessLibrary.GameObjects.Characters
                 }
             }
         }
-#endif
 
         /// <summary>
         /// идентификатор империи
@@ -1084,7 +1067,6 @@ namespace AliveChessLibrary.GameObjects.Characters
             set { _army = value; }
         }
 
-#if !UNITY_EDITOR
 
         /// <summary>
         /// карта
@@ -1143,25 +1125,6 @@ namespace AliveChessLibrary.GameObjects.Characters
                 this._castles.Assign(value);
             }
         }
-#else
-        public virtual Map Map
-        {
-            get { return _map; }
-            set { _map = value; }
-        }
-
-        public virtual List<Mine> Mines
-        {
-            get { return _mines; }
-            set { _mines = value; }
-        }
-
-        public virtual List<Castle> Castles
-        {
-            get { return _castles; }
-            set { _castles = value; }
-        }
-#endif
         #endregion
 
         #region Delegates

@@ -6,9 +6,7 @@ using AliveChessLibrary.GameObjects.Resources;
 using AliveChessLibrary.Interfaces;
 using AliveChessLibrary.Utility;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Buildings
 {
@@ -54,14 +52,9 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private DateTime _lastMiningTime; // дата последенй работы шахты
         private double _realQuantity; // реальное количество добытого ресурса (для предотвращения потери дробной части при округлении во время пересылки в хранилище)
 
-#if !UNITY_EDITOR
         private int? _mapId;
         private EntityRef<Map> _map; // ссылка на карту
         private EntityRef<King> _king; // ссылка на короля
-#else
-        private Map _map;
-        private King _king;
-#endif
         private int _distance = 3;
 
         private const int DEFAULT_CAPACITY = 1000;
@@ -72,13 +65,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
 
         public Mine()
         {
-#if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
             this._king = default(EntityRef<King>);
-#else
-            this.Map = null;
-            this.King = null;
-#endif
             _realQuantity = 0;
             _sector = new VisibleSpace(this);
 
@@ -577,7 +565,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
             }
         }
 
-#if !UNITY_EDITOR
 
         public int? MapId
         {
@@ -597,7 +584,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#endif
 
         public ResourceTypes MineType
         {
@@ -616,7 +602,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
             }
         }
 
-#if !UNITY_EDITOR
 
         public int? KingId
         {
@@ -636,8 +621,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#endif
-#if !UNITY_EDITOR
 
         public King King
         {
@@ -697,19 +680,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#else
-        public Map Map
-        {
-            get { return _map; }
-            set { _map = value; }
-        }
-
-        public King King
-        {
-            get { return _king; }
-            set { _king = value; }
-        }
-#endif
         #endregion
 
         #region Delegates

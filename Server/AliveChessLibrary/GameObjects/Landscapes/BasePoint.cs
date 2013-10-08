@@ -1,9 +1,7 @@
 ﻿using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.Interfaces;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Landscapes
 {
@@ -28,11 +26,7 @@ namespace AliveChessLibrary.GameObjects.Landscapes
         private MapPoint _viewOnMap;
         private int? _mapId;
 
-#if !UNITY_EDITOR
         private EntityRef<Map> _map;
-#else
-        private Map _map;
-#endif
 
         public BasePoint()
         {
@@ -136,7 +130,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
             }
         }
 
-#if !UNITY_EDITOR
        
         public int? MapId
         {
@@ -156,8 +149,6 @@ namespace AliveChessLibrary.GameObjects.Landscapes
                 }
             }
         }
-#endif
-#if !UNITY_EDITOR
        
         public Map Map
         {
@@ -175,12 +166,5 @@ namespace AliveChessLibrary.GameObjects.Landscapes
                 }
             }
         }
-#else
-        public Map Map
-        {
-            get { return _map; }
-            set { _map = value; }
-        }
-#endif
     }
 }

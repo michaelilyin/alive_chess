@@ -14,7 +14,8 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private double _time = 1; // время в секундах
 
         [ProtoMember(3)]
-        private SortedSet<InnerBuildingType> _requiredBuildings = new SortedSet<InnerBuildingType>(); // необходимые для создания постройки
+        
+        private HashSet<InnerBuildingType> _requiredBuildings = new HashSet<InnerBuildingType>(); // необходимые для создания постройки
 
         public Dictionary<ResourceTypes, int> Resources
         {
@@ -28,7 +29,7 @@ namespace AliveChessLibrary.GameObjects.Buildings
             set { _time = value; }
         }
 
-        public SortedSet<InnerBuildingType> RequiredBuildings
+        public HashSet<InnerBuildingType> RequiredBuildings
         {
             get { return _requiredBuildings; }
             set { _requiredBuildings = value; }

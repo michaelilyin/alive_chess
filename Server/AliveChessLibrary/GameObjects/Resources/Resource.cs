@@ -4,9 +4,7 @@ using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Landscapes;
 using AliveChessLibrary.Interfaces;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Resources
 {
@@ -38,15 +36,9 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         private MapPoint _viewOnMap;
 
-#if !UNITY_EDITOR
         private EntityRef<Map> _map;
         private EntityRef<King> _king;
         private EntityRef<ResourceStore> _resourceStore;
-#else
-        private Map _map;
-        private King _king;
-        private ResourceStore _vault;
-#endif
 
         #endregion
 
@@ -54,13 +46,8 @@ namespace AliveChessLibrary.GameObjects.Resources
 
         public Resource()
         {
-#if !UNITY_EDITOR
             this._map = default(EntityRef<Map>);
             this._resourceStore = default(EntityRef<ResourceStore>);
-#else
-            this.Map = null;
-            this.Vault = null;
-#endif
         }
 
         #endregion
@@ -193,7 +180,6 @@ namespace AliveChessLibrary.GameObjects.Resources
             set { _viewOnMap = value; }
         }
 
-#if !UNITY_EDITOR
         //[Column(Name = "map_id", Storage = "_mapId", CanBeNull = true, DbType = Constants.DB_INT)]
         public int? MapId
         {
@@ -213,7 +199,6 @@ namespace AliveChessLibrary.GameObjects.Resources
                 }
             }
         }
-#endif
         //[Column(Name = "map_point_id", Storage = "_mapPointId", CanBeNull = true, DbType = Constants.DB_INT)]
         public int? MapPointId
         {
@@ -229,7 +214,6 @@ namespace AliveChessLibrary.GameObjects.Resources
                 }
             }
         }
-#if !UNITY_EDITOR
         //[Column(Name = "king_id", Storage = "_kingId", CanBeNull = true, DbType = Constants.DB_INT)]
         public int? KingId
         {
@@ -269,7 +253,6 @@ namespace AliveChessLibrary.GameObjects.Resources
                 }
             }
         }
-#endif
         //[Column(Name = "resource_type", Storage = "_resourceType", CanBeNull = false, 
         //    DbType = Constants.DB_INT)]
         public ResourceTypes ResourceType
@@ -301,7 +284,6 @@ namespace AliveChessLibrary.GameObjects.Resources
             }
         }
 
-#if !UNITY_EDITOR
         //[Association(Name = "fk_resource_map", Storage = "_map", ThisKey = "MapId", IsForeignKey = true)]
         public Map Map
         {
@@ -393,25 +375,6 @@ namespace AliveChessLibrary.GameObjects.Resources
                 }
             }
         }*/
-#else
-        public Map Map
-        {
-            get { return _map; }
-            set { _map = value; }
-        }
-
-        public King King
-        {
-            get { return _king; }
-            set { _king = value; }
-        }
-
-        public ResourceStore Vault
-        {
-            get { return _vault; }
-            set { _vault = value; }
-        }
-#endif
         #endregion
 
         public event ChangeMapStateHandler<Resource> ChangeMapStateEvent;

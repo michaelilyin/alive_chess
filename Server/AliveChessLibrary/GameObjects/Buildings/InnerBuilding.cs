@@ -2,9 +2,7 @@
 using AliveChessLibrary.GameObjects.Characters;
 using AliveChessLibrary.GameObjects.Resources;
 using ProtoBuf;
-#if !UNITY_EDITOR
 using System.Data.Linq;
-#endif
 
 namespace AliveChessLibrary.GameObjects.Buildings
 {
@@ -20,19 +18,11 @@ namespace AliveChessLibrary.GameObjects.Buildings
         private InnerBuildingType _innerBuildingType;
 
        
-#if !UNITY_EDITOR
         private int _castleId;
         private EntityRef<Castle> _castle;
-#else
-        private Castle _castle;
-#endif
         public InnerBuilding()
         {
-#if !UNITY_EDITOR
             this._castle = default(EntityRef<Castle>);
-#else
-            this.Castle = null;
-#endif
         }
 
         //[Column(Name = "inner_building_id", Storage = "_innerBuildingId", CanBeNull = false,
@@ -69,7 +59,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
             }
         }
 
-#if !UNITY_EDITOR
         //[Column(Name = "castle_id", Storage = "_castleId", CanBeNull = false, DbType = Constants.DB_INT)]
         public int CastleId
         {
@@ -89,8 +78,6 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#endif
-#if !UNITY_EDITOR
         //[Association(Name = "fk_inner_building_castle", Storage = "_castle", ThisKey = "CastleId",
         //    IsForeignKey = true)]
         public Castle Castle
@@ -117,12 +104,5 @@ namespace AliveChessLibrary.GameObjects.Buildings
                 }
             }
         }
-#else
-        public Castle Castle
-        {
-            get { return _castle; }
-            set { _castle = value; }
-        }
-#endif
     }
 }
