@@ -1,11 +1,93 @@
-﻿using System;
+﻿using GameLogicLibrary.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace GameLogicLibrary
 {
-    class GameCore
+    public class GameCore
     {
+        private static GameCore _instance;
+
+        //private readonly Player _player;
+        private readonly NetworkManager _network;
+        //private readonly Logger _logger;
+        //private readonly RequestExecutor _executor;
+        private readonly CommandPool _commands;
+        //private readonly WindowContext _windowContext;
+        //private readonly GameWorld _world;
+        //private BigMapCommandController _bigMapCommandController;
+        //private CastleCommandController _castleCommandController;
+
+        //public BigMapCommandController BigMapCommandController
+        //{
+        //    get { return _bigMapCommandController; }
+        //}
+
+        //public CastleCommandController CastleCommandController
+        //{
+        //    get { return _castleCommandController; }
+        //}
+
+        private GameCore()
+        {
+           //_logger = new Logger();
+            _commands = new CommandPool();
+           // _windowContext = new WindowContext();
+           // _bigMapCommandController = new BigMapCommandController(this);
+           // _castleCommandController = new CastleCommandController(this);
+            _network = new NetworkManager(null, _commands);
+           // _executor = new RequestExecutor(_logger, _commands);
+            _network.OnConnect += new NetworkManager.ConnectHandler(OnConnect);
+            //_world = new GameWorld();
+            //_player = new Player();
+        }
+
+        private void OnConnect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static GameCore Instance
+        {
+            get { return _instance ?? (_instance = new GameCore()); }
+        }
+
+        public NetworkManager Network
+        {
+            get { return _network; }
+        }
+
+        //public RequestExecutor Executor
+        //{
+        //    get { return _executor; }
+        //}
+
+        //public WindowContext WindowContext
+        //{
+        //    get { return _windowContext; }
+        //}
+
+        //public Player Player
+        //{
+        //    get { return _player; }
+        //}
+
+        //public GameWorld World
+        //{
+        //    get { return _world; }
+        //}
+
+        public void ConnectToServer()
+        {
+            _network.Connect(IPAddress.Parse("127.0.0.1"));
+        }
+
+        //private void OnConnect()
+        //{
+        //    _executor.Start();
+        //}
     }
 }
