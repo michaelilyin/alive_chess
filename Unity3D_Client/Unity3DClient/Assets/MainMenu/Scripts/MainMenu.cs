@@ -1,57 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
-using GameLogicLibrary;
-using AliveChessLibrary;
+using System.Net;
+using AliveChessLibrary.Commands.RegisterCommand;
 
-public class MainMenu : MonoBehaviour
-{
-    private Rect _mainMenuWindowRect;
+public class MainMenu : MonoBehaviour {
 
-    #region On-methods
-    // Use this for initialization
-    void Start()
+	// Use this for initialization
+	void Start () {
+        Assets.GameLogic.Network.Network.OnConnected += Network_OnConnected;
+        Assets.GameLogic.Network.Network.Connect(IPAddress.Parse("127.0.0.1"));
+	}
+
+    void Network_OnConnected(object sender, System.EventArgs e)
     {
-        RecalculateMenuRect();
+        AuthorizeRequest request = new AuthorizeRequest();
+        request.Login = "player";
+        request.Password = "pw";
+        Assets.GameLogic.Network.Network.Send(request);
     }
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
 
-    // Update is called once per frame
-    void Update()
+    private void OnApplicationQuit()
     {
-
-    }
-
-    void OnGUI()
-    {
-        _mainMenuWindowRect = GUILayout.Window(0, _mainMenuWindowRect, MenuWindow, "Alive chess");
-    }
-    #endregion
-
-    private void MenuWindow(int id)
-    {
-        GUILayout.BeginVertical();
-        GUILayout.Space(10);
-        if (GUILayout.Button("Log in"))
-        {
-            GameCore.Instance.ConnectToServer();
-        }
-        if (GUILayout.Button("Start game"))
-        {
-
-        }
-        if (GUILayout.Button("Settings"))
-        {
-
-        }
-        if (GUILayout.Button("Exit"))
-        {
-            Application.Quit();
-        }
-        GUILayout.Space(10);
-        GUILayout.EndHorizontal();
-    }
-
-    private void RecalculateMenuRect()
-    {
-        _mainMenuWindowRect = new Rect(Screen.width / 2 - 90, Screen.height / 2 - 130, 180, 260);
+        Assets.GameLogic.Network.Network.Disconnect();
     }
 }

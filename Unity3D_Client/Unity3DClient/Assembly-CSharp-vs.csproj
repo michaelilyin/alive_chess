@@ -44,13 +44,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CommonScripts\DontDestroy.cs" />
+     <Compile Include="Assets\GameLogic\GameCore.cs" />
+     <Compile Include="Assets\GameLogic\Logger.cs" />
+     <Compile Include="Assets\GameLogic\Network\CommandPool.cs" />
+     <Compile Include="Assets\GameLogic\Network\Network.cs" />
+     <Compile Include="Assets\GameLogic\Network\ProtoBufferCodec.cs" />
      <Compile Include="Assets\MainMenu\Scripts\MainMenu.cs" />
      <None Include="Assets\Plugins\protobuf-net.xml" />
  <Reference Include="AliveChessLibrary">
  <HintPath>Assets\Plugins\AliveChessLibrary.dll</HintPath>
- </Reference>
- <Reference Include="GameLogicLibrary">
- <HintPath>Assets\Plugins\GameLogicLibrary.dll</HintPath>
  </Reference>
  <Reference Include="GeneralSysLibrary">
  <HintPath>Assets\Plugins\GeneralSysLibrary.dll</HintPath>
