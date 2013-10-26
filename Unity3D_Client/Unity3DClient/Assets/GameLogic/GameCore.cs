@@ -12,14 +12,13 @@ namespace Assets.GameLogic
         private static GameCore _instance;
 
         //private readonly Player _player;
-        //private readonly NetworkManager _network;
-        private readonly Logger _logger;
-        //private readonly RequestExecutor _executor;
-        private readonly CommandPool _commands;
+        private readonly Assets.GameLogic.Network.Network _network;
         //private readonly WindowContext _windowContext;
         //private readonly GameWorld _world;
         //private BigMapCommandController _bigMapCommandController;
         //private CastleCommandController _castleCommandController;
+
+        public event EventHandler Authorized;
 
         //public BigMapCommandController BigMapCommandController
         //{
@@ -33,12 +32,10 @@ namespace Assets.GameLogic
 
         private GameCore()
         {
-            _logger = new Logger();
-            _commands = new CommandPool();
             //_windowContext = new WindowContext();
             //_bigMapCommandController = new BigMapCommandController(this);
             //_castleCommandController = new CastleCommandController(this);
-            //_network = new NetworkManager(_logger, _commands);
+            _network = new Assets.GameLogic.Network.Network();
             ////_executor = new RequestExecutor(_logger, _commands);
             //_network.OnConnect += new NetworkManager.ConnectHandler(OnConnect);
             //_world = new GameWorld();
@@ -57,10 +54,10 @@ namespace Assets.GameLogic
             }
         }
 
-        //public NetworkManager Network
-        //{
-        //    get { return _network; }
-        //}
+        public Assets.GameLogic.Network.Network Network
+        {
+            get { return _network; }
+        }
 
         //public RequestExecutor Executor
         //{
@@ -82,10 +79,16 @@ namespace Assets.GameLogic
         //    get { return _world; }
         //}
 
-        //public void ConnectToServer()
-        //{
-        //    _network.Connect(IPAddress.Parse("127.0.0.1"));
-        //}
+        public void ConnectToServer()
+        {
+            _network.Connect(IPAddress.Parse("127.0.0.1"));
+        }
+
+        public void OnAuthorize()
+        {
+            if (Authorized != null)
+                Authorized(this, new EventArgs());
+        }
 
         private void OnConnect()
         {

@@ -11,25 +11,28 @@ using UnityEngine;
 
 namespace Assets.GameLogic.Network
 {
-    public static class Network
+    public class Network
     {
-        private static int PORT = 22000;
+        public const int PORT = 22000;
 
-        private static ConnectionInfo _connection;
-        private static IPEndPoint _remoteEndPoint;
-        private static Socket _socket;
+        private ConnectionInfo _connection;
+        private IPEndPoint _remoteEndPoint;
+        private Socket _socket;
 
-        public static CommandPool Commands { get; private set; }
-        public static event EventHandler OnConnected;
+        public CommandPool Commands { get; private set; }
+        public event EventHandler OnConnected;
 
-        static Network()
+        private RequestExecutor _executor;
+
+        public Network()
         {
             Commands = new CommandPool();
+            _executor = new RequestExecutor(Commands);
         }
 
         #region Connect
 
-        public static void Connect(IPAddress address)
+        public void Connect(IPAddress address)
         {
             _remoteEndPoint = new IPEndPoint(address, PORT);
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -43,12 +46,13 @@ namespace Assets.GameLogic.Network
             }
         }
 
-        private static void ConnectCallback(IAsyncResult res)
+        private void ConnectCallback(IAsyncResult res)
         {
             try
             {
                 Socket socket = (Socket)res.AsyncState;
                 socket.EndConnect(res);
+                _executor.Start();
                 if (OnConnected != null)
                 {
                     OnConnected(_socket, new EventArgs());
@@ -65,7 +69,7 @@ namespace Assets.GameLogic.Network
         #endregion
 
         #region Recieve
-        public static void Receive()
+        public void Receive()
         {
             try
             {
@@ -80,7 +84,7 @@ namespace Assets.GameLogic.Network
             }
         }
 
-        public static void ReceiveCallback(IAsyncResult res)
+        public void ReceiveCallback(IAsyncResult res)
         {
             try
             {
@@ -122,7 +126,7 @@ namespace Assets.GameLogic.Network
 
         #region Send
 
-        public static void Send<T>(T command) where T : ICommand
+        public void Send<T>(T command) where T : ICommand
         {
             try
             {
@@ -134,7 +138,7 @@ namespace Assets.GameLogic.Network
             }
         }
 
-        public static void Send(byte[] data)
+        public void Send(byte[] data)
         {
             try
             {
@@ -146,7 +150,7 @@ namespace Assets.GameLogic.Network
             }
         }
 
-        private static void SendCallback(IAsyncResult res)
+        private void SendCallback(IAsyncResult res)
         {
             Socket socket = (Socket)res.AsyncState;
             int byteSent = socket.EndSend(res);
@@ -158,7 +162,7 @@ namespace Assets.GameLogic.Network
 
         #endregion
 
-        private static void Decode(BytePackage package)
+        private void Decode(BytePackage package)
         {
             ICommand command = ProtoBufferCodec.Decode(package);
             if (command != null)
@@ -171,7 +175,7 @@ namespace Assets.GameLogic.Network
             }
         }
 
-        public static void Disconnect()
+        public void Disconnect()
         {
             _socket.Disconnect(true);
         }

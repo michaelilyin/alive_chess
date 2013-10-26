@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 namespace Assets.GameLogic.Network
 {
@@ -20,6 +21,7 @@ namespace Assets.GameLogic.Network
 
         public void Enqueue(ICommand command)
         {
+            Debug.Log("Has new command!");
             lock (_commands)
                 _commands.Enqueue(command);
             _event.Set();
