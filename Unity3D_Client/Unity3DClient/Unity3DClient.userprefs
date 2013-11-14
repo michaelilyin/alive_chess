@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Logic\GameCore.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BigMap\Scripts\MapManager.cs">
     <Files>
-      <File FileName="Assets\Logic\GameCore.cs" Line="17" Column="1" />
+      <File FileName="Assets\BigMap\Scripts\MapManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

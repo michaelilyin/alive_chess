@@ -58,7 +58,7 @@ namespace Assets.GameLogic.Network
                     OnConnected(_socket, new EventArgs());
                 }
                 //ClientNetwork.Sending();
-                Receive();
+                StartReceive();
             }
             catch (Exception error)
             {
@@ -69,14 +69,20 @@ namespace Assets.GameLogic.Network
         #endregion
 
         #region Recieve
-        public void Receive()
+
+        public void StartReceive() 
+        {
+            _connection = new ConnectionInfo(_socket);
+            _connection.Data = new NetworkDataStream();
+            Receive(_connection);
+        }
+
+        private void Receive(ConnectionInfo _connection)
         {
             try
             {
-                ConnectionInfo ci = new ConnectionInfo(_socket);
-                ci.Data = new NetworkDataStream();
-                _socket.BeginReceive(ci.Buffer, 0, ci.Buffer.Length, SocketFlags.None,
-                                               new AsyncCallback(ReceiveCallback), ci);
+                _socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None,
+                                               new AsyncCallback(ReceiveCallback), _connection);
             }
             catch (Exception ex)
             {
@@ -88,34 +94,23 @@ namespace Assets.GameLogic.Network
         {
             try
             {
-                ConnectionInfo ci = (ConnectionInfo)res.AsyncState;
-                int byteCount = ci.Socket.EndReceive(res);
-                Debug.Log("End recieve completed!");
+                ConnectionInfo _connection = (ConnectionInfo)res.AsyncState;
+                int byteCount = _connection.Socket.EndReceive(res);
                 byte[] data = new byte[byteCount];
-                Array.Copy(ci.Buffer, data, byteCount);
-                ci.Data.Write(data);
-
-                if (ci.Data.IsReady)
+                Array.Copy(_connection.Buffer, data, byteCount);
+                _connection.Data.Write(data);
+                if (_connection.Data.IsReady)
                 {
-                    BytePackage package = ci.Data.Read();
+                    BytePackage package = _connection.Data.Read();
                     if (package != null)
                     {
+                        Debug.Log("!---not null!");
                         Decode(package);
                     }
+                    else
+                        Debug.Log("------null!");
                 }
-                Receive();
-
-                //BytePackage bp;
-                //if ((bp = ci.Data.Read()) != null)
-                //{
-                //    if (bp.CommandName != "GetUnityMapResponse")
-                //        ClientNetwork.receiveCommandQueue.Enqueue(ByteManager.Decode(bp));
-                //    else
-                //        ClientNetwork.Map = bp.CommandBody;
-                //    ClientNetwork.Receive();
-                //}
-                //else
-                //    ci.Socket.BeginReceive(ci.Buffer, 0, ci.Buffer.Length, 0, new AsyncCallback(ClientNetwork.ReceiveCallback), ci);
+                Receive(_connection);
             }
             catch (Exception error)
             {
@@ -164,9 +159,11 @@ namespace Assets.GameLogic.Network
 
         private void Decode(BytePackage package)
         {
+            Debug.Log("Start decode");
             ICommand command = ProtoBufferCodec.Decode(package);
             if (command != null)
             {
+                Debug.Log("Push decoded");
                 Commands.Enqueue(command);
             }
             else
@@ -179,5 +176,7 @@ namespace Assets.GameLogic.Network
         {
             _socket.Disconnect(true);
         }
+
+        public bool IsConnected { get { return _socket == null ? false : _socket.Connected; } }
     }
 }

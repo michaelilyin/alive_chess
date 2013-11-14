@@ -20,9 +20,17 @@ public class MainMenu : MonoBehaviour
 
     public void Start()
     {
+        DontDestroyOnLoad(this);
         GameCore.Instance.Network.OnConnected += Network_OnConnected;
         GameCore.Instance.Authorized += Network_Authorized;
         CurrentMenu = MenuType.MainMenu;
+    }
+
+    public void Update()
+    {
+        if (_isGameMode)
+            if (Input.GetButtonDown("Menu"))
+                _showMenu = !_showMenu;
     }
 
     public void OnGUI()
@@ -32,7 +40,7 @@ public class MainMenu : MonoBehaviour
             switch (CurrentMenu)
             {
                 case MenuType.MainMenu:
-                    GUILayout.Window(0, new Rect(Screen.width / 2 - 50, Screen.height / 2 - 100, 100, 200), MainMenuWindow, "Alive Chess");
+                    GUILayout.Window(0, new Rect(Screen.width / 2 - 100, Screen.height / 2 - 150, 200, 300), MainMenuWindow, "Alive Chess");
                     break;
             }
         }
@@ -45,9 +53,22 @@ public class MainMenu : MonoBehaviour
         GUILayout.BeginVertical();
         if (_isConnected)
         {
-            if (GUILayout.Button("Start"))
+            if (_isGameMode)
             {
-
+                if (GUILayout.Button("Resume"))
+                {
+                    _showMenu = false;
+                    _isGameMode = true;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Start"))
+                {
+                    Application.LoadLevel(1);
+                    _showMenu = false;
+                    _isGameMode = true;
+                }
             }
         }
         else
@@ -93,7 +114,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnApplicationQuit()
     {
-        GameCore.Instance.Network.Disconnect();
+        if (GameCore.Instance.Network.IsConnected)
+            GameCore.Instance.Network.Disconnect();
     }
 
     #endregion

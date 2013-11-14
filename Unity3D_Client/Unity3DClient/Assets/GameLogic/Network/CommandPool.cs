@@ -21,10 +21,11 @@ namespace Assets.GameLogic.Network
 
         public void Enqueue(ICommand command)
         {
-            Debug.Log("Has new command!");
+            Debug.Log(String.Format("Put command {0}", command.Id));
             lock (_commands)
                 _commands.Enqueue(command);
             _event.Set();
+            Debug.Log(String.Format("Pool: In queue {0} commands", _commands.Count));
         }
 
         public ICommand Dequeue()
@@ -32,6 +33,7 @@ namespace Assets.GameLogic.Network
             ICommand command = null;
             lock (_commands)
                 command = _commands.Dequeue();
+            Debug.Log(String.Format("Pop command {0}", command.Id));
             return command;
         }
 
@@ -42,7 +44,9 @@ namespace Assets.GameLogic.Network
 
         public void Wait()
         {
+            Debug.Log("Start wait");
             _event.WaitOne();
+            Debug.Log("End wait");
         }
     }
 }

@@ -38,9 +38,9 @@ namespace Assets.GameLogic
         {
             while (_running)
             {
+                Debug.Log(String.Format("Worekr: In queue {0} commands", _commands.Count));
                 if (_commands.Count > 0)
                 {
-                    Debug.Log("Has command in queue!");
                     ICommand command = _commands.Dequeue();
                     Debug.Log("I was get the command!");
                     if (command != null)
@@ -65,7 +65,12 @@ namespace Assets.GameLogic
 
         private void CreateHandlers()
         {
-            _handlers.Add(Command.AuthorizeResponse, new AuthorizeResponseHandler(Command.AuthorizeRequest));
+            _handlers.Add(Command.AuthorizeResponse, new AuthorizeResponseHandler());
+            _handlers.Add(Command.GetMapResponse, new GetMapHandler());
+            _handlers.Add(Command.GetGameStateResponse, new GetGameStateHandler());
+            _handlers.Add(Command.MoveKingResponse, new MoveKingResponseHandler());
+            _handlers.Add(Command.GetResourceMessage, new GetResourceHandler());
+            _handlers.Add(Command.CaptureMineResponse, new CaptureMineHandler());
         }
     }
 }

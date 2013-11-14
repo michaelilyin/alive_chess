@@ -10,10 +10,9 @@ namespace Assets.GameLogic.CommandHandlers
 {
     class AuthorizeResponseHandler : CommandHandler
     {
-        public AuthorizeResponseHandler(Command id)
-            : base(id)
+        public AuthorizeResponseHandler()
+            : base(Command.AuthorizeResponse)
         {
-
         }
 
         public override void Handle(AliveChessLibrary.Commands.ICommand command)
