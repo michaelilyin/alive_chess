@@ -9,6 +9,7 @@ public class MapManager : MonoBehaviour
     public Light MainLight;
 
     public GameObject PlayerPrefab;
+    public GameObject MainCamera;
 
     public GameObject CastlePrefab;
 
@@ -20,6 +21,7 @@ public class MapManager : MonoBehaviour
     public GameObject WoodMinePrefab;
 
     public GameObject[] TreePrefubs;
+    public GameObject ObstaclePrefub;
 
     public Material EarthGrassMaterial;
 
@@ -36,7 +38,7 @@ public class MapManager : MonoBehaviour
 
     private void CreateLight()
     {
-        Object light = Instantiate(MainLight, new Vector3(0, 15, 0), Quaternion.Euler(45, 180, 0));
+        Object light = Instantiate(MainLight, new Vector3(0, 15, 0), Quaternion.Euler(45, 150, 0));
         light.name = "Sun";
     }
     private void CreateEarth()
@@ -51,13 +53,18 @@ public class MapManager : MonoBehaviour
     }
     private void CreateCastles()
     {
+        GameObject castles = new GameObject("castles");
+        castles.transform.position = Vector3.zero;
         foreach (var castle in _world.Map.Castles)
         {
-            Instantiate(CastlePrefab, new Vector3(castle.X * SIZE_FACTOR, -0.5f, castle.Y * SIZE_FACTOR), Quaternion.Euler(0, 90, 0));
+            GameObject c = Instantiate(CastlePrefab, new Vector3(castle.X * SIZE_FACTOR, -0.5f, castle.Y * SIZE_FACTOR), Quaternion.Euler(0, 90, 0)) as GameObject;
+            c.transform.parent = castles.transform;
         }
     }
     private void CreateMines()
     {
+        GameObject mines = new GameObject("mines");
+        mines.transform.position = Vector3.zero;
         foreach (var mine in _world.Map.Mines)
         {
             GameObject prefub = DefaultMinePrefab;
@@ -79,17 +86,31 @@ public class MapManager : MonoBehaviour
             //        prefub = WoodMinePrefab;
             //        break;
             }
-            Instantiate(prefub, new Vector3(mine.X * SIZE_FACTOR, -0.5f, mine.Y * SIZE_FACTOR), Quaternion.identity);
+            GameObject m = Instantiate(prefub, new Vector3(mine.X * SIZE_FACTOR, -0.5f, mine.Y * SIZE_FACTOR), Quaternion.identity) as GameObject;
+            m.transform.parent = mines.transform;
         }
     }
     private void CreateSingleObjects()
     {
+        GameObject trees = new GameObject("trees");
+        trees.transform.position = Vector3.zero;
+        GameObject obstacles = new GameObject("obstacles");
+        obstacles.transform.position = Vector3.zero;
         foreach (var obj in _world.Map.SingleObjects)
         {
             switch(obj.SingleObjectType)
             {
                 case AliveChessLibrary.GameObjects.Objects.SingleObjectType.Tree:
-                    Instantiate(TreePrefubs[Random.Range(0, TreePrefubs.Length)], new Vector3(obj.X * SIZE_FACTOR, 0, obj.Y * SIZE_FACTOR), Quaternion.identity);
+                    GameObject tree = Instantiate(TreePrefubs[Random.Range(0, TreePrefubs.Length)], 
+                        new Vector3(obj.X * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR), 
+                            -0.5f, obj.Y * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR)), 
+                            Quaternion.identity) as GameObject;
+                    tree.transform.parent = trees.transform;
+                    break;
+                case AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle:
+                    GameObject obstacle = Instantiate(ObstaclePrefub, new Vector3(obj.X * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR),
+                            -0, obj.Y * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR)), Quaternion.identity) as GameObject;
+                    obstacle.transform.parent = obstacles.transform;
                     break;
             }
         }
@@ -105,7 +126,7 @@ public class MapManager : MonoBehaviour
         CreateMines();
         CreateSingleObjects();
         Transform pl = Instantiate(PlayerPrefab) as Transform;
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovenment>().SetTarget(pl);
+        MainCamera.GetComponent<CameraMovenment>().SetTarget(pl);
     }
 
     public void Update()

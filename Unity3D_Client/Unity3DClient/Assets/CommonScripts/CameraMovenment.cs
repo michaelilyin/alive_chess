@@ -5,8 +5,8 @@ public class CameraMovenment : MonoBehaviour
 {
 
     public Transform Target = null;
-    public float Speed = 10f;
-    public float RotateFactor = 0.5f;
+    public float MoveSpeed = 10f;
+    public float AngleSpeed = 1f;
 
     public void SetTarget(Transform target)
     {
@@ -16,7 +16,6 @@ public class CameraMovenment : MonoBehaviour
         else
         {
             this.transform.position = new Vector3(target.position.x, 5, target.position.y);
-            Debug.Log("Set transform in camera target");
         }
     }
 
@@ -34,24 +33,24 @@ public class CameraMovenment : MonoBehaviour
 
     void Update()
     {
-        this.transform.Translate(-Speed * Time.deltaTime * Input.GetAxis("Horizontal"), 0, 0, Space.World);
-        this.transform.Translate(0, 0, -Speed * Time.deltaTime * Input.GetAxis("Vertical"), Space.World);
+        this.transform.Translate(-MoveSpeed * Time.deltaTime * Input.GetAxis("Horizontal"), 0, 0, Space.World);
+        this.transform.Translate(0, 0, -MoveSpeed * Time.deltaTime * Input.GetAxis("Vertical"), Space.World);
 
         float whell = Input.GetAxisRaw("Mouse ScrollWheel");
         if (whell > 0)
         {
             if (this.transform.position.y > .5f)
             {
-                this.transform.Translate(0, -Speed * 2 * Time.deltaTime, 0, Space.World);
-                this.transform.Rotate(this.transform.right, RotateFactor * this.transform.position.y);
+                this.transform.Translate(0, -MoveSpeed * Time.deltaTime, 0, Space.World);
+                this.transform.Rotate(this.transform.right, AngleSpeed);
             }
         }
         else if (whell < 0)
         {
             if (this.transform.position.y < 10)
             {
-                this.transform.Translate(0, Speed * 2 * Time.deltaTime, 0, Space.World);
-                this.transform.Rotate(this.transform.right, -RotateFactor * this.transform.position.y);
+                this.transform.Translate(0, MoveSpeed * Time.deltaTime, 0, Space.World);
+                this.transform.Rotate(this.transform.right, -AngleSpeed);
             }
         }
     }
