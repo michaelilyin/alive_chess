@@ -73,18 +73,18 @@ public class MapManager : MonoBehaviour
                 case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Coal:
                     prefub = CoalMinePrefab;
                     break;
-            //    case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Gold:
-            //        prefub = GoldMinePrefab;
-            //        break;
+                case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Gold:
+                    prefub = GoldMinePrefab;
+                    break;
             //    case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Iron:
             //        prefub = IronMinePrefab;
             //        break;
                 case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Stone:
                     prefub = StoneMinePrefab;
                     break;
-            //    case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Wood:
-            //        prefub = WoodMinePrefab;
-            //        break;
+                case AliveChessLibrary.GameObjects.Resources.ResourceTypes.Wood:
+                    prefub = WoodMinePrefab;
+                    break;
             }
             GameObject m = Instantiate(prefub, new Vector3(mine.X * SIZE_FACTOR, -0.5f, mine.Y * SIZE_FACTOR), Quaternion.identity) as GameObject;
             m.transform.parent = mines.transform;
@@ -109,7 +109,7 @@ public class MapManager : MonoBehaviour
                     break;
                 case AliveChessLibrary.GameObjects.Objects.SingleObjectType.Obstacle:
                     GameObject obstacle = Instantiate(ObstaclePrefub, new Vector3(obj.X * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR),
-                            -0, obj.Y * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR)), Quaternion.identity) as GameObject;
+                            -0.5f, obj.Y * SIZE_FACTOR + Random.Range(-0.3f * SIZE_FACTOR, 0.3f * SIZE_FACTOR)), Quaternion.identity) as GameObject;
                     obstacle.transform.parent = obstacles.transform;
                     break;
             }

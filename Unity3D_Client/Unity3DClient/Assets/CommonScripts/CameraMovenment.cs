@@ -28,7 +28,7 @@ public class CameraMovenment : MonoBehaviour
             this.transform.position = Target.position;
             this.transform.Translate(0, 5, 0, Space.World);
         }
-        this.transform.rotation = Quaternion.Euler(75, 180, 0);
+        this.transform.rotation = Quaternion.Euler(58, 180, 0);
     }
 
     void Update()
@@ -39,18 +39,18 @@ public class CameraMovenment : MonoBehaviour
         float whell = Input.GetAxisRaw("Mouse ScrollWheel");
         if (whell > 0)
         {
-            if (this.transform.position.y > .5f)
+            if (this.transform.position.y > .1f)
             {
                 this.transform.Translate(0, -MoveSpeed * Time.deltaTime, 0, Space.World);
-                this.transform.Rotate(this.transform.right, AngleSpeed);
+                //this.transform.Rotate(this.transform.right, AngleSpeed);
             }
         }
         else if (whell < 0)
         {
-            if (this.transform.position.y < 10)
+            if (this.transform.position.y < 20)
             {
                 this.transform.Translate(0, MoveSpeed * Time.deltaTime, 0, Space.World);
-                this.transform.Rotate(this.transform.right, -AngleSpeed);
+                //this.transform.Rotate(this.transform.right, -AngleSpeed);
             }
         }
     }
