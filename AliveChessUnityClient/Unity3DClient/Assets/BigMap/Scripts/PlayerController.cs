@@ -5,18 +5,38 @@ using AliveChessLibrary.GameObjects.Abstract;
 
 public class PlayerController : MonoBehaviour
 {
+    public float Speed = 1;
     private Vector3 target;
+    private Vector3 direction;
 
     void Start()
     {
         //player = GameCore.Instance.World.Player;
         target = transform.position;
+        direction = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);
     }
 
     void Update()
     {
         if (transform.position == target)
             UpdateTarget();
+        if (Vector3.Distance(transform.position, target) < Speed * Time.deltaTime)
+        {
+            if (transform.position != target)
+            {
+                transform.position.Set(target.x, transform.position.y, target.z);
+                target = transform.position;
+            }
+            UpdateTarget();
+        }
+        else
+        {
+
+        }
+        if (direction != transform.forward)
+            transform.forward = Vector3.Lerp(transform.forward, direction, 16 * Time.deltaTime);
+        if (target != transform.position)
+            transform.position += direction * Speed * Time.deltaTime;
         //if (target != null || transform.position != target)
         //    transform.position = Vector3.Lerp(transform.position, target, 0.09f);
     }
@@ -27,6 +47,8 @@ public class PlayerController : MonoBehaviour
         {
             Position pos = GameCore.Instance.World.Steps.Dequeue();
             target = new Vector3(pos.X, transform.position.y, pos.Y);
+            direction = (target - transform.position).normalized;
+            //transform.forward = direction;
         }
     }
 
