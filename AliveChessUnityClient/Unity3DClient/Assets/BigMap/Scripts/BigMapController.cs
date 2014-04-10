@@ -50,6 +50,14 @@ public class BigMapController : MonoBehaviour
     private GameObject resources;
     private ResourcesGUI resourcesGUI;
 
+    public GameObject[,] Cells
+    {
+        get
+        {
+            return cells;
+        }
+    }
+
     void Awake()
     {
         //Screen.showCursor = false;
@@ -183,11 +191,11 @@ public class BigMapController : MonoBehaviour
             CastlleController cc = go.GetComponent<CastlleController>();
             cc.Model = castle;
             cc.CellSelector = CellSelector;
+            go.transform.parent = cells[castle.X, castle.Y].transform;
         }
     }
     public void CreateSingleObjects(Map map)
     {
-        GameObject singleObjects = new GameObject("SingleObjects");
         foreach (SingleObject obj in map.SingleObjects)
         {
             GameObject go = null;
@@ -200,14 +208,13 @@ public class BigMapController : MonoBehaviour
                     go = (Instantiate(TreePrefub, new Vector3(obj.X, 0, obj.Y), Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject);
                     break;
             }
-            go.transform.parent = singleObjects.transform;
+            go.transform.parent = cells[obj.X, obj.Y].transform;
             Transform mapView = go.transform.FindChild("MapView");
             if (mapView != null) mapView.rotation = Quaternion.identity;
         }
     }
     public void CreateMines(Map map)
     {
-        GameObject mines = new GameObject("Mines");
         foreach (Mine mine in map.Mines)
         {
             GameObject m = null;
@@ -229,7 +236,7 @@ public class BigMapController : MonoBehaviour
                     m = Instantiate(WoodMinePrefub, new Vector3(mine.X + 0.5f, 0, mine.Y + 0.5f), Quaternion.identity) as GameObject;
                     break;
             }
-            m.transform.parent = mines.transform;
+            m.transform.parent = cells[mine.X, mine.Y].transform;
             MineController mc = m.GetComponent<MineController>();
             if (mc != null)
             {

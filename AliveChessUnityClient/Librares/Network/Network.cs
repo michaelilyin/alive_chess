@@ -22,6 +22,7 @@ namespace Network
             Messages = new MessagesPool();
             _requestHandler = new RequestHandler(_commands);
             BigMapCommandController = new BigMapCommandController(this);
+            CastleCommandController = new CastleCommandController(this);
         }
 
         #region public
@@ -29,6 +30,7 @@ namespace Network
         public bool IsConnected { get { return _socket == null ? false : _socket.Connected; } }
         public event EventHandler OnConnected;
         public BigMapCommandController BigMapCommandController { get; private set; }
+        public CastleCommandController CastleCommandController { get; private set; }
         public MessagesPool Messages { get; private set; }
 
         public void Connect(String login, String pass)

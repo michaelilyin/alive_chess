@@ -69,11 +69,12 @@ namespace Network.CommandControllers
             _network.Send(request);
         }
 
-        //public void SendBigMapRequest()
-        //{
-        //    BigMapRequest request = new BigMapRequest();
-        //    _network.Send(request);
-        //}
+        public void SendBigMapRequest()
+        {
+            BigMapRequest request = new BigMapRequest();
+            _network.Send(request);
+            Log.Debug("Send big map request");
+        }
 
         //public void SendGetKingRequest()
         //{
@@ -93,12 +94,12 @@ namespace Network.CommandControllers
             _network.Send(request);
         }
 
-        //public void SendComeInCastleRequest(int id)
-        //{
-        //    ComeInCastleRequest request = new ComeInCastleRequest();
-        //    request.CastleId = id;
-        //    _network.Send(request);
-        //}
+        public void SendComeInCastleRequest(int id)
+        {
+            ComeInCastleRequest request = new ComeInCastleRequest();
+            request.CastleId = id;
+            _network.Send(request);
+        }
 
         public void SendMoveKingRequest(int x, int y)
         {

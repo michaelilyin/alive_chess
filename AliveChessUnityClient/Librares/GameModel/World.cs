@@ -10,6 +10,7 @@ using AliveChessLibrary.GameObjects.Resources;
 using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Buildings;
 using GameModel.Utils;
+using GameModel.CastleManagers;
 
 namespace GameModel
 {
@@ -86,7 +87,7 @@ namespace GameModel
                 {
                     foreach (var castle in data.Castles)
                     {
-                        //castle.BuildingManager = new ProductionManager<InnerBuildingType>();
+                        castle.BuildingManager = new BuildingsManager<InnerBuildingType>();
                         //castle.RecruitingManager = new ProductionManager<UnitType>();
                         _map.AddCastle(castle);
                         Log.Message(String.Format("Creating castle <x: {0}>, <y: {1}>, <type: {2}>, <width: {3}>, <height: {4}>", 
@@ -184,10 +185,15 @@ namespace GameModel
                         if (oldCastle != null)
                         {
                             oldCastle.KingId = castle.KingId;
+                            //oldCastle.SetBuildings(castle.GetInnerBuildingListCopy());
+                            //foreach (var a in castle.GetInnerBuildingListCopy())
+                            //{
+                            //    Log.Debug(a.InnerBuildingType.ToString());
+                            //}
                         }
                         else
                         {
-                            //castle.BuildingManager = new ProductionManager<InnerBuildingType>();
+                            castle.BuildingManager = new BuildingsManager<InnerBuildingType>();
                             //castle.RecruitingManager = new ProductionManager<UnitType>();
                             _map.AddCastle(castle);
                         }

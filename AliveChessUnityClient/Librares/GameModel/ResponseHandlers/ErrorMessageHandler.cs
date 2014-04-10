@@ -12,7 +12,7 @@ namespace GameModel.ResponseHandlers
         {
             ErrorMessage result = (ErrorMessage)command;
             GameCore.Instance.Network.Messages.AddMessage(String.Format("[ERROR][{0}]:{1}", DateTime.Now.ToLocalTime(), result.Message));
-            Logger.Log.Error(result.Message);
+            Logger.Log.Error(String.Format("INCOMING ERROR MESSAGE: {0}", result.Message));
         }
     }
 }

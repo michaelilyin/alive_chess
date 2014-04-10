@@ -47,7 +47,8 @@ namespace Assets.MainMenu.Scripts.MenuWindows
             {
                 if (GUILayout.Button("Connect"))
                 {
-                    GameCore.Instance.Network.Connect("player", "pw");   
+                    _menuManager.AddWindow(typeof(LoginMenu));
+                    //GameCore.Instance.Network.Connect("player", "pw");   
                 }
             }
             if (GUILayout.Button("Options"))

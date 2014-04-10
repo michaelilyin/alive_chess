@@ -23,6 +23,7 @@ public class MainMenuManager : MonoBehaviour
         _windows = new Dictionary<Type, IMenuWindow>();
         _windows[typeof(MainMenu)] = GetComponent<MainMenu>();
         _windows[typeof(OptionsMenu)] = GetComponent<OptionsMenu>();
+        _windows[typeof(LoginMenu)] = GetComponent<LoginMenu>();
         NavigateTo(typeof(MainMenu));
     }
 
@@ -33,9 +34,23 @@ public class MainMenuManager : MonoBehaviour
 
     public void NavigateTo(Type windowType)
     {
-        if (_currentWindow != null) _currentWindow.Hide();
+        //if (_currentWindow != null) _currentWindow.Hide();
+        foreach (var w in _windows)
+        {
+            w.Value.Hide();
+        }
         _windows[windowType].Show();
         _currentWindow = _windows[windowType];
 
+    }
+
+    public void AddWindow(Type windowType)
+    {
+        _windows[windowType].Show();
+    }
+
+    public void CloseWindow(Type windowType)
+    {
+        _windows[windowType].Hide();
     }
 }

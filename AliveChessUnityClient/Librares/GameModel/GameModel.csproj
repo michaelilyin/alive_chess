@@ -45,10 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CastleManagers\BuildingsManager.cs" />
     <Compile Include="GameCore.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseHandlers\AuthorizeResponseHandler.cs" />
+    <Compile Include="ResponseHandlers\CastleHandlers\GetBuildingsHandler.cs" />
+    <Compile Include="ResponseHandlers\CastleHandlers\GetCreationRequirementsHandler.cs" />
+    <Compile Include="ResponseHandlers\CastleHandlers\LeaveCastleResponseHandler.cs" />
+    <Compile Include="ResponseHandlers\ComeInCastleResponseHandler.cs" />
     <Compile Include="ResponseHandlers\ErrorMessageHandler.cs" />
     <Compile Include="ResponseHandlers\GetGameStateHandler.cs" />
     <Compile Include="ResponseHandlers\GetMapResponseHandler.cs" />

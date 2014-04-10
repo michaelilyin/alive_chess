@@ -21,12 +21,14 @@ namespace GameModel
                 _king = value;
             }
         }
+        public bool KingInKastle { get; set; }
 
         public Dictionary<ResourceTypes, int> ResourcesCache;
 
         public Player()
         {
             ResourcesCache = new Dictionary<ResourceTypes, int>();
+            KingInKastle = false;
         }
 
         internal void SetResources(List<AliveChessLibrary.GameObjects.Resources.Resource> list)

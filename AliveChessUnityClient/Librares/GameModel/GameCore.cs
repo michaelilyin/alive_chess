@@ -1,5 +1,6 @@
 ﻿using AliveChessLibrary.Commands;
 using GameModel.ResponseHandlers;
+using GameModel.ResponseHandlers.CastleHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,11 @@ namespace GameModel
             Network.RegisterHandler(Command.GetGameStateResponse, new GetGameStateHandler());
             Network.RegisterHandler(Command.GetObjectsResponse, new GetObjectsHandler());
             Network.RegisterHandler(Command.MoveKingResponse, new MoveKingResponseHandler());
+            Network.RegisterHandler(Command.ComeInCastleResponse, new ComeInCastleResponseHandler());
+
+            Network.RegisterHandler(Command.LeaveCastleResponse, new LeaveCastleResponseHandler());
+            Network.RegisterHandler(Command.GetCreationRequirementsResponse, new GetCreationRequirementsHandler());
+            Network.RegisterHandler(Command.GetBuildingsResponse, new GetBuildingsHandler());
         }
 
         public event EventHandler Authorized;
@@ -54,6 +60,7 @@ namespace GameModel
         public void StartGame()
         {
             Network.BigMapCommandController.SendGetMapRequest();
+            Network.BigMapCommandController.SendBigMapRequest();
             Network.BigMapCommandController.StartGameStateUpdate();
             Network.BigMapCommandController.StartObjectsUpdate();
         }

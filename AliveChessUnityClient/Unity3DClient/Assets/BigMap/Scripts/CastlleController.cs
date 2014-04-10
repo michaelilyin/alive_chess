@@ -64,12 +64,14 @@ public class CastlleController : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (Model != null)
+        if (Model != null && Model.KingId == GameCore.Instance.World.Player.King.Id)
         {
             int x = Model.X;
             int y = Model.Y;
-            Log.Message(string.Format("Move King x={0} y={1}", x, y));
-            GameCore.Instance.Network.BigMapCommandController.SendMoveKingRequest(x, y);
+            Log.Message(string.Format("View move King x={0} y={1}", x, y));
+            //GameCore.Instance.Network.BigMapCommandController.SendMoveKingRequest(x, y);
+            GameCore.Instance.Network.BigMapCommandController.SendComeInCastleRequest(Model.Id);
+            GameCore.Instance.Network.CastleCommandController.SendGetCreationRequirementsRequest();
         }
         //GameCore.Instance.World.Map.Locate(x, y);
     }

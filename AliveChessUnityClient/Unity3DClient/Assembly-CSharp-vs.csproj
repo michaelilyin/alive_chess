@@ -51,13 +51,17 @@
      <Compile Include="Assets\BigMap\Scripts\EnemyController.cs" />
      <Compile Include="Assets\BigMap\Scripts\Environment\CameraController.cs" />
      <Compile Include="Assets\BigMap\Scripts\Environment\LightController.cs" />
-     <Compile Include="Assets\BigMap\Scripts\GUI\ResourcesGUI.cs" />
      <Compile Include="Assets\BigMap\Scripts\LOD.cs" />
      <Compile Include="Assets\BigMap\Scripts\MapCellController.cs" />
+     <Compile Include="Assets\BigMap\Scripts\MapGUI\CastleGUI.cs" />
+     <Compile Include="Assets\BigMap\Scripts\MapGUI\GUIIdentifers.cs" />
+     <Compile Include="Assets\BigMap\Scripts\MapGUI\ResourcesGUI.cs" />
      <Compile Include="Assets\BigMap\Scripts\MineController.cs" />
      <Compile Include="Assets\BigMap\Scripts\PlayerController.cs" />
      <Compile Include="Assets\BigMap\Scripts\ResourceController.cs" />
      <Compile Include="Assets\CommonScripts\AppTools\CloseAppController.cs" />
+     <Compile Include="Assets\CommonScripts\Utils\NamesConverter.cs" />
+     <Compile Include="Assets\CommonScripts\Utils\RequirementsPresenter.cs" />
      <Compile Include="Assets\GameTime\Scripts\GameTime.cs" />
      <Compile Include="Assets\GameTime\Scripts\SizeController.cs" />
      <Compile Include="Assets\GameTime\Scripts\SkyCameraController.cs" />
@@ -65,6 +69,7 @@
      <Compile Include="Assets\GameTime\Scripts\TimeOfDaySettings.cs" />
      <Compile Include="Assets\MainMenu\Scripts\MainMenuManager.cs" />
      <Compile Include="Assets\MainMenu\Scripts\MenuWindows\IMenuWindow.cs" />
+     <Compile Include="Assets\MainMenu\Scripts\MenuWindows\LoginMenu.cs" />
      <Compile Include="Assets\MainMenu\Scripts\MenuWindows\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\Scripts\MenuWindows\OptionsMenu.cs" />
      <None Include="Assets\GameTime\Skyboxes\SkyBoxBlended.shader" />

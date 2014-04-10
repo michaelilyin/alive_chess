@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandControllers\BigMapCommandController.cs" />
+    <Compile Include="CommandControllers\CastleCommandController.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="CommandPool.cs" />
     <Compile Include="MessagesPool.cs" />
