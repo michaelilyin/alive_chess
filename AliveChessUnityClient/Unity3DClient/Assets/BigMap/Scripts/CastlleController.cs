@@ -23,6 +23,15 @@ public class CastlleController : MonoBehaviour
 
     public Castle Model { get; set; }
 
+    public InnerBuildingController Quarters;
+    public InnerBuildingController TrainingGround;
+    public InnerBuildingController Hospital;
+    public InnerBuildingController Forge;
+    public InnerBuildingController Fortress;
+    public InnerBuildingController Stabling;
+    public InnerBuildingController Workshop;
+
+
     private CastleOwner owner = CastleOwner.NONE;
 
     // Use this for initialization
@@ -32,6 +41,12 @@ public class CastlleController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        CheckOwner();
+        ProcessBuildings();
+    }
+
+    private void CheckOwner()
     {
         if (Model != null && Model.KingId.HasValue)
         {
@@ -60,6 +75,17 @@ public class CastlleController : MonoBehaviour
             }
             owner = CastleOwner.NONE;
         }
+    }
+
+    private void ProcessBuildings()
+    {
+        Quarters.RecalculateView(Model);
+        TrainingGround.RecalculateView(Model);
+        Hospital.RecalculateView(Model);
+        Forge.RecalculateView(Model);
+        Fortress.RecalculateView(Model);
+        Stabling.RecalculateView(Model);
+        Workshop.RecalculateView(Model);
     }
 
     void OnMouseDown()

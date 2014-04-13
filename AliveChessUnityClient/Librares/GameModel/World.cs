@@ -11,6 +11,7 @@ using AliveChessLibrary.GameObjects.Abstract;
 using AliveChessLibrary.GameObjects.Buildings;
 using GameModel.Utils;
 using GameModel.CastleManagers;
+using AliveChessLibrary.GameObjects.Characters;
 
 namespace GameModel
 {
@@ -87,8 +88,8 @@ namespace GameModel
                 {
                     foreach (var castle in data.Castles)
                     {
-                        castle.BuildingManager = new BuildingsManager<InnerBuildingType>();
-                        //castle.RecruitingManager = new ProductionManager<UnitType>();
+                        castle.BuildingManager = new ProductionManager<InnerBuildingType>();
+                        castle.RecruitingManager = new ProductionManager<UnitType>();
                         _map.AddCastle(castle);
                         Log.Message(String.Format("Creating castle <x: {0}>, <y: {1}>, <type: {2}>, <width: {3}>, <height: {4}>", 
                             castle.X, castle.Y, castle.Type, castle.Width, castle.Height));
@@ -149,10 +150,11 @@ namespace GameModel
                 {
                     lock (_player)
                     {
-                        _player.King.X = data.King.X;
-                        _player.King.Y = data.King.Y;
-                        _player.King.Experience = data.King.Experience;
-                        _player.King.MilitaryRank = data.King.MilitaryRank;
+                        _player.King.Sync(data.King);
+                        //_player.King.X = data.King.X;
+                        //_player.King.Y = data.King.Y;
+                        //_player.King.Experience = data.King.Experience;
+                        //_player.King.MilitaryRank = data.King.MilitaryRank;
                         if (_player.King.ResourceStore == null)
                             _player.King.ResourceStore = new ResourceStore();
                         _player.SetResources(data.Resources);
@@ -193,8 +195,8 @@ namespace GameModel
                         }
                         else
                         {
-                            castle.BuildingManager = new BuildingsManager<InnerBuildingType>();
-                            //castle.RecruitingManager = new ProductionManager<UnitType>();
+                            castle.BuildingManager = new ProductionManager<InnerBuildingType>();
+                            castle.RecruitingManager = new ProductionManager<UnitType>();
                             _map.AddCastle(castle);
                         }
                     }

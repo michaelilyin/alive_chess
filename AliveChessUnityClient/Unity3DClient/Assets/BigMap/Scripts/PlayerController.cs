@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     private bool _active = true;
     void Update()
     {
+        //Debug.Log("Heading:" + player.King.Heading.X + " " + player.King.Heading.Y);
+        //Debug.Log("Speed: " + player.King.Speed);
+        //Debug.Log("Velocity: " + player.King.Velocity);
+        //Debug.Log("Max speed: " + player.King.MaxSpeed);
         if (transform.position == target)
             UpdateTarget();
         if (Vector3.Distance(transform.position, target) < Speed * Time.deltaTime)

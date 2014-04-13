@@ -8,6 +8,8 @@ namespace Assets.BigMap.Scripts.MapGUI
     public enum GUIIdentifers
     {
         BuildingsWindow = 0,
-        TroopsWindow = 1
+        TroopsWindow = 1,
+        ChatWindow = 2,
+        TransferWindow = 3
     }
 }

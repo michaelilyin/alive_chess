@@ -29,10 +29,16 @@ namespace GameModel
             Network.RegisterHandler(Command.GetObjectsResponse, new GetObjectsHandler());
             Network.RegisterHandler(Command.MoveKingResponse, new MoveKingResponseHandler());
             Network.RegisterHandler(Command.ComeInCastleResponse, new ComeInCastleResponseHandler());
+            Network.RegisterHandler(Command.GetResourceMessage, new GetResourceMessageHandler());
+            Network.RegisterHandler(Command.CaptureMineResponse, new CaptureMineResponseHandler());
 
             Network.RegisterHandler(Command.LeaveCastleResponse, new LeaveCastleResponseHandler());
             Network.RegisterHandler(Command.GetCreationRequirementsResponse, new GetCreationRequirementsHandler());
             Network.RegisterHandler(Command.GetBuildingsResponse, new GetBuildingsHandler());
+            Network.RegisterHandler(Command.GetProductionQueueResponse, new GetProductionQueueResponseHandler());
+            Network.RegisterHandler(Command.GetCastleArmyResponse, new GetCastleArmyResponseHandler());
+            Network.RegisterHandler(Command.GetKingArmyResponse, new GetKingArmyResponseHandler());
+            Network.RegisterHandler(Command.CreateUnitResponse, new CreateUnitResponseHandler());
         }
 
         public event EventHandler Authorized;

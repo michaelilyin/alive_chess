@@ -22,6 +22,14 @@ namespace Network
             }
         }
 
+        public int Count
+        {
+            get
+            {
+                return messages.Count;
+            }
+        }
+
         public void AddMessage(String message)
         {
             lock (messages)

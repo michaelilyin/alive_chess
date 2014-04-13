@@ -18,13 +18,13 @@ namespace GameModel.ResponseHandlers.CastleHandlers
                 else
                     GameCore.Instance.World.Player.King.CurrentCastle.BuildingManager.CreationRequirements.Clear();
             }
-            //lock (GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.CreationRequirements)
-            //{
-            //    if (response.RecruitingRequirements != null)
-            //        GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.CreationRequirements = response.RecruitingRequirements;
-            //    else
-            //        GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.CreationRequirements.Clear();
-            //}
+            lock (GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.CreationRequirements)
+            {
+                if (response.RecruitingRequirements != null)
+                    GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.CreationRequirements = response.RecruitingRequirements;
+                else
+                    GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.CreationRequirements.Clear();
+            }
         }
     }
 }

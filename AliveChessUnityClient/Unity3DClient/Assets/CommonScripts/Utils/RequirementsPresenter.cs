@@ -1,4 +1,5 @@
 ﻿using AliveChessLibrary.GameObjects.Buildings;
+using GameModel.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Assets.CommonScripts.Utils
         public static string TextView(this CreationRequirements requirements)
         {
             builder.Remove(0, builder.Length);
-            builder.Append("Required buildings: ");
+            builder.Append("Required buildings:\n");
             foreach (var building in requirements.RequiredBuildings)
                 builder.AppendFormat("{0}, ", NamesConverter.GetNameByType(building));
             builder.Append("\nRequired resources: ");
