@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System;
 using GameModel;
 
+[RequireComponent(typeof(AudioSource))]
 public class MainMenuManager : MonoBehaviour
 {
+    public GUISkin skin;
 
     private IMenuWindow _currentWindow = null;
     private Dictionary<Type, IMenuWindow> _windows;
@@ -32,6 +34,11 @@ public class MainMenuManager : MonoBehaviour
 
     }
 
+    void OnGUI()
+    {
+        GUI.skin = skin;
+    }
+
     public void NavigateTo(Type windowType)
     {
         //if (_currentWindow != null) _currentWindow.Hide();
@@ -41,12 +48,13 @@ public class MainMenuManager : MonoBehaviour
         }
         _windows[windowType].Show();
         _currentWindow = _windows[windowType];
-
+        gameObject.audio.Play();
     }
 
     public void AddWindow(Type windowType)
     {
         _windows[windowType].Show();
+        gameObject.audio.Play();
     }
 
     public void CloseWindow(Type windowType)

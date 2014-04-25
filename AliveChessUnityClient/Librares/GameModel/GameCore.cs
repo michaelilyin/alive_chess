@@ -39,6 +39,7 @@ namespace GameModel
             Network.RegisterHandler(Command.GetCastleArmyResponse, new GetCastleArmyResponseHandler());
             Network.RegisterHandler(Command.GetKingArmyResponse, new GetKingArmyResponseHandler());
             Network.RegisterHandler(Command.CreateUnitResponse, new CreateUnitResponseHandler());
+            Network.RegisterHandler(Command.CreateBuildingResponse, new CreateBuildingResponseHandler());
         }
 
         public event EventHandler Authorized;

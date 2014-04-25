@@ -34,7 +34,7 @@ namespace Network.CommandControllers
         {
             _updateGameStateTimer = new Timer();
             _updateGameStateTimer.Elapsed += updateGameStateTimer_Elapsed;
-            _updateGameStateTimer.Interval = 500;
+            _updateGameStateTimer.Interval = 250;
             _updateGameStateTimer.Start();
             Log.Debug("Start updating game state");
         }
@@ -43,7 +43,7 @@ namespace Network.CommandControllers
         {
             _updateObjectsTimer = new Timer();
             _updateObjectsTimer.Elapsed += updateObjectsTimer_Elapsed;
-            _updateObjectsTimer.Interval = 500;
+            _updateObjectsTimer.Interval = 250;
             _updateObjectsTimer.Start();
             Log.Debug("Start updating game objects");
         }

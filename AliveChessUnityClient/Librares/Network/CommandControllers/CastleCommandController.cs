@@ -19,7 +19,7 @@ namespace Network.CommandControllers
         {
             _network = network;
             _updateCastleTimer = new Timer();
-            _updateCastleTimer.Interval = 500;
+            _updateCastleTimer.Interval = 250;
             _updateCastleTimer.Elapsed += _updateCastleTimer_Elapsed;
         }
 

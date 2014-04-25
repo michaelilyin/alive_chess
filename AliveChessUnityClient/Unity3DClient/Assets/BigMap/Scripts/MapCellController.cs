@@ -23,6 +23,7 @@ public class MapCellController : MonoBehaviour
         int y = (int)this.transform.position.z;
         Log.Message(string.Format("Move King x={0} y={1}", x, y));
         GameCore.Instance.Network.BigMapCommandController.SendMoveKingRequest(x, y);
+        GameCore.Instance.World.Steps.Clear();
         //GameCore.Instance.World.Map.Locate(x, y);
     }
 
@@ -39,5 +40,13 @@ public class MapCellController : MonoBehaviour
         //this.renderer.material.color = Color.white;
     }
 
+    public void TurnOnLight()
+    {
+        this.renderer.material.color = Color.red;
+    }
 
+    public void TurnOffLight()
+    {
+        this.renderer.material.color = Color.white;
+    }
 }

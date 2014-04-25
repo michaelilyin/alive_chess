@@ -11,6 +11,9 @@ namespace Assets.BigMap.Scripts.MapGUI.Windows
 {
     class TransferTroopsWindow
     {
+        public AudioSource OpenSound;
+        public AudioSource ClickSound;
+
         private bool _show;
         private Rect _transferTroopsWindow;
 
@@ -24,7 +27,7 @@ namespace Assets.BigMap.Scripts.MapGUI.Windows
         public TransferTroopsWindow()
         {
             _show = false;
-            _transferTroopsWindow = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100);
+            _transferTroopsWindow = new Rect(Screen.width / 2 - 200, Screen.height / 2 - 50, 400, 150);
         }
 
         public void Show(Castle castle, King king, UnitType type, bool toCastle)
@@ -62,19 +65,35 @@ namespace Assets.BigMap.Scripts.MapGUI.Windows
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("5"))
+            {
                 currentCount = 5 > max ? max : 5;
+                ClickSound.Play();
+            }
             if (GUILayout.Button("10"))
+            {
                 currentCount = 10 > max ? max : 10;
+                ClickSound.Play();
+            }
             if (GUILayout.Button("20"))
+            {
                 currentCount = 20 > max ? max : 20;
+                ClickSound.Play();
+            }
             if (GUILayout.Button("50"))
+            {
                 currentCount = 50 > max ? max : 50;
+                ClickSound.Play();
+            }
             if (GUILayout.Button("100"))
+            {
                 currentCount = 100 > max ? max : 100;
+                ClickSound.Play();
+            }
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Transfer"))
             {
+                ClickSound.Play();
                 Dictionary<UnitType, int> units = new Dictionary<UnitType, int>();
                 units[_unitType] = currentCount;
                 if (_toCastle)
@@ -89,6 +108,7 @@ namespace Assets.BigMap.Scripts.MapGUI.Windows
             }
             if (GUILayout.Button("Cancel"))
             {
+                ClickSound.Play();
                 _show = false;
             }
             GUILayout.EndHorizontal();

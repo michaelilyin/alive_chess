@@ -13,6 +13,8 @@ using System.Linq;
 
 public class BigMapController : MonoBehaviour
 {
+    public Texture LoadScreen;
+
     public GameObject PlayerPrefub;
     public GameObject EnemyPrefub;
 
@@ -49,6 +51,9 @@ public class BigMapController : MonoBehaviour
     private PlayerController player;
     private GameObject resources;
     private ResourcesGUI resourcesGUI;
+    private Rect _screen;
+
+    private bool _isCreated;
 
     public GameObject[,] Cells
     {
@@ -61,6 +66,7 @@ public class BigMapController : MonoBehaviour
     void Awake()
     {
         //Screen.showCursor = false;
+        _isCreated = false;
     }
 
     // Use this for initialization
@@ -70,6 +76,7 @@ public class BigMapController : MonoBehaviour
         GameCore.Instance.World.GameStateUpdated += World_GameStateUpdated;
         GameCore.Instance.World.ObjectsUpdated += World_ObjectsUpdated;
         resourcesGUI = ResourcesGUIController.GetComponent<ResourcesGUI>();
+        _screen = new Rect(0, 0, Screen.width, Screen.height);
     }
 
     private bool _gameStateUpdated;
@@ -90,6 +97,7 @@ public class BigMapController : MonoBehaviour
         if (GameCore.Instance.World.IsCreated)
         {
             CreateWorld();
+            _isCreated = true;
         }
         if (_gameStateUpdated)
         {
@@ -102,6 +110,25 @@ public class BigMapController : MonoBehaviour
     }
 
     #region create
+    public void ConfigureEnvironment(int worldWidth, int worldHeight)
+    {
+        //Terrain.activeTerrain.terrainData.size = new Vector3(worldWidth * 2, 0, worldHeight * 2);
+        //Terrain terrain = Terrain.activeTerrain;
+        //TerrainData terrainData = terrain.terrainData;
+        //int size = terrainData.heightmapWidth;
+        //float[,] heights = terrainData.GetHeights(0, 0, size, size);
+
+        //for (int i = 0; i < size; i++)
+        //    for (int j = 0; j < size; j++)
+        //        if (i == 0 || j == 0 || i == size - 1 || j == size - 1)
+        //            heights[i, j] = Random.Range(0.2f, 0.3f);
+        //        else
+        //            heights[i, j] = 0;
+
+        //Terrain.activeTerrain.terrainData.SetHeights(0, 0, heights);
+        //Terrain.activeTerrain.transform.position = new Vector3( - worldWidth * 2, -2, - worldHeight * 2);
+    }
+
     private void CreateWorld()
     {
         Log.Debug("Create map view");
@@ -113,6 +140,7 @@ public class BigMapController : MonoBehaviour
         CreatePlayer();
         resources = new GameObject("Resources");
         resList = new Dictionary<int, ResourceController>();
+        ConfigureEnvironment(map.SizeX, map.SizeY);
         Log.Debug("Map have been cerated");
     }
     private void CreateLandscape(Map map)
@@ -270,6 +298,14 @@ public class BigMapController : MonoBehaviour
         _gameStateUpdated = false;
         //resourcesGUI.UpdateValues(pl);
 
+    }
+
+    public void OnGUI()
+    {
+        if (!_isCreated)
+        {
+            Graphics.DrawTexture(_screen, LoadScreen);
+        }
     }
 
     private Dictionary<int, ResourceController> resList;

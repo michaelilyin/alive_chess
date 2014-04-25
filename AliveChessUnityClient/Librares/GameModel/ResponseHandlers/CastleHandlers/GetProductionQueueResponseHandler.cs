@@ -14,8 +14,7 @@ namespace GameModel.ResponseHandlers.CastleHandlers
             lock (GameCore.Instance.World.Player.King.CurrentCastle.BuildingManager)
             {
                 GameCore.Instance.World.Player.King.CurrentCastle.BuildingManager.SetProductionQueue(response.BuildingQueue);
-                //else
-                //    GameCore.Instance.World.Player.King.CurrentCastle.BuildingManager..Clear();
+                GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.SetProductionQueue(response.RecruitingQueue);
             }
         }
     }

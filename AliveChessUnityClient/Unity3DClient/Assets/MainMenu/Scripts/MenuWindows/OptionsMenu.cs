@@ -6,11 +6,14 @@ using GameModel;
 
 namespace Assets.MainMenu.Scripts.MenuWindows
 {
+    [RequireComponent(typeof(AudioSource))]
     public class OptionsMenu : MonoBehaviour, IMenuWindow
     {
         private MainMenuManager _menuManager = null;
         private bool _show = false;
         private Rect _optionWindowRect;
+
+        public AudioSource ClickFX;
 
         // Use this for initialization
         void Start()
@@ -22,7 +25,10 @@ namespace Assets.MainMenu.Scripts.MenuWindows
         void OnGUI()
         {
             if (_show)
+            {
+                GUI.skin = _menuManager.skin;
                 _optionWindowRect = GUILayout.Window(0, _optionWindowRect, OptionsMenuWindow, "Options");
+            }
         }
 
         private void OptionsMenuWindow(int id)
@@ -30,6 +36,7 @@ namespace Assets.MainMenu.Scripts.MenuWindows
             GUILayout.BeginVertical();
             if (GUILayout.Button("Back"))
             {
+                ClickFX.Play();
                 _menuManager.NavigateTo(typeof(MainMenu));
             }
             GUILayout.EndVertical();

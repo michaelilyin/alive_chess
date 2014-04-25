@@ -15,7 +15,7 @@ namespace GameModel.ResponseHandlers.CastleHandlers
             {
                 GameCore.Instance.World.Player.King.CurrentCastle.RecruitingManager.SetProductionQueue(response.ProductionQueue);
             }
-            GameCore.Instance.Network.Messages.AddMessage("Recruting complete");
+            GameCore.Instance.Network.Messages.AddMessage("Recruting start");
         }
     }
 }

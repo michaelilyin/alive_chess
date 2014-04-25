@@ -2,10 +2,12 @@
 using System.Collections;
 using GameModel;
 using AliveChessLibrary.GameObjects.Abstract;
+using Assets.CommonScripts.Utils;
 
 public class PlayerController : MonoBehaviour
 {
-    public float Speed = 1;
+    public float ErrorRange = 1.6f;
+
     public GameObject CaracterMesh;
     public AnimationClip idle;
     public AnimationClip walk;
@@ -27,60 +29,71 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool _active = true;
-    void Update()
-    {
-        //Debug.Log("Heading:" + player.King.Heading.X + " " + player.King.Heading.Y);
-        //Debug.Log("Speed: " + player.King.Speed);
-        //Debug.Log("Velocity: " + player.King.Velocity);
-        //Debug.Log("Max speed: " + player.King.MaxSpeed);
-        if (transform.position == target)
-            UpdateTarget();
-        if (Vector3.Distance(transform.position, target) < Speed * Time.deltaTime)
-        {
-            if (transform.position != target)
-            {
-                transform.position.Set(target.x, transform.position.y, target.z);
-                target = transform.position;
-            }
-            UpdateTarget();
-        }
-        else
-        {
+    private bool _stay = true;
+    private float speed = 0;
 
-        }
-        if (direction != transform.forward)
-            transform.forward = Vector3.Lerp(transform.forward, direction, 16 * Time.deltaTime);
-        if (target != transform.position)
-        {
-            animator.CrossFade(walk.name);
-            transform.position += direction * Speed * Time.deltaTime;
-        }
+    private void MoveKing(Vector3 pos)
+    {
+        if (Vector3.Distance(pos, target) >= ErrorRange)
+            pos = target;
         else
-            animator.CrossFade(idle.name);
-        //if (target != null || transform.position != target)
-        //    transform.position = Vector3.Lerp(transform.position, target, 0.09f);
+            pos += direction * speed * Time.deltaTime;
+        transform.position = pos;
     }
 
-    private void UpdateTarget()
+    void Update()
+    {
+        Vector3 pos = transform.position;
+        if (Vector3.Distance(pos, target) <= speed * Time.deltaTime)
+        {
+            pos = target;
+            transform.position = pos;
+            if (UpdateTarget())
+                MoveKing(pos);
+        }
+        else
+        {
+            MoveKing(pos);
+        }
+
+        if (direction != transform.forward)
+            transform.forward = Vector3.Lerp(transform.forward, direction, 16 * Time.deltaTime);
+
+        if (_stay)
+            animator.CrossFade(idle.name);
+        else
+            animator.CrossFade(walk.name);
+        
+    }
+
+    private bool UpdateTarget()
     {
         if (GameCore.Instance.World.Steps.Count > 0)
         {
-            Position pos;
-            do 
-            {
-                pos = GameCore.Instance.World.Steps.Dequeue();
-            } while (GameCore.Instance.World.Steps.Count > 0 && bigMapController.Cells[pos.X, pos.Y].GetComponentInChildren<CastlleController>() == null
-                && bigMapController.Cells[pos.X, pos.Y].GetComponentInChildren<MineController>() == null);
+            int x = (int)transform.position.x;
+            int y = (int)transform.position.z;
+            Position pos = GameCore.Instance.World.Steps.Dequeue();
 
-            if (bigMapController.Cells[pos.X, pos.Y].GetComponentInChildren<CastlleController>() == null
-                && bigMapController.Cells[pos.X, pos.Y].GetComponentInChildren<MineController>() == null)
+            target = new Vector3(pos.X, transform.position.y, pos.Y);
+            direction = (target - transform.position).normalized;
+            float dist = (float)Vector2Utils.Distance(pos.X, pos.Y, x, y);
+
+            float oldSpeed = speed;
+            float cost = GameCore.Instance.World.Map.GetWayCost(pos.X, pos.Y);
+            Debug.Log(cost);
+            speed = dist/cost;
+            if (_stay)
             {
-                target = new Vector3(pos.X, transform.position.y, pos.Y);
-                direction = (target - transform.position).normalized;
+                speed /= 2;
+                _stay = false;
             }
-            else
-                Debug.Log("Illegal movement");
-            //transform.forward = direction;
+            return true;
+        }
+        else
+        {
+            speed = 0;
+            _stay = true;
+            return false;
         }
     }
 
@@ -96,14 +109,19 @@ public class PlayerController : MonoBehaviour
                 {
                     int x = player.King.X;
                     int y = player.King.Y;
-                    if ((x != prevX || y != prevY) || ((int)transform.position.x != x || (int)transform.position.z != y))
+                    if ((x != prevX || y != prevY))
                     {
-                        this.transform.position = new Vector3(x, this.transform.position.y, y);
-                        prevX = x;
-                        prevY = y;
+                        float factor = 0.7f;
+                        if (x != prevX && y != prevY)
+                            factor = 1;
+                        if (Vector3.Distance(new Vector3(x,transform.position.y, y), transform.position) >= factor)
+                        {
+                            this.transform.position = new Vector3(x, this.transform.position.y, y);
+                            prevX = x;
+                            prevY = y;
+                        }
                     }
                 }
-                UpdateTarget();
             }
         }
     }

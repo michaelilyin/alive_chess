@@ -14,6 +14,12 @@ namespace Assets.BigMap.Scripts.MapGUI
 {
     class CastleGUI : MonoBehaviour
     {
+        public GUISkin skin;
+
+        public AudioSource OpenSound;
+        public AudioSource ClickSound;
+        public AudioSource ErrorSound;
+
         private Castle _castle;
 
         private Rect _buildingsWindow;
@@ -25,23 +31,28 @@ namespace Assets.BigMap.Scripts.MapGUI
         private bool _active;
         private MessageWindow _messageWindow;
         private Vector2 _buildingQueueScroll;
+        private Vector2 _troopsQueueScroll;
 
         private TransferTroopsWindow _transferTroopsWindow;
 
         void Start()
         {
             _buildingQueueScroll = Vector2.zero;
+            _troopsQueueScroll = Vector2.zero;
             _active = false;
-            _buildingsWindow = new Rect(Screen.width / 2 - 250, Screen.height / 2 - 200, 200, 400);
-            _troopsWindow = new Rect(Screen.width / 2 + 50, Screen.height / 2 - 200, 300, 350);
+            _buildingsWindow = new Rect(Screen.width / 2 - 400, Screen.height / 2 - 200, 350, 450);
+            _troopsWindow = new Rect(Screen.width / 2 + 50, Screen.height / 2 - 200, 400, 400);
             _tooltip = new Rect(Screen.width - 150, 0, 150, 150);
             _exitButton = new Rect(Screen.width / 2 - 50, Screen.height / 2 + 250, 100, 30);
             _messageWindow = GetComponent<MessageWindow>();
             _transferTroopsWindow = new TransferTroopsWindow();
+            _transferTroopsWindow.ClickSound = ClickSound;
+            _transferTroopsWindow.OpenSound = OpenSound;
         }
 
         public void Show()
         {
+            OpenSound.Play();
             _active = true;
             _castle = GameCore.Instance.World.Player.King.CurrentCastle;
             GameCore.Instance.Network.CastleCommandController.StartCastleUpdate();
@@ -73,10 +84,12 @@ namespace Assets.BigMap.Scripts.MapGUI
         {
             if (_active)
             {
+                GUI.skin = skin;
                 _buildingsWindow = GUILayout.Window((int)GUIIdentifers.BuildingsWindow, _buildingsWindow, BuildingsWindow, "Buildings");
                 _troopsWindow = GUILayout.Window((int)GUIIdentifers.TroopsWindow, _troopsWindow, TroopsWindow, "Troops");
                 if (GUI.Button(_exitButton, "Exit"))
                 {
+                    ClickSound.Play();
                     GameCore.Instance.Network.CastleCommandController.SendLeaveCastleRequest();
                 }
                 _transferTroopsWindow.Draw();
@@ -93,6 +106,7 @@ namespace Assets.BigMap.Scripts.MapGUI
                 if (GUILayout.Button("Destroy"))
                 {
                     GameCore.Instance.Network.CastleCommandController.SendDestroyBuildingRequest(type);
+                    ClickSound.Play();
                 }
             }
             else if (_castle.BuildingManager.HasInQueue(type))
@@ -100,29 +114,29 @@ namespace Assets.BigMap.Scripts.MapGUI
                 if (GUILayout.Button("Cancel"))
                 {
                     GameCore.Instance.Network.CastleCommandController.SendDestroyBuildingRequest(type);
+                    ClickSound.Play();
                 }
             }
             else
             {
-                if (reqirements != null && reqirements.RequiredBuildings.All(building => _castle.HasBuilding(building))
-                    && GameCore.Instance.World.Player.King.ResourceStore.HasEnoughResources(reqirements.Resources))
+                if (GUILayout.Button(new GUIContent("Create")))
                 {
-                    if (GUILayout.Button(new GUIContent("Create")))
+                    if (reqirements != null && reqirements.RequiredBuildings.All(building => _castle.HasBuilding(building))
+                        && GameCore.Instance.World.Player.King.ResourceStore.HasEnoughResources(reqirements.Resources))
                     {
                         GameCore.Instance.Network.CastleCommandController.SendCreateBuildingRequest(type);
+                        ClickSound.Play();
                     }
-                }
-                else
-                {
-                   if (GUILayout.Button(new GUIContent("Forbidden")))
-                   {
-                       string req;
-                       if (reqirements == null)
-                           req = "Calculating requirements";
-                       else
-                           req = reqirements.TextView();
-                       _messageWindow.AddMessage(req);
-                   }
+                    else
+                    {
+                        ErrorSound.Play();
+                        string req;
+                        if (reqirements == null)
+                            req = "Calculating requirements";
+                        else
+                            req = reqirements.TextView();
+                        _messageWindow.AddMessage(req);
+                    }
                 }
             }
             GUILayout.EndHorizontal();
@@ -138,10 +152,12 @@ namespace Assets.BigMap.Scripts.MapGUI
                 if (reqirements != null && reqirements.RequiredBuildings.All(building => _castle.HasBuilding(building))
                     && GameCore.Instance.World.Player.King.ResourceStore.HasEnoughResources(reqirements.Resources))
                 {
+                    ClickSound.Play();
                     GameCore.Instance.Network.CastleCommandController.SendCreateUnitRequest(type);
                 }
                 else
                 {
+                    ErrorSound.Play();
                     string req;
                     if (reqirements == null)
                         req = "Calculating requirements";
@@ -152,17 +168,22 @@ namespace Assets.BigMap.Scripts.MapGUI
             }
             if (_castle.RecruitingManager.HasInQueue(type))
                 if (GUILayout.Button("x"))
+                {
+                    ClickSound.Play();
                     GameCore.Instance.Network.CastleCommandController.SendCancelUnitRecruitingRequest(type);
+                }
             if (_castle.KingInside)
             {
                 if (GUILayout.Button("<"))
                 {
                     if (GameCore.Instance.World.Player.King.Army.HasUnits(type))
                     {
+                        OpenSound.Play();
                         _transferTroopsWindow.Show(_castle, GameCore.Instance.World.Player.King, type, true);
                     }
                     else
                     {
+                        ErrorSound.Play();
                         _messageWindow.AddMessage(String.Format("The king have not {0}", NamesConverter.GetNameByType(type)));
                     }
                 }
@@ -170,10 +191,12 @@ namespace Assets.BigMap.Scripts.MapGUI
                 {
                     if (_castle.Army.HasUnits(type))
                     {
+                        OpenSound.Play();
                         _transferTroopsWindow.Show(_castle, GameCore.Instance.World.Player.King, type, false);
                     }
                     else
                     {
+                        ErrorSound.Play();
                         _messageWindow.AddMessage(String.Format("In the castle no {0}", NamesConverter.GetNameByType(type)));
                     }
                 }
@@ -184,6 +207,7 @@ namespace Assets.BigMap.Scripts.MapGUI
 
         private void BuildingsWindow(int id)
         {
+            GUI.skin = skin;
             GUILayout.BeginVertical();
             ProcessBuildingControl(InnerBuildingType.Quarters);
             ProcessBuildingControl(InnerBuildingType.TrainingGround);
@@ -192,7 +216,7 @@ namespace Assets.BigMap.Scripts.MapGUI
             ProcessBuildingControl(InnerBuildingType.Fortress);
             ProcessBuildingControl(InnerBuildingType.Stabling);
             ProcessBuildingControl(InnerBuildingType.Workshop);
-            GUILayout.BeginScrollView(_buildingQueueScroll);
+            _buildingQueueScroll = GUILayout.BeginScrollView(_buildingQueueScroll);
             foreach (var building in _castle.BuildingManager.GetProductionQueueCopy())
             {
                 GUILayout.Label(String.Format("{0}:{1}%", NamesConverter.GetNameByType(building.Type), (int)building.TimeToPercent()));
@@ -210,6 +234,12 @@ namespace Assets.BigMap.Scripts.MapGUI
             ProcessUnitControl(UnitType.Queen);
             ProcessUnitControl(UnitType.Rook);
             GUILayout.Label(GUI.tooltip);
+            _troopsQueueScroll = GUILayout.BeginScrollView(_troopsQueueScroll);
+            foreach (var unit in _castle.RecruitingManager.GetProductionQueueCopy())
+            {
+                GUILayout.Label(String.Format("{0}:{1}%", NamesConverter.GetNameByType(unit.Type), (int)unit.TimeToPercent()));
+            }
+            GUILayout.EndScrollView();
             GUILayout.EndVertical();           
         }
 

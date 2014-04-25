@@ -15,7 +15,7 @@ namespace GameModel.ResponseHandlers.CastleHandlers
             {
                 GameCore.Instance.World.Player.King.CurrentCastle.BuildingManager.SetProductionQueue(response.BuildingQueue);
             }
-            GameCore.Instance.Network.Messages.AddMessage("Building created");
+            GameCore.Instance.Network.Messages.AddMessage("Create building started");
         }
     }
 }
