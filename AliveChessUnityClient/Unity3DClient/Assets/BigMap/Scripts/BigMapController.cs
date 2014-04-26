@@ -53,7 +53,12 @@ public class BigMapController : MonoBehaviour
     private ResourcesGUI resourcesGUI;
     private Rect _screen;
 
-    private bool _isCreated;
+    private bool _isLoaded;
+
+    public bool IsLoaded
+    {
+        get { return _isLoaded; }
+    }
 
     public GameObject[,] Cells
     {
@@ -65,11 +70,9 @@ public class BigMapController : MonoBehaviour
 
     void Awake()
     {
-        //Screen.showCursor = false;
-        _isCreated = false;
+        _isLoaded = false;
     }
 
-    // Use this for initialization
     void Start()
     {
         if (!GameCore.Instance.Network.IsConnected) Application.LoadLevel(0);
@@ -91,13 +94,12 @@ public class BigMapController : MonoBehaviour
         _gameStateUpdated = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (GameCore.Instance.World.IsCreated)
         {
             CreateWorld();
-            _isCreated = true;
+            _isLoaded = true;
         }
         if (_gameStateUpdated)
         {
@@ -110,24 +112,6 @@ public class BigMapController : MonoBehaviour
     }
 
     #region create
-    public void ConfigureEnvironment(int worldWidth, int worldHeight)
-    {
-        //Terrain.activeTerrain.terrainData.size = new Vector3(worldWidth * 2, 0, worldHeight * 2);
-        //Terrain terrain = Terrain.activeTerrain;
-        //TerrainData terrainData = terrain.terrainData;
-        //int size = terrainData.heightmapWidth;
-        //float[,] heights = terrainData.GetHeights(0, 0, size, size);
-
-        //for (int i = 0; i < size; i++)
-        //    for (int j = 0; j < size; j++)
-        //        if (i == 0 || j == 0 || i == size - 1 || j == size - 1)
-        //            heights[i, j] = Random.Range(0.2f, 0.3f);
-        //        else
-        //            heights[i, j] = 0;
-
-        //Terrain.activeTerrain.terrainData.SetHeights(0, 0, heights);
-        //Terrain.activeTerrain.transform.position = new Vector3( - worldWidth * 2, -2, - worldHeight * 2);
-    }
 
     private void CreateWorld()
     {
@@ -140,7 +124,6 @@ public class BigMapController : MonoBehaviour
         CreatePlayer();
         resources = new GameObject("Resources");
         resList = new Dictionary<int, ResourceController>();
-        ConfigureEnvironment(map.SizeX, map.SizeY);
         Log.Debug("Map have been cerated");
     }
     private void CreateLandscape(Map map)
@@ -302,7 +285,7 @@ public class BigMapController : MonoBehaviour
 
     public void OnGUI()
     {
-        if (!_isCreated)
+        if (!_isLoaded)
         {
             Graphics.DrawTexture(_screen, LoadScreen);
         }

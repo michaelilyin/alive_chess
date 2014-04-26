@@ -8,11 +8,13 @@ using System.Text;
 public class MessageWindow : MonoBehaviour
 {
     public GUISkin skin;
+    public BigMapController _bigMapController;
 
     public AudioSource ClickSound;
 
     private Rect _windowPos;
     private Vector2 _scrollPos;
+
     // Use this for initialization
     void Start()
     {
@@ -23,8 +25,11 @@ public class MessageWindow : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.skin = skin;
-        _windowPos = GUILayout.Window((int)GUIIdentifers.ChatWindow, _windowPos, ChatWindow, "Chat");
+        if (_bigMapController.IsLoaded)
+        {
+            GUI.skin = skin;
+            _windowPos = GUILayout.Window((int)GUIIdentifers.ChatWindow, _windowPos, ChatWindow, "Chat");
+        }
     }
 
     private string message = "";
